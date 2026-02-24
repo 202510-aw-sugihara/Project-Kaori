@@ -1,27 +1,30 @@
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>サイトマップ -  プロジェクトアーカイブ</title>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
+  <title>サイトマップ - プロジェクトアーカイブ</title>
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
   <link rel="stylesheet" href="../css/style.css">
 </head>
+
 <body>
   <button class="hamburger" aria-label="メニュー">
     <span></span><span></span><span></span>
   </button>
 
   <div class="page-wrapper">
-  <aside class="sidebar" data-nav-level="docs"></aside>
+    <aside class="sidebar" data-nav-level="docs"></aside>
 
     <main class="main-content">
       <header class="doc-header">
         <div class="doc-category">DOCUMENT 04</div>
         <h1 class="doc-title">サイトマップ</h1>
         <div class="doc-meta">
-          <span><span class="material-symbols-outlined icon-sm">calendar_today</span> 作成日：2026-XX-XX</span>
-          <span><span class="material-symbols-outlined icon-sm">person</span> 作成者：（氏名を入力）</span>
+          <span><span class="material-symbols-outlined icon-sm">calendar_today</span> 作成日：2026-02-20</span>
+          <span><span class="material-symbols-outlined icon-sm">person</span> 作成者：杉原　有哉</span>
           <span><span class="material-symbols-outlined icon-sm">push_pin</span> Ver 1.0</span>
         </div>
       </header>
@@ -38,7 +41,8 @@
           </div>
           <div class="external-link-input">
             <input type="text" placeholder="https://docs.google.com/spreadsheets/d/xxxxx" id="external-link-04">
-            <a href="#" class="link-btn" onclick="window.open(document.getElementById('external-link-04').value || 'https://docs.google.com', '_blank'); return false;">
+            <a href="#" class="link-btn"
+              onclick="window.open(document.getElementById('external-link-04').value || 'https://docs.google.com', '_blank'); return false;">
               <span class="material-symbols-outlined">open_in_new</span>
               開く
             </a>
@@ -58,20 +62,58 @@
         <section class="section" id="sec1">
           <h2 class="section-title"><span class="section-icon">1</span> サイト構造図</h2>
 
-        <div class="fill-block">
-          <div class="fill-label">Webサイト構造図 <span class="required">必須</span></div>
-          <div class="fill-hint">トップページから下層ページまでの階層構造をツリー形式で記載</div>
-          <div class="fill-content">
-            <p>（ツリー形式のサイト構造図を記載）</p>
+          <div class="fill-block">
+            <div class="fill-label">Webサイト構造図 <span class="required">必須</span></div>
+            <div class="fill-hint">トップページから下層ページまでの階層構造をツリー形式で記載</div>
+            <div class="fill-content">
+              <pre class="tree">
+/
+├─ トップページ
+│  ├─ ヒーロー（体験概要＋予約CTA）
+│  ├─ 12種 / 20種 比較セクション
+│  ├─ 体験の流れ
+│  ├─ レビュー
+│  └─ FAQ（抜粋）
+│
+├─ /course/12（12種ブレンド体験）
+│  ├─ 体験内容
+│  ├─ おすすめ対象
+│  ├─ 料金・所要時間
+│  └─ 予約導線（CTA）
+│
+├─ /course/20（月末限定20種）
+│  ├─ 体験内容
+│  ├─ 12種との違い
+│  ├─ 開催日・限定訴求
+│  └─ 予約導線（CTA）
+│
+├─ /faq（よくある質問）
+│  ├─ 初心者向け
+│  ├─ 料金・キャンセル
+│  └─ 所要時間・持ち物
+│
+├─ /access（アクセス）
+│  ├─ 地図
+│  └─ 営業時間・案内
+│
+└─ /contact（お問い合わせ）
+   └─ フォーム
+      </pre>
+            </div>
           </div>
-        </div>
-        <div class="fill-block">
-          <div class="fill-label">Webアプリケーション構造図 <span class="required">必須</span></div>
-          <div class="fill-hint">Spring Bootアプリケーションの画面構造をツリー形式で記載</div>
-          <div class="fill-content">
-            <p>（ツリー形式のアプリ構造図を記載）</p>
+          <div class="fill-block">
+            <div class="fill-label">Webアプリケーション構造図 <span class="required">必須</span></div>
+            <div class="fill-hint">Spring Bootアプリケーションの画面構造をツリー形式で記載</div>
+            <div class="fill-content">
+              <pre class="tree">
+/reservation
+├─ 日程選択
+├─ 情報入力
+├─ 入力確認
+└─ 予約完了
+      </pre>
+            </div>
           </div>
-        </div>
 
         </section>
 
@@ -80,29 +122,131 @@
 
           <div class="fill-block">
             <div class="fill-label">Webサイト ページ一覧 <span class="required">必須</span></div>
-        <table class="doc-table">
-          <thead><tr><th>No.</th><th>ページ名</th><th>ページの目的</th><th>主要コンテンツ</th></tr></thead>
-          <tbody>
-          <tr class="template-row"><td>1</td><td>（トップページ）</td><td>（サービスの魅力を伝え、各ページへ誘導）</td><td>（ヒーロー、サービス紹介、CTA等）</td></tr>
-          <tr class="template-row"><td>2</td><td>（ページ名）</td><td>（目的を記載）</td><td>（コンテンツを記載）</td></tr>
-          <tr class="template-row"><td>3</td><td>（ページ名）</td><td>（目的を記載）</td><td>（コンテンツを記載）</td></tr>
-          <tr class="template-row"><td>…</td><td>…</td><td>…</td><td>…</td></tr>
-          </tbody>
-        </table>
+            <table class="doc-table">
+              <thead>
+                <tr>
+                  <th>No.</th>
+                  <th>ページ名</th>
+                  <th>ページの目的</th>
+                  <th>主要コンテンツ</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="template-row">
+                  <td>1</td>
+                  <td>トップページ</td>
+                  <td>サービス全体の魅力を伝え、予約ページへ誘導する</td>
+                  <td>ヒーローセクション、体験コンセプト、12種/20種比較、体験の流れ、初心者向け説明、口コミ、CTA</td>
+                </tr>
+                <tr class="template-row">
+                  <td>2</td>
+                  <td>オリジナル香水作り体験とは</td>
+                  <td>体験の価値・世界観を伝え、興味を深める</td>
+                  <td>コンセプト説明、作れる香りのイメージ、体験の魅力3点、写真</td>
+                </tr>
+                <tr class="template-row">
+                  <td>3</td>
+                  <td>12種ブレンド体験 詳細</td>
+                  <td>通常コースの内容を明確化し、予約動機を強める</td>
+                  <td>特徴、料金、所要時間、こんな人におすすめ、制作ステップ、予約CTA</td>
+                </tr>
+                <tr class="template-row">
+                  <td>4</td>
+                  <td>月末限定20種ブレンド体験 詳細</td>
+                  <td>限定コースの特別感を訴求し、アップセルを狙う</td>
+                  <td>12種との違い比較、限定性の訴求、価格、メリット、予約CTA</td>
+                </tr>
+                <tr class="template-row">
+                  <td>5</td>
+                  <td>12種 vs 20種 比較ページ</td>
+                  <td>違いを明確にし、迷いを解消する</td>
+                  <td>比較表（価格・自由度・おすすめ層）、診断型コンテンツ、CTA</td>
+                </tr>
+                <tr class="template-row">
+                  <td>6</td>
+                  <td>体験の流れ</td>
+                  <td>初心者不安を解消する</td>
+                  <td>来店〜完成までのステップ解説、所要時間、持ち帰り内容</td>
+                </tr>
+                <tr class="template-row">
+                  <td>7</td>
+                  <td>よくある質問（FAQ）</td>
+                  <td>不安・疑問の事前解消</td>
+                  <td>予約方法、キャンセル、香りの持続時間、初心者可否など</td>
+                </tr>
+                <tr class="template-row">
+                  <td>8</td>
+                  <td>口コミ・体験レビュー</td>
+                  <td>信頼性向上・CVR改善</td>
+                  <td>利用者の声、写真、SNS投稿引用</td>
+                </tr>
+                <tr class="template-row">
+                  <td>9</td>
+                  <td>予約ページ</td>
+                  <td>予約アクションへの最短導線</td>
+                  <td>コース選択、日程選択、注意事項、予約ボタン</td>
+                </tr>
+                <tr class="template-row">
+                  <td>10</td>
+                  <td>予約完了ページ</td>
+                  <td>完了通知・安心感提供</td>
+                  <td>完了メッセージ、当日の案内、SNSシェア導線</td>
+                </tr>
+              </tbody>
+            </table>
 
           </div>
 
           <div class="fill-block">
             <div class="fill-label">Webアプリ 画面一覧 <span class="required">必須</span></div>
-        <table class="doc-table">
-          <thead><tr><th>No.</th><th>画面名</th><th>画面の目的</th><th>主要機能</th></tr></thead>
-          <tbody>
-          <tr class="template-row"><td>1</td><td>（ログイン画面）</td><td>（ユーザー認証）</td><td>（メールアドレス/パスワード入力）</td></tr>
-          <tr class="template-row"><td>2</td><td>（一覧画面）</td><td>（データの一覧表示）</td><td>（検索・ソート・ページネーション）</td></tr>
-          <tr class="template-row"><td>3</td><td>（登録画面）</td><td>（新規データ登録）</td><td>（入力フォーム・バリデーション）</td></tr>
-          <tr class="template-row"><td>…</td><td>…</td><td>…</td><td>…</td></tr>
-          </tbody>
-        </table>
+            <table class="doc-table">
+              <thead>
+                <tr>
+                  <th>No.</th>
+                  <th>画面名</th>
+                  <th>画面の目的</th>
+                  <th>主要機能</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="template-row">
+                  <td>1</td>
+                  <td>コース選択画面</td>
+                  <td>12種/20種を選ばせる</td>
+                  <td>比較表示、特徴表示、選択ボタン</td>
+                </tr>
+                <tr class="template-row">
+                  <td>2</td>
+                  <td>日程選択画面</td>
+                  <td>空き状況確認</td>
+                  <td>カレンダー表示、時間枠選択</td>
+                </tr>
+                <tr class="template-row">
+                  <td>3</td>
+                  <td>予約情報入力画面</td>
+                  <td>予約情報登録</td>
+                  <td>名前・メール入力、バリデーション</td>
+                </tr>
+                <tr class="template-row">
+                  <td>4</td>
+                  <td>予約内容確認画面</td>
+                  <td>入力内容確認</td>
+                  <td>修正リンク、最終確認</td>
+                </tr>
+                <tr class="template-row">
+                  <td>5</td>
+                  <td>予約完了画面</td>
+                  <td>完了通知</td>
+                  <td>完了メッセージ、当日案内</td>
+                </tr>
+                <tr class="template-row">
+                  <td>6</td>
+                  <td>予約確認ページ</td>
+                  <td>予約情報再確認</td>
+                  <td>予約番号入力、確認表示</td>
+                </tr>
+              </tbody>
+            </table>
 
           </div>
         </section>
@@ -110,20 +254,59 @@
         <section class="section" id="sec3">
           <h2 class="section-title"><span class="section-icon">3</span> ユーザーフロー</h2>
 
-        <div class="fill-block">
-          <div class="fill-label">メインシナリオ <span class="required">必須</span></div>
-          <div class="fill-hint">ペルソナがサイトに訪問してから目的を達成するまでの動線（メインの行動パターン）</div>
-          <div class="fill-content">
-            <p>（メインのユーザーフローを記載）</p>
+          <div class="fill-block">
+            <div class="fill-label">メインシナリオ <span class="required">必須</span></div>
+            <div class="fill-hint">ペルソナがサイトに訪問してから目的を達成するまでの動線（メインの行動パターン）</div>
+            <div class="fill-content">
+              <p><strong>想定状況</strong><br>SNSで体験を知って興味はあるが、「初心者でも大丈夫？」「当日の流れが分からない」という不安が残っているユーザー</p>
+              <ol><strong>ユーザーフロー（メイン）</strong>
+                <li>Instagramで体験投稿（写真・動画）を見る</li>
+                <li>プロフィールリンクからトップページへ訪問</li>
+                <li>トップで「オリジナル香水作り体験」を理解（どんな体験か／楽しさ）</li>
+                <li>「初めての方へ（不安解消）」導線からFAQへ遷移</li>
+                <li>FAQで不安を解消（初心者OK、サポート内容、所要時間、持ち帰り、予約/キャンセル）</li>
+                <li>FAQ内の「体験の流れを見る」から体験の流れページへ</li>
+                <li>来店〜完成までのステップを把握して安心感が高まる</li>
+                <li>「12種と20種の違いを見る」から比較ページへ</li>
+                <li>比較表＋おすすめでコースを決定（12種 or 月末限定20種）</li>
+                <li>「予約する」CTAから予約ページ（日程選択）へ</li>
+                <li>日程・時間枠を選択 → 予約情報入力 → 確認 → 予約完了</li>
+                <li>予約完了ページで当日案内を確認（場所/持ち物/注意事項）し、来店準備へ</li>
+              </ol>
+              <br>
+              <p><strong>ポイント</strong></p>
+              <ul>
+                <li>SNS流入は期待値が高い一方で不安が残りやすいので、トップ→FAQ→体験の流れで心理障壁を先に下げる</li>
+                <li>比較ページを経由させて「12種と20種の違いが分からない」問題を解消し、迷いによる離脱を防ぐ</li>
+                <li>各ページにCTA（予約する）を配置しつつ、検討中ユーザー向けに「比較へ戻る」「不安解消へ戻る」の逃げ道も用意する</li>
+              </ul>
+            </div>
           </div>
-        </div>
-        <div class="fill-block">
-          <div class="fill-label">サブシナリオ <span class="optional">任意</span></div>
-          <div class="fill-hint">その他の行動パターン（1〜2パターン）</div>
-          <div class="fill-content">
-            <p>（サブシナリオを記載）</p>
+          <div class="fill-block">
+            <div class="fill-label">サブシナリオ <span class="optional">任意</span></div>
+            <div class="fill-hint">その他の行動パターン（1〜2パターン）</div>
+            <div class="fill-content">
+              <p><strong>想定状況</strong><br>ガチャガチャ好きのユーザーが、浅草観光中に「浅草 ガチャガチャ」で検索。遊びスポットを探している中で体験教室の存在を知る。</p>
+              <ol><strong>ユーザーフロー（サブシナリオ）</strong>
+                <li>Instagramで検索「浅草 ガチャガチャ」</li>
+                <li>検索結果に表示された関連体験ページに流入</li>
+                <li>「浅草でできる体験」としてオリジナル香水作り体験を認知</li>
+                <li>写真・世界観に惹かれトップページへ遷移</li>
+                <li>「どんな体験？」「初心者OK？」が気になりFAQへ</li>
+                <li>不安解消後、「12種と20種の違い」比較ページへ</li>
+                <li>限定感に惹かれ月末20種を選択</li>
+                <li>予約ページ（日程選択）へ</li>
+                <li>入力 → 確認 → 予約完了</li>
+              </ol>
+              <br>
+              <p><strong>ポイント</strong></p>
+              <ul>
+                <li>「ガチャガチャ好き＝コレクション・ランダム性・ワクワク感が好き」という心理に合わせ、香りのブレンドを“自分だけの組み合わせ体験”として訴求する</li>
+                <li>観光検索流入のため、所要時間・当日予約可否・アクセス情報を分かりやすく表示する</li>
+                <li>偶然流入でも、体験価値が直感的に伝わるビジュアル設計が重要</li>
+              </ul>
+            </div>
           </div>
-        </div>
 
         </section>
 
@@ -132,20 +315,114 @@
 
           <div class="fill-block">
             <div class="fill-label">URL一覧 <span class="required">必須</span></div>
-        <table class="doc-table">
-          <thead><tr><th>URL</th><th>HTTPメソッド</th><th>画面/機能</th><th>説明</th></tr></thead>
-          <tbody>
-          <tr class="template-row"><td>/</td><td>GET</td><td>トップページ</td><td>Webサイトのトップ</td></tr>
-          <tr class="template-row"><td>/about</td><td>GET</td><td>概要ページ</td><td>サービスの概要</td></tr>
-          <tr class="template-row"><td>/app/login</td><td>GET</td><td>ログイン画面</td><td>ログインフォーム表示</td></tr>
-          <tr class="template-row"><td>/app/login</td><td>POST</td><td>ログイン処理</td><td>認証処理</td></tr>
-          <tr class="template-row"><td>/app/items</td><td>GET</td><td>一覧画面</td><td>データ一覧表示</td></tr>
-          <tr class="template-row"><td>/app/items/new</td><td>GET</td><td>新規登録画面</td><td>登録フォーム表示</td></tr>
-          <tr class="template-row"><td>/app/items</td><td>POST</td><td>新規登録処理</td><td>データ保存</td></tr>
-          <tr class="template-row"><td>…</td><td>…</td><td>…</td><td>…</td></tr>
-          </tbody>
-        </table>
-
+            <table class="doc-table">
+              <thead>
+                <tr>
+                  <th>URL</th>
+                  <th>HTTPメソッド</th>
+                  <th>画面/機能</th>
+                  <th>説明</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="template-row">
+                  <td>/</td>
+                  <td>GET</td>
+                  <td>トップページ</td>
+                  <td>Webサイトのトップ</td>
+                </tr>
+                <tr class="template-row">
+                  <td>/about</td>
+                  <td>GET</td>
+                  <td>体験概要</td>
+                  <td>「オリジナル香水作り体験とは」コンセプト・魅力</td>
+                </tr>
+                <tr class="template-row">
+                  <td>/courses</td>
+                  <td>GET</td>
+                  <td>コース一覧</td>
+                  <td>12種/20種の概要を一覧で把握</td>
+                </tr>
+                <tr class="template-row">
+                  <td>/courses/12blend</td>
+                  <td>GET</td>
+                  <td>12種ブレンド体験 詳細</td>
+                  <td>通常コースの詳細訴求、CTA設置</td>
+                </tr>
+                <tr class="template-row">
+                  <td>/courses/20blend-limited</td>
+                  <td>GET</td>
+                  <td>月末限定20種ブレンド体験 詳細</td>
+                  <td>限定性・違い訴求、CTA設置</td>
+                </tr>
+                <tr class="template-row">
+                  <td>/compare</td>
+                  <td>GET</td>
+                  <td>12種と20種の比較ページ</td>
+                  <td>違いの可視化・おすすめ誘導・迷い解消</td>
+                </tr>
+                <tr class="template-row">
+                  <td>/flow</td>
+                  <td>GET</td>
+                  <td>体験の流れ</td>
+                  <td>初心者不安の解消（所要時間/当日の流れ）</td>
+                </tr>
+                <tr class="template-row">
+                  <td>/faq</td>
+                  <td>GET</td>
+                  <td>よくある質問</td>
+                  <td>不安解消（初心者OK/予約/キャンセル等）</td>
+                </tr>
+                <tr class="template-row">
+                  <td>/reviews</td>
+                  <td>GET</td>
+                  <td>口コミ・体験レビュー</td>
+                  <td>信頼性向上（写真/体験談/SNS引用など）</td>
+                </tr>
+                <tr class="template-row">
+                  <td>/reserve</td>
+                  <td>GET</td>
+                  <td>予約トップ（導入）</td>
+                  <td>予約の入口（コース選択 or 日程選択へ）</td>
+                </tr>
+                <tr class="template-row">
+                  <td>/reserve/select-course</td>
+                  <td>GET</td>
+                  <td>コース選択</td>
+                  <td>12種/20種を選択（比較リンクあり）</td>
+                </tr>
+                <tr class="template-row">
+                  <td>/reserve/select-slot</td>
+                  <td>GET</td>
+                  <td>日程・時間枠選択</td>
+                  <td>カレンダー/空き枠表示、選択</td>
+                </tr>
+                <tr class="template-row">
+                  <td>/reserve/form</td>
+                  <td>GET</td>
+                  <td>予約情報入力</td>
+                  <td>名前/メール等の入力フォーム</td>
+                </tr>
+                <tr class="template-row">
+                  <td>/reserve/confirm</td>
+                  <td>GET</td>
+                  <td>予約内容確認</td>
+                  <td>入力内容の確認、確定ボタン</td>
+                </tr>
+                <tr class="template-row">
+                  <td>/reserve/complete</td>
+                  <td>GET</td>
+                  <td>予約完了</td>
+                  <td>完了メッセージ、当日案内、注意事項</td>
+                </tr>
+                <tr class="template-row">
+                  <td>/reserve/submit</td>
+                  <td>POST</td>
+                  <td>予約確定処理</td>
+                  <td>フォーム送信→予約登録（疑似でもOK）</td>
+                </tr>
+              </tbody>
+            </table>
           </div>
         </section>
 
@@ -155,4 +432,5 @@
 
   <script src="../js/main.js"></script>
 </body>
+
 </html>

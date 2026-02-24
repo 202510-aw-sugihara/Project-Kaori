@@ -1,19 +1,22 @@
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>企画提案書 -  プロジェクトアーカイブ</title>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
+  <title>企画提案書 - プロジェクトアーカイブ</title>
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
   <link rel="stylesheet" href="../css/style.css">
 </head>
+
 <body>
   <button class="hamburger" aria-label="メニュー">
     <span></span><span></span><span></span>
   </button>
 
   <div class="page-wrapper">
-  <aside class="sidebar" data-nav-level="docs"></aside>
+    <aside class="sidebar" data-nav-level="docs"></aside>
 
     <main class="main-content">
       <header class="doc-header">
@@ -38,7 +41,8 @@
           </div>
           <div class="external-link-input">
             <input type="text" placeholder="https://docs.google.com/spreadsheets/d/xxxxx" id="external-link-01">
-            <a href="#" class="link-btn" onclick="window.open(document.getElementById('external-link-01').value || 'https://docs.google.com', '_blank'); return false;">
+            <a href="#" class="link-btn"
+              onclick="window.open(document.getElementById('external-link-01').value || 'https://docs.google.com', '_blank'); return false;">
               <span class="material-symbols-outlined">open_in_new</span>
               開く
             </a>
@@ -60,143 +64,307 @@
         <section class="section" id="sec1">
           <h2 class="section-title"><span class="section-icon">1</span> プロジェクト概要</h2>
 
-        <div class="fill-block">
-          <div class="fill-label">サービス名 <span class="required">必須</span></div>
-          <div class="fill-hint">制作するWebサービスの名前</div>
-          <div class="fill-content">
-            <p>オリジナル香水作り体験（仮）</p>
+          <div class="fill-block">
+            <div class="fill-label">サービス名 <span class="required">必須</span></div>
+            <div class="fill-hint">制作するWebサービスの名前</div>
+            <div class="fill-content">
+              <p>オリジナル香水作り体験</p>
+            </div>
           </div>
-        </div>
-        <div class="fill-block">
-          <div class="fill-label">コンセプト <span class="required">必須</span></div>
-          <div class="fill-hint">サービスを一言で表す説明（キャッチコピー＋1〜2文の説明）</div>
-          <div class="fill-content">
-            <p>■キャッチコピー<br>香りを、つくる時間。</p>
-            <p>■コンセプト<br>香りを選ぶのではなく、自分の感性と向き合いながら“調合する”体験を提供するサービス。
-プロのガイドのもと、気分や記憶、なりたい印象を言語化し、それを香りとして設計していく。
-完成した香水そのものではなく、調香する時間とプロセスそのものに価値を置く体験型サービス。</p>
+          <div class="fill-block">
+            <div class="fill-label">コンセプト <span class="required">必須</span></div>
+            <div class="fill-hint">サービスを一言で表す説明（キャッチコピー＋1〜2文の説明）</div>
+            <div class="fill-content">
+              <p>■キャッチコピー<br>香りを、つくる時間。</p>
+              <p>■コンセプト<br>12種および月末限定20種の香料から自分の感性で選び、ブレンドして完成させる体験型ワークショップ。
+                <br>完成品を持ち帰るだけでなく、「選ぶ」「迷う」「組み立てる」プロセスそのものを価値とする。
+                <br>初心者でも安心して参加できる設計により、観光・記念日・自己投資の体験として選ばれるサービスを目指す。
+              </p>
+            </div>
           </div>
-        </div>
-        <div class="fill-block">
-          <div class="fill-label">ターゲットユーザー <span class="required">必須</span></div>
-          <div class="fill-hint">このサービスを使う主なユーザー像（概要レベル）</div>
-          <div class="fill-content">
-            <p><li>20~40代の女性</li>
-            <li>カップル、友人同士の体験ニーズ層</li>
-          <li>香水初心者だが「自分に合う香り」を見つけたい人</li>
-        <li>SNSで休日の過ごし方を探すユーザー</li></p>
+          <div class="fill-block">
+            <div class="fill-label">ターゲットユーザー <span class="required">必須</span></div>
+            <div class="fill-hint">このサービスを使う主なユーザー像（概要レベル）</div>
+            <div class="fill-content">
+              <ol>
+                <li><strong>20代〜40代の女性</strong>
+                  <ul>
+                    <li>休日に体験型アクティビティを探している</li>
+                    <li>SNSで写真や体験レポートを参考にする</li>
+                    <li>自己投資やご褒美体験に価値を感じる</li>
+                  </ul>
+                </li>
+                <li><strong>カップル（20代〜30代）</strong>
+                  <ul>
+                    <li>デートで“特別感のある体験”を求めている</li>
+                    <li>記念日や旅行の思い出づくりを重視</li>
+                    <li>一緒に何かを作る体験に価値を感じる</li>
+                  </ul>
+                </li>
+                <li><strong>観光客（国内・国外）</strong>
+                  <ul>
+                    <li>地域ならではの体験を求めている</li>
+                    <li>「作った」という体験価値を重視</li>
+                    <li>思い出に残るお土産を求めている</li>
+                  </ul>
+                </li>
+              </ol>
+            </div>
           </div>
-        </div>
 
         </section>
 
         <section class="section" id="sec2">
           <h2 class="section-title"><span class="section-icon">2</span> 背景と課題</h2>
 
-        <div class="fill-block">
-          <div class="fill-label">市場の現状 <span class="required">必須</span></div>
-          <div class="fill-hint">このサービスが存在する市場の現状と課題</div>
-          <div class="fill-content">
-            <p>体験型ワークショップ市場は拡大傾向にあり、観光・記念日・自己投資文脈での需要が高まっている。
-              <br>一方で、類似するクラフト体験が増加しており、価格や写真の印象だけで比較されやすい状況にある。
-              <br>香水は特に「好みが分からない」「失敗したくない」という心理的ハードルが高く、情報不足は予約離脱の原因になりやすい。
-            </p>
+          <div class="fill-block">
+            <div class="fill-label">市場の現状 <span class="required">必須</span></div>
+            <div class="fill-hint">このサービスが存在する市場の現状と課題</div>
+            <div class="fill-content">
+              <p>体験型ワークショップ市場は拡大しており、特に20代〜40代女性やカップル層は「モノ」よりも「体験」に価値を感じる傾向が強い。
+                <br>観光客にとっても、その土地ならではの体験は重要な選択基準となっている。
+                <br>一方で、類似する体験サービスも増加しており、価格や写真の印象で比較されやすい状況にある。
+                <br>香水作り体験は特に「自分にできるか分からない」「失敗したくない」といった心理的ハードルが高く、Web上で十分な情報が提示されない場合、予約離脱につながりやすい。
+              </p>
+            </div>
           </div>
-        </div>
-        <div class="fill-block">
-          <div class="fill-label">解決すべき課題 <span class="required">必須</span></div>
-          <div class="fill-hint">本プロジェクトで解決を目指す具体的な課題（3つ程度）</div>
-          <div class="fill-content">
-            <p><ol>
-              <li>初心者でも安心して予約できる情報設計</li>
-              <li>“完成品”ではなく“体験価値”が伝わるブランディング</li>
-              <li>スマートフォン中心で迷わない予約導線設計</li>
-            </ol>
-            </p>
+          <div class="fill-block">
+            <div class="fill-label">解決すべき課題 <span class="required">必須</span></div>
+            <div class="fill-hint">本プロジェクトで解決を目指す具体的な課題（3つ程度）</div>
+            <div class="fill-content">
+              <ol>
+                <li>12種ブレンド体験と20種（月末限定）体験の違いが直感的に理解できない</li>
+                → ユーザーが「どちらを選ぶべきか」判断できない状態が発生している。
+                <li>初心者でも安心して参加できることが十分に伝わっていない</li>
+                → “難しそう”という印象が離脱につながっている可能性がある。
+                <li>スマートフォン中心の閲覧環境に対して、予約導線が最適化されていない</li>
+                → 予約直前で離脱している可能性がある。
+                <li>月末限定20種体験の「今予約する理由」が弱い</li>
+                → 限定性が十分に行動動機として機能していない。
+              </ol>
+
+            </div>
           </div>
-        </div>
 
         </section>
 
         <section class="section" id="sec3">
           <h2 class="section-title"><span class="section-icon">3</span> 提案するソリューション</h2>
 
-        <div class="fill-block">
-          <div class="fill-label">サービスの特長 <span class="required">必須</span></div>
-          <div class="fill-hint">競合と差別化するサービスの特長を3つ</div>
-          <div class="fill-content">
-            <p><ol>
-              <li>対話から始まる調香プロセス<br>気分や好みをヒアリングし、香りを設計するストーリー型体験。</li>
-              <li>初心者でも安心のガイド設計<br>ベース・ミドル・トップの構造を分かりやすく説明しながら進行。</li>
-              <li>体験価値を可視化するWeb設計<br>所要時間・流れ・完成イメージを明確に提示し、予約前の不安を解消。</li>
-            </ol>
-</p>
+          <div class="fill-block">
+            <div class="fill-label">サービスの特長 <span class="required">必須</span></div>
+            <div class="fill-hint">競合と差別化するサービスの特長を3つ</div>
+            <div class="fill-content">
+              <ol>
+                <li>比較できるブレンド体験設計<br>12種と月末限定20種の違いを明確にし、ユーザーが自分に合った体験を選べる構造を持つ。</li>
+                <li>初心者でも参加しやすい安心設計<br>香水の知識がなくても楽しめるサポート体制により、心理的ハードルを下げている。</li>
+                <li>限定開催による特別価値<br>20種体験を月末限定とすることで、特別感と予約動機を生み出している。</li>
+              </ol>
+            </div>
           </div>
-        </div>
 
         </section>
 
         <section class="section" id="sec4">
           <h2 class="section-title"><span class="section-icon">4</span> 制作範囲</h2>
 
-        <div class="fill-block">
-          <div class="fill-label">Webサイト（フロントエンド）の範囲 <span class="required">必須</span></div>
-          <div class="fill-hint">制作するWebサイトのページ一覧と概要</div>
-          <div class="fill-content">
-            <p>（Webサイトのページ一覧を記載）</p>
+          <div class="fill-block">
+            <div class="fill-label">Webサイト（フロントエンド）の範囲 <span class="required">必須</span></div>
+            <div class="fill-hint">制作するWebサイトのページ一覧と概要</div>
+            <div class="fill-content">
+              <ol>
+                <li><strong> トップページ（/）</strong></li>
+                <ul>
+                  <li>オリジナル香水作り体験の訴求強化</li>
+                  <li>12種／20種の比較セクション新設</li>
+                  <li>ファーストビューに予約CTA設置</li>
+                  <li>固定予約ボタン実装</li>
+                  <li>スマートフォン最適化調整</li>
+                </ul>
+                </li>
+
+                <br>
+                <li><strong> 12種ブレンド体験ページ（/ ?mode=f17）</strong></li>
+                <ul>
+                  <li>体験内容の再構成（流れの明確化）</li>
+                  <li>初心者歓迎の明示</li>
+                  <li>おすすめ対象の表示</li>
+                  <li>予約導線の最短化</li>
+                </ul>
+
+                <br>
+                <li><strong> 20種（月末限定）体験ページ（/ ?mode=f18）</strong></li>
+                <ul>
+                  <li>限定性の強調</li>
+                  <li>通常コースとの違いの明確化</li>
+                  <li>残席／開催日の強調表示</li>
+                  <li>予約動機を高める構成に再設計</li>
+                </ul>
+                <br>
+                <li><strong> 共通改善</strong></li>
+                <ul>
+                  <li>比較表セクションの実装</li>
+                  <li>FAQ強化</li>
+                  <li>写真／体験イメージの最適化</li>
+                  <li>導線の一貫性整理</li>
+                </ul>
+            </div>
           </div>
-        </div>
-        <div class="fill-block">
-          <div class="fill-label">Webアプリケーション（サーバーサイド）の範囲 <span class="required">必須</span></div>
-          <div class="fill-hint">制作するWebアプリケーションの機能概要</div>
-          <div class="fill-content">
-            <p>（Webアプリの機能一覧を記載）</p>
+          <div class="fill-block">
+            <div class="fill-label">Webアプリケーション（サーバーサイド）の範囲 <span class="required">必須</span></div>
+            <div class="fill-hint">制作するWebアプリケーションの機能概要</div>
+            <div class="fill-content">
+              <ul>
+                <li>予約フォーム機能</li>
+                <li>日程選択機能</li>
+                <li>残席管理機能</li>
+                <li>予約データ保存機能</li>
+                <li>管理画面（予約一覧確認）</li>
+                <li>予約ステータス管理（確定／キャンセル）</li>
+                <li>自動返信メール機能</li>
+              </ul>
+            </div>
           </div>
-        </div>
 
         </section>
 
         <section class="section" id="sec5">
           <h2 class="section-title"><span class="section-icon">5</span> 使用技術</h2>
 
-<p style="font-size:13px;color:var(--text-light);margin-bottom:8px;">※ 自分の実際の使用技術に合わせて編集してください</p>
-        <table class="doc-table">
-          <thead><tr><th>区分</th><th>技術</th><th>用途</th></tr></thead>
-          <tbody>
-          <tr class="template-row"><td>フロントエンド</td><td>HTML / CSS / JavaScript</td><td>Webサイト構築</td></tr>
-          <tr class="template-row"><td>CSSフレームワーク</td><td>（Tailwind CSS 等）</td><td>スタイリング効率化</td></tr>
-          <tr class="template-row"><td>バックエンド</td><td>Java / Spring Boot</td><td>Webアプリケーション</td></tr>
-          <tr class="template-row"><td>テンプレートエンジン</td><td>Thymeleaf</td><td>画面表示</td></tr>
-          <tr class="template-row"><td>O/Rマッピング</td><td>MyBatis</td><td>データベース操作</td></tr>
-          <tr class="template-row"><td>データベース</td><td>（MySQL / H2 等）</td><td>データ永続化</td></tr>
-          <tr class="template-row"><td>デザインツール</td><td>Figma</td><td>ワイヤーフレーム・モックアップ</td></tr>
-          <tr class="template-row"><td>バージョン管理</td><td>Git / GitHub</td><td>ソースコード管理・公開</td></tr>
-          <tr class="template-row"><td>AI活用</td><td>ChatGPT / Claude</td><td>プロンプトプログラミング</td></tr>
-          </tbody>
-        </table>
+          <p style="font-size:13px;color:var(--text-light);margin-bottom:8px;">※ 自分の実際の使用技術に合わせて編集してください</p>
+          <table class="doc-table">
+            <thead>
+              <tr>
+                <th>区分</th>
+                <th>技術</th>
+                <th>用途</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="template-row">
+                <td>フロントエンド</td>
+                <td>HTML / CSS / JavaScript</td>
+                <td>UI構築・導線改善・インタラクション実装</td>
+              </tr>
+              <tr class="template-row">
+                <td>CSSフレームワーク</td>
+                <td>Tailwind CSS</td>
+                <td>レスポンシブ設計・デザイン効率化</td>
+              </tr>
+              <tr class="template-row">
+                <td>バックエンド</td>
+                <td>Java / Spring Boot</td>
+                <td>既存予約フォームとの連携確認・API接続想定</td>
+              </tr>
+              <tr class="template-row">
+                <td>テンプレートエンジン</td>
+                <td>Thymeleaf</td>
+                <td>動的ページ出力（既存構造準拠）</td>
+              </tr>
+              <tr class="template-row">
+                <td>O/Rマッピング</td>
+                <td>MyBatis</td>
+                <td>予約データ取得・確認処理</td>
+              </tr>
+              <tr class="template-row">
+                <td>データベース</td>
+                <td>（MySQL / H2 等）</td>
+                <td>予約データ管理（既存環境想定）</td>
+              </tr>
+              <tr class="template-row">
+                <td>デザインツール</td>
+                <td>Figma</td>
+                <td>ワイヤーフレーム・UI設計</td>
+              </tr>
+              <tr class="template-row">
+                <td>バージョン管理</td>
+                <td>Git / GitHub</td>
+                <td>ソースコード管理</td>
+              </tr>
+              <tr class="template-row">
+                <td>AI活用</td>
+                <td>ChatGPT / Claude</td>
+                <td>プロンプトプログラミング/企画設計・コピー改善</td>
+              </tr>
+            </tbody>
+          </table>
 
         </section>
 
         <section class="section" id="sec6">
           <h2 class="section-title"><span class="section-icon">6</span> スケジュール</h2>
 
-        <table class="doc-table">
-          <thead><tr><th>期間</th><th>フェーズ</th><th>内容</th></tr></thead>
-          <tbody>
-          <tr class="template-row"><td>Day 1〜3</td><td>企画</td><td>マーケットリサーチ・企画立案</td></tr>
-          <tr class="template-row"><td>Day 4〜5</td><td>設計</td><td>ペルソナ・サイトマップ設計</td></tr>
-          <tr class="template-row"><td>Day 6〜7</td><td>デザイン</td><td>ワイヤーフレーム・デザインガイドライン</td></tr>
-          <tr class="template-row"><td>Day 8〜12</td><td>フロント実装</td><td>HTML/CSS/JavaScript によるWebサイト構築</td></tr>
-          <tr class="template-row"><td>Day 13〜14</td><td>プロジェクトアーカイブ構築</td><td>プロジェクトアーカイブサイト・ドキュメント配置</td></tr>
-          <tr class="template-row"><td>Day 15〜16</td><td>前半完了</td><td>GitHub Pages 公開・前半振り返り</td></tr>
-          <tr class="template-row"><td>Day 17〜19</td><td>バックエンド設計</td><td>仕様書・DB設計書作成</td></tr>
-          <tr class="template-row"><td>Day 20〜24</td><td>バックエンド実装</td><td>Spring Boot アプリケーション開発</td></tr>
-          <tr class="template-row"><td>Day 25〜27</td><td>追加機能</td><td>検索・認証・追加機能の実装</td></tr>
-          <tr class="template-row"><td>Day 28〜29</td><td>テスト</td><td>テスト実施・バグ修正</td></tr>
-          <tr class="template-row"><td>Day 30〜31</td><td>ドキュメント</td><td>振り返り・技術記事・最終調整</td></tr>
-          <tr class="template-row"><td>Day 32</td><td>最終提出</td><td>プロジェクトアーカイブ最終版公開</td></tr>
-          </tbody>
-        </table>
+          <table class="doc-table">
+            <thead>
+              <tr>
+                <th>期間</th>
+                <th>フェーズ</th>
+                <th>内容</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="template-row">
+                <td>Day 1〜3</td>
+                <td>企画</td>
+                <td>現状分析・ファネル整理・課題定義</td>
+              </tr>
+              <tr class="template-row">
+                <td>Day 4〜5</td>
+                <td>設計</td>
+                <td>ペルソナ整理・比較設計・導線設計</td>
+              </tr>
+              <tr class="template-row">
+                <td>Day 6〜7</td>
+                <td>デザイン</td>
+                <td>ワイヤーフレーム作成・UI改善案作成</td>
+              </tr>
+              <tr class="template-row">
+                <td>Day 8〜12</td>
+                <td>フロント実装</td>
+                <td>比較表実装・固定CTA実装・UI改善</td>
+              </tr>
+              <tr class="template-row">
+                <td>Day 13〜14</td>
+                <td>導線最適化</td>
+                <td>予約ボタン配置調整・スマホ最適化</td>
+              </tr>
+              <tr class="template-row">
+                <td>Day 15〜16</td>
+                <td>中間確認</td>
+                <td>公開・動作確認・改善点整理</td>
+              </tr>
+              <tr class="template-row">
+                <td>Day 17〜19</td>
+                <td>改善実装</td>
+                <td>コピー改善・FAQ追加・限定訴求強化</td>
+              </tr>
+              <tr class="template-row">
+                <td>Day 20〜22</td>
+                <td>計測設定</td>
+                <td>GA4設定・CV計測設定</td>
+              </tr>
+              <tr class="template-row">
+                <td>Day 23〜25</td>
+                <td>ABテスト</td>
+                <td>CTA・訴求文テスト実施</td>
+              </tr>
+              <tr class="template-row">
+                <td>Day 26〜28</td>
+                <td>修正対応</td>
+                <td>テスト結果反映・UI微調整</td>
+              </tr>
+              <tr class="template-row">
+                <td>Day 29〜31</td>
+                <td>最終調整</td>
+                <td>全体動作確認・表示最適化</td>
+              </tr>
+              <tr class="template-row">
+                <td>Day 32</td>
+                <td>最終提出</td>
+                <td>改善結果まとめ・最終版公開</td>
+              </tr>
+            </tbody>
+          </table>
 
         </section>
 
@@ -206,4 +374,5 @@
 
   <script src="../js/main.js"></script>
 </body>
+
 </html>
