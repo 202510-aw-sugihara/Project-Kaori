@@ -838,3 +838,40 @@ a:hover {
     border-bottom: 2px solid #000;
   }
 }
+/* --- Smartphone Wireframe Gallery --- */
+.sp-wireframe-gallery {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+  margin-top: 16px;
+}
+
+.sp-wireframe-item {
+  width: calc((100% - 48px) / 3);
+}
+
+.sp-wireframe-item p {
+  margin-bottom: 8px;
+}
+
+.sp-wireframe-item img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--border);
+  background: var(--white);
+}
+
+/* tablet */
+@media (max-width: 1024px) {
+  .sp-wireframe-item {
+    width: calc((100% - 24px) / 2);
+  }
+}
+
+/* smartphone */
+@media (max-width: 768px) {
+  .sp-wireframe-item {
+    width: 100%;
+  }
+}
