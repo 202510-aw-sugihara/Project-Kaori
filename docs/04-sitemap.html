@@ -42,7 +42,7 @@
           <div class="external-link-input">
             <input type="text" placeholder="https://docs.google.com/spreadsheets/d/xxxxx" id="external-link-04">
             <a href="#" class="link-btn"
-              onclick="window.open(document.getElementById('external-link-04').value || 'https://docs.google.com/document/d/1lIHnV4djUp9sgOh0UXLPhM5ngMTIZyIwgUv-jJ92LLU/edit?usp=sharing', '_blank'); return false;">
+              onclick="window.open(document.getElementById('external-link-04').value || 'https://docs.google.com/document/d/1a74eeJAB1CMUo6ex1WZvx6MgVCTLgPADOTz8HxtCkuc/edit?usp=sharing', '_blank'); return false;">
               <span class="material-symbols-outlined">open_in_new</span>
               開く
             </a>
@@ -108,11 +108,21 @@
             <div class="fill-hint">Spring Bootアプリケーションの画面構造をツリー形式で記載</div>
             <div class="fill-content">
               <pre class="tree">
-/reservation
-├─ 日程選択
-├─ 情報入力
-├─ 入力確認
-└─ 予約完了
+Webアプリケーション
+├─ 予約フロー
+│  └─ /reservation
+│     ├─ コース選択
+│     ├─ 日程選択
+│     ├─ 人数選択
+│     ├─ 情報入力
+│     ├─ 確認
+│     └─ 完了
+│
+└─ 管理画面
+   └─ /admin
+      ├─ ログイン
+      ├─ 予約一覧
+      └─ 予約詳細
       </pre>
             </div>
           </div>
@@ -184,15 +194,9 @@
                 </tr>
                 <tr class="template-row">
                   <td>9</td>
-                  <td>予約ページ</td>
-                  <td>予約アクションへの最短導線</td>
-                  <td>コース選択、日程選択、注意事項、予約ボタン</td>
-                </tr>
-                <tr class="template-row">
-                  <td>10</td>
-                  <td>予約完了ページ</td>
-                  <td>完了通知・安心感提供</td>
-                  <td>完了メッセージ、当日の案内、SNSシェア導線</td>
+                  <td>予約案内ページ</td>
+                  <td>予約前の注意事項を案内し、予約フローへ誘導する</td>
+                  <td>コース概要、注意事項、予約前確認、予約開始ボタン</td>
                 </tr>
               </tbody>
             </table>
@@ -214,42 +218,59 @@
                 <tr class="template-row">
                   <td>1</td>
                   <td>コース選択画面</td>
-                  <td>12種/20種を選ばせる</td>
-                  <td>比較表示、特徴表示、選択ボタン</td>
+                  <td>体験コースを選択する</td>
+                  <td>コース比較表示、特徴表示、選択ボタン</td>
                 </tr>
                 <tr class="template-row">
                   <td>2</td>
                   <td>日程選択画面</td>
-                  <td>空き状況確認</td>
-                  <td>カレンダー表示、時間枠選択</td>
+                  <td>予約可能な日付と時間を選択する</td>
+                  <td>カレンダー表示、空き状況表示、時間枠選択</td>
                 </tr>
                 <tr class="template-row">
                   <td>3</td>
-                  <td>予約情報入力画面</td>
-                  <td>予約情報登録</td>
-                  <td>名前・メール入力、バリデーション</td>
+                  <td>人数選択画面</td>
+                  <td>予約人数を設定する</td>
+                  <td>人数変更、料金自動計算、空き枠表示</td>
                 </tr>
                 <tr class="template-row">
                   <td>4</td>
-                  <td>予約内容確認画面</td>
-                  <td>入力内容確認</td>
-                  <td>修正リンク、最終確認</td>
+                  <td>予約情報入力画面</td>
+                  <td>予約者情報を入力する</td>
+                  <td>名前・メール・電話番号入力、バリデーション</td>
                 </tr>
                 <tr class="template-row">
                   <td>5</td>
-                  <td>予約完了画面</td>
-                  <td>完了通知</td>
-                  <td>完了メッセージ、当日案内</td>
+                  <td>予約内容確認画面</td>
+                  <td>入力内容を確認し、予約を確定する</td>
+                  <td>予約内容表示、修正リンク、予約確定</td>
                 </tr>
                 <tr class="template-row">
                   <td>6</td>
-                  <td>予約確認ページ</td>
-                  <td>予約情報再確認</td>
-                  <td>予約番号入力、確認表示</td>
+                  <td>予約完了画面</td>
+                  <td>予約完了を通知する</td>
+                  <td>完了メッセージ、予約内容表示、当日案内</td>
+                </tr>
+                <tr class="template-row">
+                  <td>7</td>
+                  <td>管理者ログイン画面</td>
+                  <td>管理者認証を行う</td>
+                  <td>メールアドレス入力、パスワード入力、ログイン</td>
+                </tr>
+                <tr class="template-row">
+                  <td>8</td>
+                  <td>予約一覧画面</td>
+                  <td>予約情報を一覧で確認する</td>
+                  <td>予約一覧表示、検索、詳細遷移</td>
+                </tr>
+                <tr class="template-row">
+                  <td>9</td>
+                  <td>予約詳細画面</td>
+                  <td>個別の予約内容を確認する</td>
+                  <td>予約詳細表示、一覧へ戻る</td>
                 </tr>
               </tbody>
             </table>
-
           </div>
         </section>
 

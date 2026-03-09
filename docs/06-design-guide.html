@@ -1,27 +1,30 @@
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>デザインガイドライン -  プロジェクトアーカイブ</title>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
+  <title>デザインガイドライン - プロジェクトアーカイブ</title>
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
   <link rel="stylesheet" href="../css/style.css">
 </head>
+
 <body>
   <button class="hamburger" aria-label="メニュー">
     <span></span><span></span><span></span>
   </button>
 
   <div class="page-wrapper">
-  <aside class="sidebar" data-nav-level="docs"></aside>
+    <aside class="sidebar" data-nav-level="docs"></aside>
 
     <main class="main-content">
       <header class="doc-header">
         <div class="doc-category">DOCUMENT 06</div>
         <h1 class="doc-title">デザインガイドライン</h1>
         <div class="doc-meta">
-          <span><span class="material-symbols-outlined icon-sm">calendar_today</span> 作成日：2026-XX-XX</span>
-          <span><span class="material-symbols-outlined icon-sm">person</span> 作成者：（氏名を入力）</span>
+          <span><span class="material-symbols-outlined icon-sm">calendar_today</span> 作成日：2026-03-09</span>
+          <span><span class="material-symbols-outlined icon-sm">person</span> 作成者：杉原　有哉</span>
           <span><span class="material-symbols-outlined icon-sm">push_pin</span> Ver 1.0</span>
         </div>
       </header>
@@ -38,7 +41,8 @@
           </div>
           <div class="external-link-input">
             <input type="text" placeholder="https://docs.google.com/spreadsheets/d/xxxxx" id="external-link-06">
-            <a href="#" class="link-btn" onclick="window.open(document.getElementById('external-link-06').value || 'https://docs.google.com', '_blank'); return false;">
+            <a href="#" class="link-btn"
+              onclick="window.open(document.getElementById('external-link-06').value || 'https://docs.google.com/document/d/1rMydDqpMHxWCAriIutoFZgBFK7GMmprzzZ54CcSb6Sc/edit?usp=sharing', '_blank'); return false;">
               <span class="material-symbols-outlined">open_in_new</span>
               開く
             </a>
@@ -59,13 +63,68 @@
         <section class="section" id="sec1">
           <h2 class="section-title"><span class="section-icon">1</span> デザインコンセプト</h2>
 
-        <div class="fill-block">
-          <div class="fill-label">デザインキーワード <span class="required">必須</span></div>
-          <div class="fill-hint">デザインの方向性を表すキーワード3つとその説明</div>
-          <div class="fill-content">
-            <p>（デザインキーワード3つとその説明を記載）</p>
+          <div class="fill-block">
+            <div class="fill-label">デザインキーワード <span class="required">必須</span></div>
+            <div class="fill-hint">デザインの方向性を表すキーワード3つとその説明</div>
+            <div class="fill-content">
+              <p><strong>デザインコンセプト</strong></p>
+              <p>
+                本サービスは、オリジナル香水を制作できる体験型ワークショップの予約サイトです。<br>
+                ユーザーが香りを選び、自分だけの香水を作る特別な体験を提供するサービスであり、<br>
+                Webサイトでは体験の魅力を伝えると同時に、スムーズに予約できる導線を重視します。
+              </p>
+
+              <p>
+                そのためデザインでは、ユーザーに<strong>上質さ・安心感・体験への期待感</strong>を感じてもらえることを目指します。<br>
+                また、体験型サービスとしての魅力を視覚的に伝えながら、迷わず予約に進める分かりやすいUI設計を両立させます。
+              </p>
+
+              <p><strong>ターゲット</strong></p>
+              <p>
+                20〜30代の女性を中心とした、体験型コンテンツやおしゃれなライフスタイルに関心の高いユーザー。<br>
+                SNSで共有できる特別な体験や、自分だけのオリジナルアイテムに価値を感じる層を想定しています。
+              </p>
+
+              <p><strong>デザインキーワード</strong></p>
+
+              <p><strong>1. 上質感（Luxury）</strong></p>
+              <p>
+                香水は「特別感」や「美しさ」を感じさせる商品であるため、洗練されたデザインによってサービス全体の価値を高めます。<br>
+                落ち着いた配色や余白を活かしたレイアウトにより、上品で特別感のある世界観を表現します。
+              </p>
+
+              <ul>
+                <li>モノトーンを基調とした洗練された配色</li>
+                <li>余白を活かした上品なレイアウト</li>
+                <li>香水や体験の魅力が伝わる高品質な写真の使用</li>
+              </ul>
+
+              <p><strong>2. シンプル（Simple）</strong></p>
+              <p>
+                予約サイトとして、ユーザーが必要な情報をすぐに理解し、迷わず予約できることを重視します。<br>
+                情報を整理した分かりやすいデザインにすることで、使いやすさと予約導線の明確化を図ります。
+              </p>
+
+              <ul>
+                <li>情報を整理した見やすいレイアウト</li>
+                <li>直感的に操作できるUIデザイン</li>
+                <li>分かりやすい予約ボタン（CTA）の配置</li>
+              </ul>
+
+              <p><strong>3. 温かみ（Warmth）</strong></p>
+              <p>
+                香水作り体験は、商品を購入するだけでなく、思い出として残る体験価値を提供するサービスです。<br>
+                そのため、親しみや安心感を持てる柔らかな印象を取り入れ、体験への期待感を高めます。
+              </p>
+
+              <ul>
+                <li>ベージュやナチュラルカラーを活かした柔らかな配色</li>
+                <li>実際の体験風景が伝わる写真の活用</li>
+                <li>角丸などを用いたやさしい印象のUIデザイン</li>
+              </ul>
+
+            </div>
           </div>
-        </div>
 
         </section>
 
@@ -76,17 +135,90 @@
             <div class="fill-label">カラーパレット <span class="required">必須</span></div>
             <div class="fill-hint">各色のHEXコード・使用場面を記載し、実際の色見本も表示してください</div>
 
-        <table class="doc-table">
-          <thead><tr><th>色の種類</th><th>カラーコード</th><th>色見本</th><th>使用場面</th></tr></thead>
-          <tbody>
-          <tr class="template-row"><td>メインカラー</td><td>#（コードを入力）</td><td>（CSSで色見本を表示）</td><td>ヘッダー、ボタン、見出し</td></tr>
-          <tr class="template-row"><td>サブカラー</td><td>#（コードを入力）</td><td>（CSSで色見本を表示）</td><td>背景、カード、セクション区切り</td></tr>
-          <tr class="template-row"><td>アクセントカラー</td><td>#（コードを入力）</td><td>（CSSで色見本を表示）</td><td>CTA、リンク、強調</td></tr>
-          <tr class="template-row"><td>背景色</td><td>#（コードを入力）</td><td>（CSSで色見本を表示）</td><td>ページ背景</td></tr>
-          <tr class="template-row"><td>テキスト色</td><td>#（コードを入力）</td><td>（CSSで色見本を表示）</td><td>本文テキスト</td></tr>
-          <tr class="template-row"><td>テキスト色（薄）</td><td>#（コードを入力）</td><td>（CSSで色見本を表示）</td><td>補助テキスト、注釈</td></tr>
-          </tbody>
-        </table>
+            <table class="doc-table">
+              <thead>
+                <tr>
+                  <th>色の種類</th>
+                  <th>カラーコード</th>
+                  <th>色見本</th>
+                  <th>使用場面</th>
+                </tr>
+              </thead>
+              <tbody>
+
+                <tr>
+                  <td>メインカラー</td>
+                  <td>#1A1A1A</td>
+                  <td><span class="color-chip" style="background:#1A1A1A;"></span></td>
+                  <td>ヘッダー、見出し、主要ボタン</td>
+                </tr>
+
+                <tr>
+                  <td>サブカラー</td>
+                  <td>#F3EDE6</td>
+                  <td><span class="color-chip" style="background:#F3EDE6;"></span></td>
+                  <td>セクション背景、カード背景、区切り</td>
+                </tr>
+
+                <tr>
+                  <td>アクセントカラー</td>
+                  <td>#C8A96A</td>
+                  <td><span class="color-chip" style="background:#C8A96A;"></span></td>
+                  <td>CTAボタン、リンク、強調表示</td>
+                </tr>
+
+                <tr>
+                  <td>背景色</td>
+                  <td>#FAFAFA</td>
+                  <td><span class="color-chip" style="background:#FAFAFA;"></span></td>
+                  <td>ページ背景</td>
+                </tr>
+
+                <tr>
+                  <td>テキスト色</td>
+                  <td>#222222</td>
+                  <td><span class="color-chip" style="background:#222222;"></span></td>
+                  <td>本文テキスト</td>
+                </tr>
+
+                <tr>
+                  <td>テキスト色（薄）</td>
+                  <td>#777777</td>
+                  <td><span class="color-chip" style="background:#777777;"></span></td>
+                  <td>補助テキスト、注釈</td>
+                </tr>
+
+              </tbody>
+            </table>
+
+            <div class="fill-content">
+              <p><strong>カラーパレット選定理由</strong></p>
+
+              <p>
+                本サービスのデザインコンセプトである「上質感」「シンプル」「温かみ」を表現するため、
+                モノトーンを基調とした落ち着いた配色に、ベージュとゴールドを組み合わせたカラーパレットを採用した。
+              </p>
+
+              <p>
+                メインカラーのブラック系は高級感・信頼感・洗練された印象を与える色であり、
+                香水ブランドの世界観を表現する基調色として使用する。
+              </p>
+
+              <p>
+                サブカラーのベージュ系は温かみや安心感を与える色であり、
+                体験型サービスとしての親しみやすさを表現するため背景色やコンテンツエリアに使用する。
+              </p>
+
+              <p>
+                アクセントカラーのゴールド系は特別感・華やかさ・魅力を表現する色であり、
+                予約ボタンや強調要素に使用することで視線誘導を促す役割を持つ。
+              </p>
+
+              <p>
+                背景色とテキストカラーは可読性を重視し、ユーザーが情報を読みやすく理解しやすい
+                シンプルで視認性の高い配色とした。
+              </p>
+            </div>
 
           </div>
         </section>
@@ -96,17 +228,95 @@
 
           <div class="fill-block">
             <div class="fill-label">フォント設定 <span class="required">必須</span></div>
-        <table class="doc-table">
-          <thead><tr><th>要素</th><th>フォント名</th><th>サイズ</th><th>太さ</th><th>行間</th><th>用途</th></tr></thead>
-          <tbody>
-          <tr class="template-row"><td>h1（大見出し）</td><td>（フォント名）</td><td>（px）</td><td>（bold等）</td><td>（倍率）</td><td>ページタイトル</td></tr>
-          <tr class="template-row"><td>h2（中見出し）</td><td>（フォント名）</td><td>（px）</td><td>（bold等）</td><td>（倍率）</td><td>セクション見出し</td></tr>
-          <tr class="template-row"><td>h3（小見出し）</td><td>（フォント名）</td><td>（px）</td><td>（bold等）</td><td>（倍率）</td><td>サブセクション</td></tr>
-          <tr class="template-row"><td>本文</td><td>（フォント名）</td><td>（px）</td><td>（regular等）</td><td>（倍率）</td><td>通常テキスト</td></tr>
-          <tr class="template-row"><td>キャプション</td><td>（フォント名）</td><td>（px）</td><td>（regular等）</td><td>（倍率）</td><td>画像の説明等</td></tr>
-          <tr class="template-row"><td>ボタン</td><td>（フォント名）</td><td>（px）</td><td>（bold等）</td><td>—</td><td>ボタンテキスト</td></tr>
-          </tbody>
-        </table>
+            <table class="doc-table">
+              <thead>
+                <tr>
+                  <th>要素</th>
+                  <th>フォント名</th>
+                  <th>サイズ</th>
+                  <th>太さ</th>
+                  <th>行間</th>
+                  <th>用途</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>h1（大見出し）</td>
+                  <td>Inter</td>
+                  <td>32px</td>
+                  <td>800</td>
+                  <td>1.3</td>
+                  <td>ページタイトル、キービジュアル見出し</td>
+                </tr>
+                <tr>
+                  <td>h2（中見出し）</td>
+                  <td>Inter</td>
+                  <td>24px</td>
+                  <td>700</td>
+                  <td>1.4</td>
+                  <td>セクション見出し</td>
+                </tr>
+                <tr>
+                  <td>h3（小見出し）</td>
+                  <td>Inter</td>
+                  <td>18px</td>
+                  <td>600</td>
+                  <td>1.5</td>
+                  <td>小見出し、カードタイトル</td>
+                </tr>
+                <tr>
+                  <td>本文</td>
+                  <td>Noto Sans JP</td>
+                  <td>14px</td>
+                  <td>400</td>
+                  <td>1.8</td>
+                  <td>本文、説明文、通常テキスト</td>
+                </tr>
+                <tr>
+                  <td>キャプション</td>
+                  <td>Noto Sans JP</td>
+                  <td>12px</td>
+                  <td>400</td>
+                  <td>1.6</td>
+                  <td>画像説明、補足情報、注釈</td>
+                </tr>
+                <tr>
+                  <td>ボタン</td>
+                  <td>Inter</td>
+                  <td>14px</td>
+                  <td>600</td>
+                  <td>—</td>
+                  <td>CTAボタン、操作ラベル</td>
+                </tr>
+              </tbody>
+            </table>
+
+            <div class="fill-content">
+              <p><strong>タイポグラフィ設計方針</strong></p>
+              <p>
+                本サービスでは、デザインコンセプトである「上質感」「シンプル」「温かみ」を
+                文字表現においても一貫して伝えるため、見出しと本文で役割を分けたフォント設計を行う。
+              </p>
+              <p>
+                見出しには Inter を採用し、洗練された印象と現代的な上質感を表現する。
+                英字フォントならではのシャープさを活かすことで、香水ブランドらしい
+                スタイリッシュな世界観を演出する。
+              </p>
+              <p>
+                本文には Noto Sans JP を採用し、日本語における高い可読性と安定した視認性を確保する。
+                予約導線やサービス説明など、ユーザーが正確に情報を理解する必要がある場面において、
+                読みやすく信頼感のある文字設計を重視する。
+              </p>
+              <p>
+                また、見出しはやや太めのウェイトと控えめな文字間で上質感を表現し、
+                本文は広めの行間によって読みやすさとやわらかい印象を両立する。
+                キャプションやボタンについても情報の優先度に応じたサイズ・太さを設定し、
+                画面全体の情報設計が明確に伝わるタイポグラフィルールとする。
+              </p>
+
+              <p><strong>letter-spacing 推奨値</strong></p>
+              <p>h1：-0.02em / h2：-0.01em / h3：0em / 本文：0.02em / キャプション：0.03em / ボタン：0.04em</p>
+            </div>
 
           </div>
         </section>
@@ -114,42 +324,366 @@
         <section class="section" id="sec4">
           <h2 class="section-title"><span class="section-icon">4</span> UIコンポーネント</h2>
 
+          <!-- ボタン -->
+          <div class="fill-block">
+            <div class="fill-label">ボタン <span class="required">必須</span></div>
+            <div class="fill-hint">プライマリ・セカンダリ・デンジャーの3種類のボタンスタイル（実物のHTMLサンプル付き）</div>
+            <div class="fill-content">
+              <p><strong>ボタン設計方針</strong></p>
 
-        <div class="fill-block">
-          <div class="fill-label">ボタン <span class="required">必須</span></div>
-          <div class="fill-hint">プライマリ・セカンダリ・デンジャーの3種類のボタンスタイル（実物のHTMLサンプル付き）</div>
-          <div class="fill-content">
-            <p>（ここにボタンの実物サンプルとCSSコードを記載）</p>
-          </div>
-        </div>
-        <div class="fill-block">
-          <div class="fill-label">フォーム要素 <span class="required">必須</span></div>
-          <div class="fill-hint">テキスト入力・セレクト・テキストエリア・チェックボックス・ラジオボタン（実物のHTMLサンプル付き）</div>
-          <div class="fill-content">
-            <p>（ここにフォーム要素の実物サンプルとCSSコードを記載）</p>
-          </div>
-        </div>
-        <div class="fill-block">
-          <div class="fill-label">カード・テーブル・その他 <span class="required">必須</span></div>
-          <div class="fill-hint">カードコンポーネント・テーブルスタイル・アラート等（実物のHTMLサンプル付き）</div>
-          <div class="fill-content">
-            <p>（ここにコンポーネントの実物サンプルとCSSコードを記載）</p>
-          </div>
-        </div>
+              <p>
+                ユーザーが操作の優先度を直感的に理解できるように、
+                プライマリ・セカンダリ・デンジャーの3種類のボタンスタイルを定義する。
+              </p>
 
+              <p>
+                プライマリボタンは予約などの主要操作に使用し、
+                セカンダリボタンは補助操作、
+                デンジャーボタンは削除などの危険操作に使用する。
+              </p>
+
+              <div class="button-demo">
+                <button class="btn btn-primary">予約する</button>
+                <button class="btn btn-secondary">詳細を見る</button>
+                <button class="btn btn-danger">削除する</button>
+              </div>
+
+              <div class="code-block">
+                <pre>
+/* --- Button Base --- */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 160px;
+  height: 48px;
+  padding: 0 28px;
+  border-radius: 6px;
+  border: 1px solid transparent;
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+/* --- Primary Button --- */
+
+.btn-primary {
+  background: #1A1A1A;
+  color: #FFFFFF;
+  border-color: #1A1A1A;
+}
+
+.btn-primary:hover {
+  background: #333333;
+  border-color: #333333;
+}
+
+/* --- Secondary Button --- */
+
+.btn-secondary {
+  background: #FFFFFF;
+  color: #1A1A1A;
+  border: 1px solid #999999;
+}
+
+.btn-secondary:hover {
+  background: #F5F5F5;
+  border-color: #777777;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+}
+
+/* --- Danger Button --- */
+
+.btn-danger {
+  background: #B23A3A;
+  color: #FFFFFF;
+  border-color: #B23A3A;
+}
+
+.btn-danger:hover {
+  background: #922F2F;
+  border-color: #922F2F;
+}
+</pre>
+              </div>
+            </div>
+          </div>
+
+          <!-- フォーム要素 -->
+          <div class="fill-block">
+            <div class="fill-label">フォーム要素 <span class="required">必須</span></div>
+            <div class="fill-hint">テキスト入力・セレクト・テキストエリア・チェックボックス・ラジオボタン（実物のHTMLサンプル付き）</div>
+            <div class="fill-content">
+              <p><strong>フォーム設計方針</strong></p>
+
+              <p>
+                フォーム要素はシンプルで視認性の高いデザインとし、
+                入力時のフォーカス状態やエラー状態が明確に分かるよう設計する。
+              </p>
+
+              <div class="form-demo">
+                <div class="form-group">
+                  <label class="form-label" for="demo-name">お名前</label>
+                  <input type="text" id="demo-name" class="form-input" placeholder="例：山田 太郎">
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label" for="demo-course">体験コース</label>
+                  <select id="demo-course" class="form-select">
+                    <option>12種コース</option>
+                    <option>20種コース</option>
+                    <option>ペア体験コース</option>
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label" for="demo-message">メッセージ</label>
+                  <textarea id="demo-message" class="form-textarea" rows="4" placeholder="ご要望があればご記入ください"></textarea>
+                </div>
+
+                <div class="form-group">
+                  <span class="form-label">オプション</span>
+                  <label class="form-check">
+                    <input type="checkbox">
+                    <span>ギフトラッピングを希望する</span>
+                  </label>
+                </div>
+
+                <div class="form-group">
+                  <span class="form-label">参加人数</span>
+                  <label class="form-check">
+                    <input type="radio" name="people">
+                    <span>1名</span>
+                  </label>
+                  <label class="form-check">
+                    <input type="radio" name="people">
+                    <span>2名</span>
+                  </label>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label" for="demo-email-error">メールアドレス（エラー例）</label>
+                  <input type="email" id="demo-email-error" class="form-input is-error" placeholder="example@mail.com">
+                  <p class="form-error-text">入力内容に不備があります。確認してください。</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- カード・テーブル・その他 -->
+          <div class="fill-block">
+            <div class="fill-label">カード・テーブル・その他 <span class="required">必須</span></div>
+            <div class="fill-hint">カードコンポーネント・テーブルスタイル・アラート等（実物のHTMLサンプル付き）</div>
+            <div class="fill-content">
+              <p><strong>コンポーネント設計方針</strong></p>
+              <p>
+                カード・テーブル・アラートは、サービス全体の上質感と可読性を両立するため、
+                モノトーンを基調としたシンプルなデザインで統一する。
+              </p>
+              <p>
+                カードは情報を整理して視覚的に伝えるために使用し、
+                テーブルは比較しやすさを重視したストライプ表示を採用する。
+                アラートは状態を明確に伝えるため、情報・成功・警告・エラーの4種類を定義する。
+              </p>
+
+              <div class="component-demo">
+                <div class="component-section">
+                  <h3 class="subsection-title">カードコンポーネント</h3>
+
+                  <div class="card-grid-demo">
+                    <article class="ui-card">
+                      <img src="../images/sample-perfume.jpg" alt="香水体験イメージ" class="ui-card-image">
+                      <div class="ui-card-body">
+                        <h4 class="ui-card-title">12種コース</h4>
+                        <p class="ui-card-text">
+                          初めての方にもおすすめのスタンダードコース。香りの基本を楽しみながら、自分だけの一本を作ることができます。
+                        </p>
+                        <button class="btn btn-primary">予約する</button>
+                      </div>
+                    </article>
+
+                    <article class="ui-card">
+                      <img src="../images/sample-perfume.jpg" alt="香水体験イメージ" class="ui-card-image">
+                      <div class="ui-card-body">
+                        <h4 class="ui-card-title">20種コース</h4>
+                        <p class="ui-card-text">
+                          より多くの香りから選べるプレミアム体験。こだわりの香水作りをじっくり楽しみたい方に適したコースです。
+                        </p>
+                        <button class="btn btn-secondary">詳細を見る</button>
+                      </div>
+                    </article>
+                  </div>
+                </div>
+
+                <div class="component-section">
+                  <h3 class="subsection-title">テーブル</h3>
+
+                  <table class="ui-table-striped">
+                    <thead>
+                      <tr>
+                        <th>コース名</th>
+                        <th>香り数</th>
+                        <th>所要時間</th>
+                        <th>料金</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>12種コース</td>
+                        <td>12種類</td>
+                        <td>約45分</td>
+                        <td>¥4,500</td>
+                      </tr>
+                      <tr>
+                        <td>20種コース</td>
+                        <td>20種類</td>
+                        <td>約60分</td>
+                        <td>¥6,000</td>
+                      </tr>
+                      <tr>
+                        <td>ペア体験コース</td>
+                        <td>20種類</td>
+                        <td>約75分</td>
+                        <td>¥11,000</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+
+                <div class="component-section">
+                  <h3 class="subsection-title">アラート</h3>
+
+                  <div class="ui-alert ui-alert-info">
+                    ご予約前に体験内容と注意事項をご確認ください。
+                  </div>
+
+                  <div class="ui-alert ui-alert-success">
+                    予約が正常に完了しました。
+                  </div>
+
+                  <div class="ui-alert ui-alert-warning">
+                    ご希望の時間帯は残席わずかです。
+                  </div>
+
+                  <div class="ui-alert ui-alert-danger">
+                    入力内容に不備があります。必須項目を確認してください。
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </section>
 
         <section class="section" id="sec5">
           <h2 class="section-title"><span class="section-icon">5</span> レイアウトルール</h2>
 
-        <div class="fill-block">
-          <div class="fill-label">レイアウト基本ルール <span class="required">必須</span></div>
-          <div class="fill-hint">グリッド・余白・角丸・シャドウ等の数値ルール</div>
-          <div class="fill-content">
-            <p>（レイアウトルールを記載）</p>
-          </div>
-        </div>
+          <div class="fill-block">
+            <div class="fill-label">レイアウト基本ルール <span class="required">必須</span></div>
+            <div class="fill-hint">グリッド・余白・角丸・シャドウ・ブレークポイント等の数値ルール</div>
 
+            <div class="fill-content">
+              <p><strong>レイアウト設計方針</strong></p>
+
+              <p>
+                本サービスでは、デザインコンセプトである「上質感」「シンプル」「温かみ」を画面設計においても一貫して表現するため、
+                余白を活かした整然としたレイアウトルールを設定する。
+              </p>
+
+              <p>
+                情報を過度に詰め込まず、視線の流れが自然に生まれる構成とすることで、
+                体験型サービスにふさわしい上品さと、予約サイトとしての分かりやすさを両立する。
+              </p>
+
+              <p><strong>1. コンテンツ幅</strong></p>
+              <p>
+                ・全体コンテンツ最大幅：1200px<br>
+                ・本文エリア推奨幅：760px〜800px<br>
+                ・左右余白：PC 40px / タブレット 24px / スマートフォン 16px
+              </p>
+              <p>
+                コンテンツ最大幅を1200pxに設定することで、PC画面でも横に広がりすぎない上品な余白を確保する。
+                また、本文エリアは760px〜800px程度に抑えることで、長文でも視線移動が大きくなりすぎず、読みやすさを維持する。
+              </p>
+
+              <p><strong>2. グリッドシステム</strong></p>
+              <p>
+                ・PC：12カラム<br>
+                ・タブレット：8カラム<br>
+                ・スマートフォン：4カラム<br>
+                ・ガター幅：24px（PC・タブレット） / 16px（スマートフォン）
+              </p>
+              <p>
+                PCでは12カラムを基準とすることで、画像・テキスト・カードなどを柔軟に配置できる構成とする。
+                タブレット・スマートフォンではカラム数を減らし、画面幅に応じて自然に情報を再配置できるレスポンシブ設計とする。
+              </p>
+
+              <p><strong>3. セクション間の余白</strong></p>
+              <p>
+                ・PC：80px<br>
+                ・タブレット：64px<br>
+                ・スマートフォン：48px
+              </p>
+              <p>
+                セクション間には十分な余白を確保し、情報ブロック同士を明確に区切ることで、視認性と上質感を高める。
+                特に体験型サービスでは、ゆとりを感じるレイアウトがブランドイメージの向上にもつながる。
+              </p>
+
+              <p><strong>4. 要素間の余白</strong></p>
+              <p>
+                ・見出しと本文：16px<br>
+                ・主要要素同士の基本余白：24px<br>
+                ・小要素間（ラベル、補助情報など）：8px〜12px<br>
+                ・カード内部余白：24px
+              </p>
+              <p>
+                要素間の余白に明確なルールを持たせることで、情報の階層が伝わりやすくなり、画面全体に統一感が生まれる。
+                小要素は詰めすぎず、主要要素には十分な余白を持たせることで、シンプルで見やすい構成を実現する。
+              </p>
+
+              <p><strong>5. 角丸</strong></p>
+              <p>
+                ・基本角丸：6px<br>
+                ・カード / フォーム / ボタン：6px<br>
+                ・小さなUI要素（バッジ等）：4px
+              </p>
+              <p>
+                角丸は控えめな数値に統一し、柔らかさを持たせながらも、過度にカジュアルにならないバランスを保つ。
+                これにより、温かみを感じさせつつ、香水ブランドらしい洗練された印象を維持する。
+              </p>
+
+              <p><strong>6. シャドウ</strong></p>
+              <p>
+                ・通常時：box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);<br>
+                ・ホバー時：box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+              </p>
+              <p>
+                シャドウは強くしすぎず、わずかな立体感を与える程度に抑えることで、上質で落ち着いたUIを実現する。
+                ホバー時のみ少し強めることで、操作可能な要素であることを自然に伝える。
+              </p>
+
+              <p><strong>7. ブレークポイント</strong></p>
+              <p>
+                ・PC：1025px以上<br>
+                ・タブレット：769px〜1024px<br>
+                ・スマートフォン：768px以下
+              </p>
+              <p>
+                デバイスごとの画面幅に応じてレイアウトを最適化し、どの閲覧環境でも操作しやすく読みやすいUIを維持する。
+                特にスマートフォンでは余白と要素サイズを再調整し、予約導線を優先した画面設計とする。
+              </p>
+
+              <p><strong>総括</strong></p>
+              <p>
+                本レイアウトルールは、ブランドとしての上質感を保ちながら、ユーザーが迷わず情報を理解し、スムーズに予約へ進めることを目的としている。
+                コンテンツ幅・余白・角丸・シャドウ・レスポンシブ設計に一貫した基準を設けることで、サイト全体に統一感と信頼感を持たせる。
+              </p>
+            </div>
+          </div>
         </section>
 
       </div>
@@ -158,4 +692,5 @@
 
   <script src="../js/main.js"></script>
 </body>
+
 </html>
