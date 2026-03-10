@@ -1,0 +1,287 @@
+あなたはフロントエンドエンジニアとして、このリポジトリ内に 静的Webサイトのフロントエンド一式 を実装します。
+
+このサイトは GitHub Pagesで公開する静的サイトです。
+バックエンド・API・ビルドツールは使用しません。
+
+使用技術
+
+HTML
+
+SCSS
+
+CSS
+
+Vanilla JavaScript
+
+1 作業範囲
+
+このリポジトリには既存ドキュメントがあります。
+既存ファイルへの影響を防ぐため、実装は site/ フォルダ配下のみで行ってください。
+
+以下のフォルダは 絶対に編集しないでください
+
+docs/
+css/
+js/
+images/
+design/
+prompts/
+
+今回作成・編集してよいのは
+
+site/
+
+のみです。
+
+2 作成するディレクトリ構成
+
+以下の構成で ファイルとフォルダを作成してください
+
+site/
+│
+├─ index.html
+├─ about.html
+├─ courses.html
+├─ course-12blend.html
+├─ course-20blend-limited.html
+├─ compare.html
+├─ flow.html
+├─ faq.html
+├─ reviews.html
+├─ reserve.html
+├─ reserve-select-course.html
+├─ reserve-select-slot.html
+├─ reserve-form.html
+├─ reserve-confirm.html
+├─ reserve-complete.html
+├─ contact.html
+├─ access.html
+│
+├─ assets/
+│
+│  ├─ css/
+│  │  └─ perfume.css
+│  │
+│  ├─ js/
+│  │  └─ main.js
+│  │
+│  ├─ scss/
+│  │
+│  │  ├─ foundation/
+│  │  │  ├─ _variables.scss
+│  │  │  ├─ _mixins.scss
+│  │  │  ├─ _functions.scss
+│  │  │  ├─ _reset.scss
+│  │  │  └─ _base.scss
+│  │  │
+│  │  ├─ layout/
+│  │  │  ├─ _container.scss
+│  │  │  ├─ _grid.scss
+│  │  │  ├─ _header.scss
+│  │  │  ├─ _footer.scss
+│  │  │  └─ _section.scss
+│  │  │
+│  │  ├─ component/
+│  │  │  ├─ _button.scss
+│  │  │  ├─ _card.scss
+│  │  │  ├─ _nav.scss
+│  │  │  ├─ _alert.scss
+│  │  │  ├─ _table.scss
+│  │  │  ├─ _form.scss
+│  │  │  ├─ _faq.scss
+│  │  │  ├─ _step-indicator.scss
+│  │  │  └─ _cta.scss
+│  │  │
+│  │  ├─ project/
+│  │  │  ├─ _home.scss
+│  │  │  ├─ _about.scss
+│  │  │  ├─ _courses.scss
+│  │  │  ├─ _compare.scss
+│  │  │  ├─ _flow.scss
+│  │  │  ├─ _reviews.scss
+│  │  │  ├─ _faq-page.scss
+│  │  │  ├─ _access.scss
+│  │  │  ├─ _contact.scss
+│  │  │  └─ _reservation.scss
+│  │  │
+│  │  ├─ utility/
+│  │  │  ├─ _spacing.scss
+│  │  │  ├─ _display.scss
+│  │  │  ├─ _text.scss
+│  │  │  └─ _state.scss
+│  │  │
+│  │  └─ perfume.scss
+│  │
+│  └─ images/
+│     ├─ hero-placeholder.jpg
+│     ├─ course-placeholder.jpg
+│     ├─ review-placeholder.jpg
+│     └─ placeholder.jpg
+│
+└─ README.md
+
+重要
+
+必ず以下を作成してください
+
+site/assets/images/
+
+画像がダミーでも問題ありません。
+
+3 CSS衝突防止ルール
+
+既存ドキュメントとCSS衝突を防ぐため
+
+全ページの body を
+
+<body class="perfume-site">
+
+にしてください。
+
+CSSは必ず
+
+.perfume-site
+
+配下で定義してください。
+
+例
+
+.perfume-site .l-header {}
+.perfume-site .c-button {}
+.perfume-site .p-home-hero {}
+4 CSSファイル
+
+CSSファイルは
+
+site/assets/css/perfume.css
+
+を使用してください。
+
+HTMLからの読み込み
+
+<link rel="stylesheet" href="assets/css/perfume.css">
+5 SCSS設計
+
+SCSSは
+
+FLOCSS + BEM
+
+構成にしてください。
+
+命名規則
+
+l- layout
+c- component
+p- project
+u- utility
+is- state
+js- javascript hook
+
+注意
+
+js- クラスにはCSSを書かない
+6 トップページ構成
+
+index.html
+
+hero
+course compare
+experience flow
+reviews
+faq
+cta
+
+の順にしてください。
+
+7 トップの口コミ仕様
+
+トップの口コミは
+外部口コミ表示UIとして作成してください。
+
+想定サービス
+
+Google
+じゃらん
+
+仕様
+
+横スクロールカード
+
+overflow-x scroll
+
+スクロールスナップ
+
+JSなしでも横スクロール可能
+
+スマホスワイプ対応
+
+カード内容
+
+評価元
+星評価
+口コミ本文
+利用者属性
+投稿日
+
+セクション内に
+
+Googleの口コミを見る
+じゃらんの口コミを見る
+
+外部リンクボタンを配置してください。
+
+8 予約フロー
+
+以下の疑似予約フローを実装してください
+
+reserve.html
+reserve-select-course.html
+reserve-select-slot.html
+reserve-form.html
+reserve-confirm.html
+reserve-complete.html
+
+状態保持
+
+sessionStorage
+9 JavaScript
+site/assets/js/main.js
+
+に実装
+
+内容
+
+hamburger menu
+faq accordion
+smooth scroll
+reservation storage
+reservation confirm
+form validation
+review scroll UI
+10 完了条件
+
+タスク完了条件
+
+site/ フォルダが作成されている
+
+site/assets/images/ が存在する
+
+全HTMLで body class="perfume-site"
+
+CSSパスが正しい
+
+JSエラーが発生しない
+
+予約フローがsessionStorageで動作
+
+トップ口コミが横スクロールできる
+
+11 作業後
+
+作業が完了したら
+
+変更ファイル一覧
+
+作成ファイル一覧
+
+を提示してください。

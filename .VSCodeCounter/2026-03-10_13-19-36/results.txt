@@ -1,0 +1,61 @@
+Date : 2026-03-10 13:19:36
+Directory : c:\academia\src\Project-Kaori\repo root
+Total : 25 files,  1898 codes, 1 comments, 454 blanks, all 2353 lines
+
+Languages
++------------+------------+------------+------------+------------+------------+
+| language   | files      | code       | comment    | blank      | total      |
++------------+------------+------------+------------+------------+------------+
+| HTML       |         17 |        862 |          0 |         23 |        885 |
+| Markdown   |          5 |        680 |          0 |        401 |      1,081 |
+| PostCSS    |          1 |        204 |          0 |         11 |        215 |
+| JavaScript |          1 |        152 |          0 |         18 |        170 |
+| SCSS       |          1 |          0 |          1 |          1 |          2 |
++------------+------------+------------+------------+------------+------------+
+
+Directories
++----------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                                             | files      | code       | comment    | blank      | total      |
++----------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                                                |         25 |      1,898 |          1 |        454 |      2,353 |
+| . (Files)                                                                        |          3 |        475 |          0 |        279 |        754 |
+| prompts                                                                          |          1 |        200 |          0 |        119 |        319 |
+| site                                                                             |         21 |      1,223 |          1 |         56 |      1,280 |
+| site (Files)                                                                     |         18 |        867 |          0 |         26 |        893 |
+| site\assets                                                                      |          3 |        356 |          1 |         30 |        387 |
+| site\assets\css                                                                  |          1 |        204 |          0 |         11 |        215 |
+| site\assets\js                                                                   |          1 |        152 |          0 |         18 |        170 |
+| site\assets\scss                                                                 |          1 |          0 |          1 |          1 |          2 |
++----------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++----------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| filename                                                                         | language   | code       | comment    | blank      | total      |
++----------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| c:\academia\src\Project-Kaori\repo root\AGENTS.md                                | Markdown   |        218 |          0 |        130 |        348 |
+| c:\academia\src\Project-Kaori\repo root\PROJECT_STRUCTURE.md                     | Markdown   |        114 |          0 |         55 |        169 |
+| c:\academia\src\Project-Kaori\repo root\RULES.md                                 | Markdown   |        143 |          0 |         94 |        237 |
+| c:\academia\src\Project-Kaori\repo root\prompts\codex-frontend-implementation.md | Markdown   |        200 |          0 |        119 |        319 |
+| c:\academia\src\Project-Kaori\repo root\site\README.md                           | Markdown   |          5 |          0 |          3 |          8 |
+| c:\academia\src\Project-Kaori\repo root\site\about.html                          | HTML       |         42 |          0 |          1 |         43 |
+| c:\academia\src\Project-Kaori\repo root\site\access.html                         | HTML       |         42 |          0 |          1 |         43 |
+| c:\academia\src\Project-Kaori\repo root\site\assets\css\perfume.css              | PostCSS    |        204 |          0 |         11 |        215 |
+| c:\academia\src\Project-Kaori\repo root\site\assets\js\main.js                   | JavaScript |        152 |          0 |         18 |        170 |
+| c:\academia\src\Project-Kaori\repo root\site\assets\scss\perfume.scss            | SCSS       |          0 |          1 |          1 |          2 |
+| c:\academia\src\Project-Kaori\repo root\site\compare.html                        | HTML       |         42 |          0 |          1 |         43 |
+| c:\academia\src\Project-Kaori\repo root\site\contact.html                        | HTML       |         42 |          0 |          1 |         43 |
+| c:\academia\src\Project-Kaori\repo root\site\course-12blend.html                 | HTML       |         42 |          0 |          1 |         43 |
+| c:\academia\src\Project-Kaori\repo root\site\course-20blend-limited.html         | HTML       |         42 |          0 |          1 |         43 |
+| c:\academia\src\Project-Kaori\repo root\site\courses.html                        | HTML       |         42 |          0 |          1 |         43 |
+| c:\academia\src\Project-Kaori\repo root\site\faq.html                            | HTML       |         42 |          0 |          1 |         43 |
+| c:\academia\src\Project-Kaori\repo root\site\flow.html                           | HTML       |         42 |          0 |          1 |         43 |
+| c:\academia\src\Project-Kaori\repo root\site\index.html                          | HTML       |        124 |          0 |          7 |        131 |
+| c:\academia\src\Project-Kaori\repo root\site\reserve-complete.html               | HTML       |         46 |          0 |          1 |         47 |
+| c:\academia\src\Project-Kaori\repo root\site\reserve-confirm.html                | HTML       |         56 |          0 |          1 |         57 |
+| c:\academia\src\Project-Kaori\repo root\site\reserve-form.html                   | HTML       |         61 |          0 |          1 |         62 |
+| c:\academia\src\Project-Kaori\repo root\site\reserve-select-course.html          | HTML       |         56 |          0 |          1 |         57 |
+| c:\academia\src\Project-Kaori\repo root\site\reserve-select-slot.html            | HTML       |         57 |          0 |          1 |         58 |
+| c:\academia\src\Project-Kaori\repo root\site\reserve.html                        | HTML       |         42 |          0 |          1 |         43 |
+| c:\academia\src\Project-Kaori\repo root\site\reviews.html                        | HTML       |         42 |          0 |          1 |         43 |
+| Total                                                                            |            |      1,898 |          1 |        454 |      2,353 |
++----------------------------------------------------------------------------------+------------+------------+------------+------------+------------+

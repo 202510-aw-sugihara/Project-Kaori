@@ -1,0 +1,27 @@
+"filename", "language", "HTML", "Markdown", "SCSS", "JavaScript", "PostCSS", "comment", "blank", "total"
+"c:\academia\src\Project-Kaori\repo root\AGENTS.md", "Markdown", 0, 218, 0, 0, 0, 0, 130, 348
+"c:\academia\src\Project-Kaori\repo root\PROJECT_STRUCTURE.md", "Markdown", 0, 114, 0, 0, 0, 0, 55, 169
+"c:\academia\src\Project-Kaori\repo root\RULES.md", "Markdown", 0, 143, 0, 0, 0, 0, 94, 237
+"c:\academia\src\Project-Kaori\repo root\prompts\codex-frontend-implementation.md", "Markdown", 0, 200, 0, 0, 0, 0, 119, 319
+"c:\academia\src\Project-Kaori\repo root\site\README.md", "Markdown", 0, 5, 0, 0, 0, 0, 3, 8
+"c:\academia\src\Project-Kaori\repo root\site\about.html", "HTML", 42, 0, 0, 0, 0, 0, 1, 43
+"c:\academia\src\Project-Kaori\repo root\site\access.html", "HTML", 42, 0, 0, 0, 0, 0, 1, 43
+"c:\academia\src\Project-Kaori\repo root\site\assets\css\perfume.css", "PostCSS", 0, 0, 0, 0, 204, 0, 11, 215
+"c:\academia\src\Project-Kaori\repo root\site\assets\js\main.js", "JavaScript", 0, 0, 0, 152, 0, 0, 18, 170
+"c:\academia\src\Project-Kaori\repo root\site\assets\scss\perfume.scss", "SCSS", 0, 0, 0, 0, 0, 1, 1, 2
+"c:\academia\src\Project-Kaori\repo root\site\compare.html", "HTML", 42, 0, 0, 0, 0, 0, 1, 43
+"c:\academia\src\Project-Kaori\repo root\site\contact.html", "HTML", 42, 0, 0, 0, 0, 0, 1, 43
+"c:\academia\src\Project-Kaori\repo root\site\course-12blend.html", "HTML", 42, 0, 0, 0, 0, 0, 1, 43
+"c:\academia\src\Project-Kaori\repo root\site\course-20blend-limited.html", "HTML", 42, 0, 0, 0, 0, 0, 1, 43
+"c:\academia\src\Project-Kaori\repo root\site\courses.html", "HTML", 42, 0, 0, 0, 0, 0, 1, 43
+"c:\academia\src\Project-Kaori\repo root\site\faq.html", "HTML", 42, 0, 0, 0, 0, 0, 1, 43
+"c:\academia\src\Project-Kaori\repo root\site\flow.html", "HTML", 42, 0, 0, 0, 0, 0, 1, 43
+"c:\academia\src\Project-Kaori\repo root\site\index.html", "HTML", 124, 0, 0, 0, 0, 0, 7, 131
+"c:\academia\src\Project-Kaori\repo root\site\reserve-complete.html", "HTML", 46, 0, 0, 0, 0, 0, 1, 47
+"c:\academia\src\Project-Kaori\repo root\site\reserve-confirm.html", "HTML", 56, 0, 0, 0, 0, 0, 1, 57
+"c:\academia\src\Project-Kaori\repo root\site\reserve-form.html", "HTML", 61, 0, 0, 0, 0, 0, 1, 62
+"c:\academia\src\Project-Kaori\repo root\site\reserve-select-course.html", "HTML", 56, 0, 0, 0, 0, 0, 1, 57
+"c:\academia\src\Project-Kaori\repo root\site\reserve-select-slot.html", "HTML", 57, 0, 0, 0, 0, 0, 1, 58
+"c:\academia\src\Project-Kaori\repo root\site\reserve.html", "HTML", 42, 0, 0, 0, 0, 0, 1, 43
+"c:\academia\src\Project-Kaori\repo root\site\reviews.html", "HTML", 42, 0, 0, 0, 0, 0, 1, 43
+"Total", "-", 862, 680, 0, 152, 204, 1, 454, 2353

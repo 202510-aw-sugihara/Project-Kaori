@@ -1,0 +1,875 @@
+あなたは経験豊富なフロントエンドエンジニアです。
+以下の条件に従って、静的Webサイトのフロントエンド一式（HTML / SCSS / CSS / JavaScript） を実装してください。
+
+このサイトは GitHub Pagesで公開する静的サイトです。
+そのため、バックエンド処理・API通信・サーバー依存・ビルド前提の実行環境は使わないでください。
+JavaScriptは Vanilla JSのみ 使用してください。
+
+目的は、「オリジナル香水作り体験」サイトを、スマホでも使いやすく、予約導線が分かりやすい形で実装することです。
+
+前提
+
+参照資料は以下です。
+
+企画提案書（01）
+
+サイトマップ（04）
+
+ワイヤーフレーム（05）
+
+デザインガイドライン（06）
+
+資料内容を統合して、以下を正しく反映してください。
+
+サービス概要
+
+ターゲット
+
+解決すべき課題
+
+ページ構成
+
+導線設計
+
+ワイヤーフレームの構成意図
+
+デザインルール
+
+予約導線
+
+不足情報がある場合は、静的な体験予約サイトとして自然な最小限の補完のみ行ってください。
+資料に反する独自仕様や不要な機能追加はしないでください。
+
+サービス概要
+
+サービス名：オリジナル香水作り体験
+コンセプト：香りを、つくる時間。
+
+ユーザーは主にスマートフォンで閲覧し、以下の流れで行動します。
+
+体験内容を理解する
+
+12種コースと20種コースを比較する
+
+FAQや体験の流れで不安を解消する
+
+予約に進む
+
+予約を完了する
+
+UI/UXでは以下を重視してください。
+
+初心者でも安心できる
+
+コース比較が分かりやすい
+
+スマホで迷わない
+
+20種コースの限定感が伝わる
+
+解決すべき課題
+
+以下の課題を解決するサイトとして実装してください。
+
+12種ブレンド体験と20種ブレンド体験の違いが分かりにくい
+
+初心者でも参加しやすいことが伝わりにくい
+
+スマホでの予約導線が弱い
+
+月末限定20種コースの「今予約する理由」が弱い
+
+そのため、実装では以下を満たしてください。
+
+コース比較を早い段階で提示する
+
+各ページから自然に次の行動へつなげる
+
+FAQや体験の流れで不安を下げる
+
+20種コースの限定性を強調する
+
+どのページからでも予約に進みやすい
+
+実装条件
+
+以下を必ず守ってください。
+
+静的サイトとして実装
+
+GitHub Pagesで公開可能
+
+モバイルファースト
+
+セマンティックHTML
+
+アクセシビリティ考慮
+
+JavaScriptはVanilla JSのみ
+
+相対パスで構成
+
+JSがなくても主要情報は読める
+
+npm前提にしない
+
+React / Vue / Svelte / Tailwindは使わない
+
+SCSSは設計用として作成してよいですが、GitHub Pagesでは直接使えないため、コンパイル済みのCSSも必ず出力してください。
+
+実装先フォルダ
+
+既存ドキュメントや既存CSS / JSとの衝突を避けるため、実装一式はルート直下ではなく site/ フォルダ配下にまとめてください。
+
+既存の docs css js images などのフォルダとは分離し、今回の実装ファイルはすべて site/ の中に配置してください。
+
+CSS衝突防止
+
+このプロジェクトには、既存ドキュメントHTML/CSSが同じ保存先に存在します。
+そのため、CSS衝突を防ぐために以下を必ず守ってください。
+
+すべてのページで body を以下にする
+<body class="perfume-site">
+
+すべてのスタイルは .perfume-site 配下で定義する
+
+例
+
+.perfume-site .l-header {}
+.perfume-site .c-button {}
+.perfume-site .p-home-hero {}
+
+style.css は使わない
+
+使用するCSSファイル名は site/assets/css/perfume.css とする
+
+HTMLでは以下を読み込むこと
+
+<link rel="stylesheet" href="assets/css/perfume.css">
+
+※ 各HTMLは site/ フォルダ直下に置くため、HTMLから見た相対パスは assets/css/perfume.css とすること。
+
+ディレクトリ構成
+
+以下の構成で実装してください。
+特に site/assets/images/ は必ず生成してください。
+画像がダミーでも、画像フォルダの作成を省略しないでください。
+
+/
+├─ site/
+│ ├─ index.html
+│ ├─ about.html
+│ ├─ courses.html
+│ ├─ course-12blend.html
+│ ├─ course-20blend-limited.html
+│ ├─ compare.html
+│ ├─ flow.html
+│ ├─ faq.html
+│ ├─ reviews.html
+│ ├─ reserve.html
+│ ├─ reserve-select-course.html
+│ ├─ reserve-select-slot.html
+│ ├─ reserve-form.html
+│ ├─ reserve-confirm.html
+│ ├─ reserve-complete.html
+│ ├─ contact.html
+│ ├─ access.html
+│ ├─ assets/
+│ │ ├─ css/
+│ │ │ └─ perfume.css
+│ │ ├─ js/
+│ │ │ └─ main.js
+│ │ ├─ scss/
+│ │ │ ├─ foundation/
+│ │ │ │ ├─ _variables.scss
+│ │ │ │ ├─ _mixins.scss
+│ │ │ │ ├─ _functions.scss
+│ │ │ │ ├─ _reset.scss
+│ │ │ │ └─ _base.scss
+│ │ │ ├─ layout/
+│ │ │ │ ├─ _container.scss
+│ │ │ │ ├─ _grid.scss
+│ │ │ │ ├─ _header.scss
+│ │ │ │ ├─ _footer.scss
+│ │ │ │ └─ _section.scss
+│ │ │ ├─ component/
+│ │ │ │ ├─ _button.scss
+│ │ │ │ ├─ _card.scss
+│ │ │ │ ├─ _nav.scss
+│ │ │ │ ├─ _alert.scss
+│ │ │ │ ├─ _table.scss
+│ │ │ │ ├─ _form.scss
+│ │ │ │ ├─ _faq.scss
+│ │ │ │ ├─ _step-indicator.scss
+│ │ │ │ └─ _cta.scss
+│ │ │ ├─ project/
+│ │ │ │ ├─ _home.scss
+│ │ │ │ ├─ _about.scss
+│ │ │ │ ├─ _courses.scss
+│ │ │ │ ├─ _compare.scss
+│ │ │ │ ├─ _flow.scss
+│ │ │ │ ├─ _reviews.scss
+│ │ │ │ ├─ _faq-page.scss
+│ │ │ │ ├─ _access.scss
+│ │ │ │ ├─ _contact.scss
+│ │ │ │ └─ _reservation.scss
+│ │ │ ├─ utility/
+│ │ │ │ ├─ _spacing.scss
+│ │ │ │ ├─ _display.scss
+│ │ │ │ ├─ _text.scss
+│ │ │ │ └─ _state.scss
+│ │ │ └─ perfume.scss
+│ │ └─ images/
+│ │ ├─ placeholder.jpg
+│ │ ├─ hero-placeholder.jpg
+│ │ ├─ course-placeholder.jpg
+│ │ └─ review-placeholder.jpg
+│ └─ README.md
+
+ページ要件
+
+実装するページと役割は以下です。
+
+index.html
+トップページ。サービス概要、コース比較、体験の流れ、レビュー、FAQ抜粋、予約導線を集約する。
+
+about.html
+体験の魅力、向いている人、初心者でも安心な理由を説明する。
+
+courses.html
+12種コースと20種コースの一覧ページ。
+
+course-12blend.html
+12種ブレンド体験の詳細ページ。
+
+course-20blend-limited.html
+月末限定20種ブレンド体験の詳細ページ。
+
+compare.html
+12種と20種の比較ページ。
+
+flow.html
+体験の流れページ。
+
+faq.html
+FAQページ。アコーディオン形式。
+
+reviews.html
+口コミ・レビュー一覧。
+
+reserve.html
+予約導入ページ。
+
+reserve-select-course.html
+コース選択。
+
+reserve-select-slot.html
+日付・時間選択。
+
+reserve-form.html
+予約者情報入力。
+
+reserve-confirm.html
+予約内容確認。
+
+reserve-complete.html
+予約完了。
+
+contact.html
+問い合わせページ。
+
+access.html
+アクセスページ。
+
+トップページ構成
+
+トップページは以下の順で構成してください。
+
+ヘッダー
+
+ヒーロー
+
+コース紹介・比較
+
+予約フロー案内
+
+体験の流れ
+
+口コミ・レビュー
+
+FAQ抜粋
+
+CTAセクション
+
+フッター
+
+要件
+
+ヒーローでサービス概要が一目で分かる
+
+コース比較を早い位置で見せる
+
+複数箇所に予約CTAを置く
+
+「理解 → 比較 → 不安解消 → 予約」の順で進みやすくする
+
+トップページの口コミセクション仕様
+
+トップページの口コミ部分は、自社で直接投稿を管理するレビュー一覧ではなく、外部口コミ（例：じゃらん、Google など）を紹介する表示領域として実装してください。
+
+ただし、このサイトは静的サイトであり、外部API連携は行わないため、以下の方針で実装してください。
+
+外部口コミを掲載する想定のUIとして作る
+
+カード形式で口コミを横並びにする
+
+横スクロール可能なレビューカルーセル風UIにする
+
+スマホでは指でスワイプ / 横スクロールしやすい構造にする
+
+PCでは横スクロール、または左右ボタンで移動しやすいUIにしてよい
+
+JavaScriptがなくても横スクロールできることを優先する
+
+CSSの overflow-x: auto; を基本にする
+
+スクロールスナップを使用してもよい
+
+各口コミカードには以下を含める
+
+評価元（例：Google / じゃらん）
+
+星評価
+
+投稿日または利用時期
+
+口コミ本文
+
+投稿者属性の簡易表記（例：20代女性 / カップル / 観光利用）
+
+「Googleの口コミを見る」「じゃらんの口コミを見る」など、外部口コミページへ遷移するリンクボタンをセクション内に設置する
+
+外部リンクには分かりやすい文言を付ける
+
+静的実装のため、口コミ内容はダミーでよいが、実運用を想定した構成にする
+
+reviews.html では、自社サイト内レビュー一覧としても、外部口コミの整理ページとしても成立する構成にしてよいが、トップの口コミ欄は外部口コミ導線の要約表示として扱うこと
+
+予約フロー仕様
+
+予約機能はバックエンドなしのため、静的な疑似予約フローとして実装してください。
+
+対象ページ
+
+reserve.html
+
+reserve-select-course.html
+
+reserve-select-slot.html
+
+reserve-form.html
+
+reserve-confirm.html
+
+reserve-complete.html
+
+要件
+
+各画面上部にステップ表示UIを配置
+
+現在のステップが分かるようにする
+
+戻る導線を設ける
+
+sessionStorageで選択内容を保持する
+
+sessionStorageが空でもページが壊れないようにする
+
+コース選択
+
+12種コース
+
+20種コース（月末限定）
+
+特徴、所要時間、料金を表示
+
+日時選択
+
+日付候補を複数表示
+
+時間帯は 11:00 / 13:00 / 15:00
+
+状態は「空きあり」「残りわずか」「満席」
+
+満席は選択不可
+
+色だけでなく文言でも表現
+
+情報入力
+
+名前
+
+フリガナ
+
+メールアドレス
+
+電話番号
+
+人数
+
+備考
+
+バリデーション
+
+必須入力チェック
+
+メール形式チェック
+
+電話番号の簡易形式チェック
+
+エラーは文言でも表示
+
+確認画面
+
+コース
+
+日付
+
+時間
+
+人数
+
+氏名
+
+フリガナ
+
+メールアドレス
+
+電話番号
+
+備考
+
+料金
+
+完了画面
+
+完了メッセージ
+
+予約内容要約
+
+当日案内
+
+トップへ戻る導線
+
+JavaScript要件
+
+site/assets/js/main.js に以下を実装してください。
+
+ハンバーガーメニュー開閉
+
+FAQアコーディオン
+
+スムーススクロール
+
+予約情報のsessionStorage保存
+
+予約確認画面への反映
+
+予約フォームの簡易バリデーション
+
+問い合わせフォームの送信完了風UI
+
+トップ口コミセクションの横スクロール補助UI（必要最低限）
+
+注意
+
+外部ライブラリは禁止
+
+JSフック用クラスにスタイルを書かない
+
+JSがなくても読めるHTML構造にする
+
+口コミセクションはJSなしでも横スクロールできることを優先する
+
+レスポンシブ要件
+
+モバイルファーストで実装してください。
+
+ブレークポイント
+
+スマホ：〜768px
+
+タブレット：769px〜1024px
+
+PC：1025px〜
+
+レイアウト
+
+コンテンツ最大幅：1200px
+
+本文可読幅：760〜800px程度
+
+左右余白
+
+PC：40px
+
+タブレット：24px
+
+スマホ：16px
+
+グリッド
+
+PC：12カラム
+
+タブレット：8カラム
+
+スマホ：4カラム
+
+ガター
+
+PC / タブレット：24px
+
+スマホ：16px
+
+余白
+
+セクション間：PC 80px / タブレット 64px / スマホ 48px
+
+要素間：基本24px、小要素8〜12px、見出しと本文16px、カード内24px
+
+デザインルール
+
+デザインキーワード
+
+上質感
+
+シンプル
+
+温かみ
+
+カラーパレット
+
+--color-primary: #1A1A1A
+
+--color-secondary: #F3EDE6
+
+--color-accent: #C8A96A
+
+--color-bg: #FAFAFA
+
+--color-text: #222222
+
+--color-text-muted: #777777
+
+--color-border: #D9D3CC
+
+--color-white: #FFFFFF
+
+--color-success: #2E7D32
+
+--color-warning: #B26A00
+
+--color-error: #C62828
+
+--color-info: #1565C0
+
+角丸
+
+基本：6px
+
+小UI：4px
+
+大きめカード：12pxまで可
+
+シャドウ
+
+通常：0 4px 12px rgba(0, 0, 0, 0.06)
+
+ホバー：0 8px 20px rgba(0, 0, 0, 0.08)
+
+タイポグラフィ
+
+見出しフォント：Inter
+
+本文フォント：Noto Sans JP
+
+h1：32px / 800 / 1.3
+
+h2：24px / 700 / 1.4
+
+h3：18px / 600 / 1.5
+
+body：14px / 400 / 1.8
+
+caption：12px / 400 / 1.6
+
+button：14px / 600
+
+推奨 letter-spacing
+
+h1：-0.02em
+
+h2：-0.01em
+
+h3：0
+
+body：0.02em
+
+caption：0.03em
+
+button：0.04em
+
+アクセシビリティ要件
+
+必ず以下を満たしてください。
+
+セマンティックHTMLを適切に使用
+
+各ページに main は1つ
+
+h1 は原則1つ
+
+見出し階層を崩さない
+
+画像に適切な alt
+
+フォームに label を関連付ける
+
+ハンバーガーメニューは button で実装
+
+FAQ開閉も button で実装
+
+aria-expanded / aria-controls を適切に使用
+
+現在ページ状態を示す
+
+:focus-visible を実装
+
+色だけで意味を伝えない
+
+エラーは文言でも伝える
+
+prefers-reduced-motion に配慮
+
+コントラストに配慮
+
+横スクロール領域には、必要に応じて説明文や補助ラベルを付けて、操作方法が伝わるようにする
+
+SCSSアーキテクチャ
+
+SCSSは FLOCSS寄り + BEM命名 + bodyスコープ固定 で設計してください。
+
+命名規則
+
+l- = layout
+
+c- = component
+
+p- = project / page specific
+
+u- = utility
+
+is- = state
+
+js- = JavaScript hook only
+
+ルール
+
+すべてのスタイルは .perfume-site 配下に限定
+
+js- クラスにはスタイルを書かない
+
+BEM記法を使用
+
+BEM階層は深くしすぎない
+
+共通部品は component に分離
+
+ページ固有の見た目は project に分離
+
+utilityクラスの乱用は避ける
+
+予約フロー関連は _reservation.scss にまとめる
+
+トップ口コミセクションのスタイルは _home.scss または適切な project ファイルにまとめる
+
+HTMLとSCSSのclass名を必ず一致させる
+
+site/assets/scss/perfume.scss の読み込み順は以下にしてください。
+
+@use "foundation/variables";
+@use "foundation/functions";
+@use "foundation/mixins";
+@use "foundation/reset";
+@use "foundation/base";
+
+@use "layout/container";
+@use "layout/grid";
+@use "layout/header";
+@use "layout/footer";
+@use "layout/section";
+
+@use "component/button";
+@use "component/card";
+@use "component/nav";
+@use "component/alert";
+@use "component/table";
+@use "component/form";
+@use "component/faq";
+@use "component/step-indicator";
+@use "component/cta";
+
+@use "project/home";
+@use "project/about";
+@use "project/courses";
+@use "project/compare";
+@use "project/flow";
+@use "project/reviews";
+@use "project/faq-page";
+@use "project/access";
+@use "project/contact";
+@use "project/reservation";
+
+@use "utility/spacing";
+@use "utility/display";
+@use "utility/text";
+@use "utility/state";
+
+HTML実装ルール
+
+各ページは完全なHTML文書として出力する
+
+lang="ja" を指定
+
+meta charset="UTF-8" を指定
+
+meta name="viewport" を指定
+
+各ページに固有の title と meta description を付ける
+
+共通ヘッダー・共通フッター構造を統一
+
+body は必ず class="perfume-site"
+
+main は1ページ1つ
+
+リンク切れを起こさない
+
+ダミー画像でも適切な alt を付ける
+
+CTA文言は具体的にする
+
+外部口コミリンクには target="_blank" と rel="noopener noreferrer" を付けてよい
+
+外部リンクであることが分かる文言にする
+
+品質要件
+
+以下を重視してください。
+
+ページ間のリンク切れがない
+
+HTML構造が破綻していない
+
+SCSS命名が統一されている
+
+JS無しでも最低限読める
+
+JSエラーが起きにくい
+
+sessionStorage未設定でも壊れない
+
+予約導線が分かりやすい
+
+スマホUIが崩れにくい
+
+画像フォルダ生成が漏れない
+
+トップ口コミセクションが横スクロールで自然に閲覧できる
+
+情報設計に不自然な矛盾がない
+
+後から人が修正しやすい
+
+禁止事項
+
+以下は禁止です。
+
+React / Vue / Svelte の使用
+
+Tailwind CSS の使用
+
+npm前提構成
+
+API通信前提の実装
+
+サーバー処理前提の実装
+
+バックエンド前提のフォーム送信
+
+不要なライブラリ導入
+
+過度なアニメーション
+
+js-クラスにスタイルを書くこと
+
+資料に反する独自仕様追加
+
+出力順序
+
+必ず以下の順で出力してください。
+
+ディレクトリ構成
+
+HTMLファイル一式
+
+SCSSファイル一式
+
+site/assets/css/perfume.css
+
+site/assets/js/main.js
+
+site/README.md
+
+各ファイルは必ず以下の形式で区切ってください。
+
+--- filename: site/index.html ---
+（コード）
+
+--- filename: site/assets/scss/foundation/_variables.scss ---
+（コード）
+
+--- filename: site/assets/css/perfume.css ---
+（コード）
+
+--- filename: site/assets/js/main.js ---
+（コード）
+
+--- filename: site/README.md ---
+（内容）
+
+省略記号は使わず、そのまま保存して使える完全コードで出力してください。
+
+最終指示
+
+見た目の派手さよりも、以下を優先してください。
+
+仕様整合性
+
+CSS衝突防止
+
+予約フローの整合性
+
+スマホでの使いやすさ
+
+HTML / SCSS / JS の対応関係の分かりやすさ
+
+画像フォルダ生成漏れ防止
+
+外部口コミセクションの実運用を想定した見せ方
+
+GitHub Pagesでそのまま公開できること
+
+曖昧な箇所は、静的な体験予約サイトとして自然で保守しやすい形で最小限補完してください。
+不要な機能追加や独自仕様追加はしないでください。
+完成コードとして、そのまま保存・確認できる状態で出力してください。
