@@ -1563,3 +1563,11 @@ h3,
   color: #f5f5f5;
   white-space: pre-wrap;
 }
+
+.table-scroll {
+  overflow-x: auto;
+}
+
+.table-scroll table {
+  min-width: 1000px;
+}
