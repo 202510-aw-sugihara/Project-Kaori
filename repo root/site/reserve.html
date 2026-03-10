@@ -1,0 +1,48 @@
+﻿<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>予約: 人数選択 | オリジナル香水作り体験</title>
+  <link rel="stylesheet" href="assets/css/perfume.css">
+</head>
+<body class="perfume-site p-app-page">
+  <div class="p-app-shell">
+    <p class="p-app-logo">LOGO</p>
+    <header class="p-app-step" aria-label="予約ステップ">
+      <p class="p-app-step__label">人数確認</p>
+      <p class="p-app-step__trail">✓コース → ✓日程 → 情報入力</p>
+    </header>
+
+    <main class="p-app-main">
+      <h1>人数選択</h1>
+      <section class="p-app-panel">
+        <div class="p-app-people-stepper" aria-label="人数選択">
+          <button class="js-people-dec" type="button" aria-label="人数を減らす">−</button>
+          <div class="js-people-count" aria-live="polite">2</div>
+          <button class="js-people-inc" type="button" aria-label="人数を増やす">＋</button>
+        </div>
+
+        <div class="p-app-people-meta">
+          <p><span class="js-people-remaining">空き2枠</span><span></span></p>
+          <p><span>料金</span><span class="js-price-unit">¥4,000</span></p>
+          <p><span class="js-price-calc">¥4,000 × 2</span><span></span></p>
+          <p><span>合計</span><span class="js-price-total">¥8,000</span></p>
+        </div>
+
+        <p class="p-app-note">※空き枠を超えてのご予約はできません
+※当日受付時にお会計となります</p>
+        <p class="p-app-button-row"><button class="p-app-btn p-app-btn--dark js-to-form" type="button">次へ</button></p>
+      </section>
+    </main>
+
+    <nav class="p-app-backbar" aria-label="ページ移動">
+      <a href="reserve-select-slot.html"><span aria-hidden="true">❮</span> 1つ前に戻る</a>
+      <a class="p-app-next" href="reserve-form.html" aria-label="次へ"><span aria-hidden="true">❯</span></a>
+    </nav>
+  </div>
+  <script src="assets/js/main.js"></script>
+</body>
+</html>
+
+

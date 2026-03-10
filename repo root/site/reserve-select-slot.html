@@ -1,0 +1,60 @@
+﻿<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>予約: 日程選択 | オリジナル香水作り体験</title>
+  <link rel="stylesheet" href="assets/css/perfume.css">
+</head>
+<body class="perfume-site p-app-page">
+  <div class="p-app-shell">
+    <p class="p-app-logo">LOGO</p>
+    <header class="p-app-step" aria-label="予約ステップ">
+      <p class="p-app-step__label">日程確認</p>
+      <p class="p-app-step__trail">✓コース → 人数 → 情報入力</p>
+    </header>
+
+    <main class="p-app-main">
+      <h1>日程選択</h1>
+      <section class="p-app-panel">
+        <input class="js-slot-date" type="hidden" value="2026-04-18">
+        <div class="p-app-calendar" aria-label="日付選択">
+          <div class="p-app-calendar-head">
+            <span aria-hidden="true">❮</span>
+            <strong>2026年4月</strong>
+            <span aria-hidden="true">❯</span>
+          </div>
+          <div class="p-app-calendar-grid">
+            <strong>日</strong><strong>月</strong><strong>火</strong><strong>水</strong><strong>木</strong><strong>金</strong><strong>土</strong>
+            <span class="is-muted">12</span><span class="is-muted">13</span><span class="is-muted">14</span><span class="is-muted">15</span><span class="is-muted">16</span><span class="is-muted">17</span>
+            <button class="js-date-pick" type="button" data-date="2026-04-18">18</button>
+            <span class="is-muted">19</span><span class="is-muted">20</span><span class="is-muted">21</span><span class="is-muted">22</span><span class="is-muted">23</span><span class="is-muted">24</span><span class="is-muted">25</span>
+          </div>
+        </div>
+
+        <p class="p-app-note">※グレーアウトしている日程は選択できません
+※最大10名様の枠内でのご予約となります</p>
+
+        <p class="p-app-selected">選択日：<span class="js-selected-date">2026-04-18</span><br>選択時間：<span class="js-selected-time">未選択</span></p>
+
+        <div class="p-app-time" aria-label="時間選択">
+          <button class="js-slot-select" type="button" data-time="11:00〜" data-status="available">○ 11:00〜</button>
+          <button class="js-slot-select" type="button" data-time="13:00〜" data-status="few">△ 13:00〜</button>
+          <button class="js-slot-select" type="button" data-time="15:00〜" data-status="full">× 15:00〜</button>
+        </div>
+
+        <p class="p-app-legend">○: 空きあり  △: 残り僅か  ×: 満席</p>
+        <p class="p-app-button-row"><button class="p-app-btn p-app-btn--dark js-to-people" type="button">次へ</button></p>
+      </section>
+    </main>
+
+    <nav class="p-app-backbar" aria-label="ページ移動">
+      <a href="reserve-select-course.html"><span aria-hidden="true">❮</span> 1つ前に戻る</a>
+      <span class="p-app-next" aria-hidden="true">❯</span>
+    </nav>
+  </div>
+  <script src="assets/js/main.js"></script>
+</body>
+</html>
+
+

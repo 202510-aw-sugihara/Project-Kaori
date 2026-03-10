@@ -1,0 +1,74 @@
+﻿<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>予約: 情報入力 | オリジナル香水作り体験</title>
+  <link rel="stylesheet" href="assets/css/perfume.css">
+</head>
+<body class="perfume-site p-app-page">
+  <div class="p-app-shell">
+    <p class="p-app-logo">LOGO</p>
+    <header class="p-app-step" aria-label="予約ステップ">
+      <p class="p-app-step__label">情報入力</p>
+      <p class="p-app-step__trail">✓コース → ✓日程 → ✓人数</p>
+    </header>
+
+    <main class="p-app-main">
+      <h1>情報入力</h1>
+      <section class="p-app-panel">
+        <form class="p-app-form js-reserve-form" novalidate>
+          <div class="p-form__group">
+            <label class="p-form__label" for="name">お名前</label>
+            <input class="p-form__input" id="name" name="name" type="text" autocomplete="name">
+            <p class="p-form__error" data-error="name"></p>
+          </div>
+
+          <div class="p-form__group">
+            <label class="p-form__label" for="kana">フリガナ</label>
+            <input class="p-form__input" id="kana" name="kana" type="text" autocomplete="off">
+            <p class="p-form__error" data-error="kana"></p>
+          </div>
+
+          <div class="p-form__group">
+            <label class="p-form__label" for="email">メールアドレス</label>
+            <input class="p-form__input" id="email" name="email" type="email" autocomplete="email">
+            <p class="p-form__error" data-error="email"></p>
+          </div>
+
+          <div class="p-form__group">
+            <label class="p-form__label" for="phone">電話番号 <span class="p-app-inline-note">※ハイフンは入れずに入力して下さい。</span></label>
+            <input class="p-form__input" id="phone" name="phone" type="tel" autocomplete="tel">
+            <p class="p-form__error" data-error="phone"></p>
+          </div>
+
+          <div class="p-form__group">
+            <label class="p-form__label" for="note">備考</label>
+            <textarea class="p-form__textarea" id="note" name="note" rows="4"></textarea>
+          </div>
+
+          <div class="p-app-form-price" aria-label="料金確認">
+            <p><span>コース</span><span class="js-form-course">-</span></p>
+            <p><span>日時</span><span class="js-form-date">-</span></p>
+            <p><span>人数</span><span class="js-form-people">-</span></p>
+            <p><span class="js-form-calc">¥4,000 × 2</span><span></span></p>
+            <p><span>合計</span><span class="js-form-total">¥8,000</span></p>
+          </div>
+
+          <p class="p-app-button-row">
+            <button class="p-app-btn p-app-btn--dark" type="submit">確認画面へ</button>
+          </p>
+        </form>
+      </section>
+    </main>
+
+    <nav class="p-app-backbar" aria-label="ページ移動">
+      <a href="reserve.html"><span aria-hidden="true">❮</span> 1つ前に戻る</a>
+      <a class="p-app-next" href="reserve-confirm.html" aria-label="次へ"><span aria-hidden="true">❯</span></a>
+    </nav>
+  </div>
+  <script src="assets/js/main.js"></script>
+</body>
+</html>
+
+

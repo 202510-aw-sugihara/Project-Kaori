@@ -1,0 +1,53 @@
+﻿<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>予約: 内容確認 | オリジナル香水作り体験</title>
+  <link rel="stylesheet" href="assets/css/perfume.css">
+</head>
+<body class="perfume-site p-app-page">
+  <div class="p-app-shell">
+    <p class="p-app-logo">LOGO</p>
+    <header class="p-app-step" aria-label="予約ステップ">
+      <p class="p-app-step__label">確認画面</p>
+      <p class="p-app-step__trail">✓コース → ✓日程 → ✓人数 → ✓情報入力</p>
+    </header>
+
+    <main class="p-app-main">
+      <h1>予約内容確認</h1>
+      <section class="p-app-panel p-app-confirm js-reserve-summary">
+        <h2>【体験内容】</h2>
+        <p class="p-app-line js-summary-course">-</p>
+
+        <h2>【日時】</h2>
+        <p class="p-app-line js-summary-datetime">-</p>
+
+        <h2>【予約人数】</h2>
+        <p class="p-app-line js-summary-people">-</p>
+
+        <h2>【お客様情報】</h2>
+        <p class="p-app-line">名前: <span class="js-summary-name">-</span></p>
+        <p class="p-app-line">メールアドレス: <span class="js-summary-email">-</span></p>
+        <p class="p-app-line">電話番号: <span class="js-summary-phone">-</span></p>
+
+        <h2>【備考】</h2>
+        <p class="p-app-line js-summary-note">-</p>
+        <p class="p-app-line"><small class="js-summary-calc">¥4,000 × 2</small></p>
+        <p class="p-app-line"><small>合計: <span class="js-summary-total">¥8,000</span></small></p>
+
+        <p class="p-app-button-row"><a class="p-app-btn p-app-btn--muted" href="reserve-form.html">内容を修正する</a></p>
+        <p class="p-app-button-row"><button class="p-app-btn p-app-btn--dark js-reserve-confirm" type="button">予約を確定する</button></p>
+      </section>
+    </main>
+
+    <nav class="p-app-backbar" aria-label="ページ移動">
+      <a href="reserve-form.html"><span aria-hidden="true">❮</span> 1つ前に戻る</a>
+      <span class="p-app-next" aria-hidden="true">❯</span>
+    </nav>
+  </div>
+  <script src="assets/js/main.js"></script>
+</body>
+</html>
+
+
