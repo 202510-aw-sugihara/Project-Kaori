@@ -713,6 +713,20 @@
   text-align: center;
 }
 
+.perfume-site .p-wire-toc a {
+  display: inline-block;
+  padding: 2px 0;
+}
+
+.perfume-site .p-wire-toc a:hover,
+.perfume-site .p-wire-toc a:focus-visible {
+  color: var(--color-accent);
+}
+
+.perfume-site .p-wire-faq-group {
+  scroll-margin-top: 32px;
+}
+
 .perfume-site .p-wire-price {
   text-align: center;
   font-size: 36px;
@@ -1634,6 +1648,10 @@
 
 
 /* canonical side-tab layout for public pages */
+html {
+  scroll-behavior: smooth;
+}
+
 .perfume-site {
   color-scheme: light;
 }
