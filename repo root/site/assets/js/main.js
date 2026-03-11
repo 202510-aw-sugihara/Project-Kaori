@@ -322,4 +322,131 @@
     qs(".js-complete-people").textContent = (finalData.people || 1) + "名様";
     qs(".js-complete-total").textContent = formatYen(finalTotal);
   }
+
+  function isPublicPage() {
+    return document.body && document.body.classList.contains("perfume-site") && !document.body.classList.contains("p-app-page");
+  }
+
+  function normalizeReserveLinks() {
+    qsa('a[href]').forEach(function (link) {
+      var href = link.getAttribute("href");
+      if (!href || href.indexOf("http") === 0 || href.charAt(0) === "#" || href.indexOf("mailto:") === 0 || href.indexOf("tel:") === 0) {
+        return;
+      }
+      if (/^reserve(?:-[\w-]+)?\.html(?:#.*)?$/i.test(href)) {
+        link.setAttribute("href", "reserve-select-course.html");
+      }
+    });
+  }
+
+  function disableCourseParentLink() {
+    qsa(".p-home-side-parent > a").forEach(function (link) {
+      link.setAttribute("aria-disabled", "true");
+      link.setAttribute("tabindex", "-1");
+      link.addEventListener("click", function (e) {
+        e.preventDefault();
+      });
+    });
+  }
+
+  function initHeroSlideshow() {
+    var root = qs(".js-hero-slideshow");
+    if (!root) return;
+    var slides = qsa(".p-wire-hero-slide", root);
+    if (slides.length < 2) return;
+
+    var index = slides.findIndex(function (slide) {
+      return slide.classList.contains("is-active");
+    });
+    if (index < 0) index = 0;
+
+    function show(nextIndex) {
+      slides.forEach(function (slide, i) {
+        slide.classList.toggle("is-active", i === nextIndex);
+      });
+      index = nextIndex;
+    }
+
+    show(index);
+    window.setInterval(function () {
+      show((index + 1) % slides.length);
+    }, 5000);
+  }
+
+  function initMobileDrawer() {
+    var sidebar = qs(".p-home-sidebar");
+    if (!sidebar) return;
+    if (qs(".p-home-drawer-toggle")) return;
+    var desktopMedia = window.matchMedia("(min-width: 1101px)");
+
+    var toggle = document.createElement("button");
+    toggle.type = "button";
+    toggle.className = "p-home-drawer-toggle";
+    toggle.setAttribute("aria-label", "メニューを開く");
+    toggle.setAttribute("aria-expanded", "false");
+    toggle.innerHTML = '<span aria-hidden="true">☰</span>';
+
+    var close = document.createElement("button");
+    close.type = "button";
+    close.className = "p-home-drawer-close";
+    close.setAttribute("aria-label", "メニューを閉じる");
+    close.innerHTML = '<span aria-hidden="true">×</span>';
+
+    var backdrop = document.createElement("button");
+    backdrop.type = "button";
+    backdrop.className = "p-home-drawer-backdrop";
+    backdrop.setAttribute("aria-label", "メニューを閉じる");
+    backdrop.hidden = true;
+
+    sidebar.insertBefore(close, sidebar.firstChild);
+    document.body.appendChild(toggle);
+    document.body.appendChild(backdrop);
+
+    function setOpen(open) {
+      if (desktopMedia.matches) open = false;
+      sidebar.classList.toggle("is-open", open);
+      document.body.classList.toggle("is-drawer-open", open);
+      toggle.setAttribute("aria-expanded", open ? "true" : "false");
+      backdrop.hidden = !open;
+      document.body.style.overflow = open ? "hidden" : "";
+    }
+
+    toggle.addEventListener("click", function () {
+      setOpen(!sidebar.classList.contains("is-open"));
+    });
+
+    close.addEventListener("click", function () {
+      setOpen(false);
+    });
+
+    backdrop.addEventListener("click", function () {
+      setOpen(false);
+    });
+
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape" && sidebar.classList.contains("is-open")) {
+        setOpen(false);
+      }
+    });
+
+    qsa("a[href]", sidebar).forEach(function (link) {
+      if (link.closest(".p-home-side-parent")) return;
+      link.addEventListener("click", function () {
+        setOpen(false);
+      });
+    });
+
+    window.addEventListener("resize", function () {
+      if (desktopMedia.matches) {
+        setOpen(false);
+      }
+    });
+  }
+
+  if (isPublicPage()) {
+    normalizeReserveLinks();
+    disableCourseParentLink();
+    initHeroSlideshow();
+    initMobileDrawer();
+  }
 })();
