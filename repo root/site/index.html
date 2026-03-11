@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
@@ -21,77 +21,135 @@
           <li><a href="contact.html">お問い合わせ</a></li>
         </ul>
       </nav>
-      <p><a class="p-home-side-cta" href="reserve.html">予約はこちらから</a></p>
+      <p><a class="p-home-side-cta" href="reserve-select-course.html">予約はこちらから</a></p>
     </aside>
-    <main class="p-home-main p-sub-main">      <section class="p-wire-hero" id="about">
-        <h1>タイトル</h1>
-        <p class="p-wire-lead">テキストテキストテキストテキスト<br>テキストテキストテキストテキストテキスト</p>
-        <p><a class="c-button c-button--primary" href="reserve.html">ご予約はこちら</a> <a class="c-button c-button--secondary" href="index.html#courses">コースを見る</a></p>
+
+    <main class="p-home-main p-sub-main">
+      <section class="p-wire-hero p-wire-hero--slideshow" id="about" aria-label="メインビジュアル">
+        <div class="p-wire-hero-slides js-hero-slideshow" aria-hidden="true">
+          <div class="p-wire-hero-slide is-active" style="background-image: url('images/hero1.jpg');"></div>
+          <div class="p-wire-hero-slide" style="background-image: url('images/hero2.jpg');"></div>
+          <div class="p-wire-hero-slide" style="background-image: url('images/hero3.jpg');"></div>
+        </div>
+        <div class="p-wire-hero-overlay"></div>
+        <div class="p-wire-hero-inner">
+          <p class="p-wire-hero-eyebrow">Original Perfume Workshop in Asakusa</p>
+          <h1>SHIZUKA</h1>
+          <p class="p-wire-lead">浅草の実店舗で楽しめる、香水作りのワークショップです。初めての方でも講師がやさしくサポートし、完成した香りはそのままお持ち帰りいただけます。</p>
+          <p><a class="c-button c-button--primary" href="reserve-select-course.html">ご予約はこちら</a></p>
+        </div>
       </section>
 
-      <h2 class="p-wire-divider">各コースについて</h2>
-      <section class="p-wire-grid-2" id="courses">
-        <article class="c-card p-wire-center"><p class="p-wire-mini">通常コース</p><h3 class="c-heading-3">12種類コース</h3><div class="p-wire-placeholder"></div><p>テキストテキストテキストテキスト</p><p class="p-wire-price">¥4,000 <span class="p-wire-mini">(税込)</span></p><a class="c-button c-button--primary" href="course-12blend.html">12種コースを予約</a></article>
-        <article class="c-card p-wire-center"><p class="p-wire-mini">月末限定</p><h3 class="c-heading-3">20種類コース</h3><div class="p-wire-placeholder"></div><p>テキストテキストテキストテキスト</p><p class="p-wire-price">¥4,000 <span class="p-wire-mini">(税込)</span></p><a class="c-button c-button--accent" href="course-20blend-limited.html">20種コースを予約</a></article>
+      <section class="p-section-card" id="courses">
+        <h2 class="p-wire-divider">各コースについて</h2>
+        <div class="p-wire-grid-2">
+          <article class="p-wire-card p-wire-course-card">
+            <p class="p-wire-course-tag">通常コース</p>
+            <h3>12種類コース</h3>
+            <img class="p-wire-course-image" src="images/course1.jpg" alt="12種類コースのイメージ">
+            <p class="p-wire-course-copy">12種類の香りから4種類を選んで作る、いちばんスタンダードなコースです。はじめての方にも参加しやすく、迷ったらまずこちらがおすすめです。</p>
+            <p class="p-wire-price">¥4,000 <span>税込</span></p>
+            <p class="p-wire-center"><a class="c-button c-button--primary" href="reserve-select-course.html">12種類コースを予約</a></p>
+          </article>
+          <article class="p-wire-card p-wire-course-card">
+            <p class="p-wire-course-tag">月末限定</p>
+            <h3>20種類コース</h3>
+            <img class="p-wire-course-image" src="images/course2.jpg" alt="20種類コースのイメージ">
+            <p class="p-wire-course-copy">20種類の香りから4種類を選べる、月末限定の特別コースです。より多くの香りを試しながら、自分らしい奥行きのあるブレンドを楽しめます。</p>
+            <p class="p-wire-price">¥4,000 <span>税込</span></p>
+            <p class="p-wire-center"><a class="c-button c-button--accent" href="reserve-select-course.html">20種類コースを予約</a></p>
+          </article>
+        </div>
       </section>
 
-      <h2 class="p-wire-divider">ご予約の流れ</h2>
-      <ol class="p-wire-flow">
-        <li>
-          <div class="p-wire-flow-icon" aria-hidden="true">🗓</div>
-          <p class="p-wire-flow-step">1. 日程選択</p>
-        </li>
-        <li>
-          <div class="p-wire-flow-icon" aria-hidden="true">✎</div>
-          <p class="p-wire-flow-step">2. 情報入力</p>
-        </li>
-        <li>
-          <div class="p-wire-flow-icon" aria-hidden="true">☑</div>
-          <p class="p-wire-flow-step">3. 確認</p>
-        </li>
-        <li>
-          <div class="p-wire-flow-icon" aria-hidden="true">⌛</div>
-          <p class="p-wire-flow-step">4. 予約完了</p>
-        </li>
-      </ol>
-      <p class="p-wire-center">テキストテキストテキストテキスト</p>
-
-      <h2 class="p-wire-divider">体験の流れ</h2>
-      <div class="p-wire-grid-4">
-        <article class="p-wire-card p-wire-center"><h3>1.受付</h3><div class="p-wire-placeholder p-wire-placeholder--sm"></div></article>
-        <article class="p-wire-card p-wire-center"><h3>2.香り選び</h3><div class="p-wire-placeholder p-wire-placeholder--sm"></div></article>
-        <article class="p-wire-card p-wire-center"><h3>3.ブレンド</h3><div class="p-wire-placeholder p-wire-placeholder--sm"></div></article>
-        <article class="p-wire-card p-wire-center"><h3>4.完成</h3><div class="p-wire-placeholder p-wire-placeholder--sm"></div></article>
-      </div>
-
-      <h2 class="p-wire-divider">体験された方の声</h2>
-      <section class="p-reviews-scroll" aria-label="口コミ一覧">
-        <article class="c-card"><p class="p-meta">Google / ★★★★★</p><p>口コミが入ります。口コミが入ります。</p><p class="p-meta">ユーザー名・訪問日</p></article>
-        <article class="c-card"><p class="p-meta">じゃらん / ★★★★☆</p><p>口コミが入ります。口コミが入ります。</p><p class="p-meta">ユーザー名・訪問日</p></article>
-        <article class="c-card"><p class="p-meta">Google / ★★★★★</p><p>口コミが入ります。口コミが入ります。</p><p class="p-meta">ユーザー名・訪問日</p></article>
+      <section class="p-section-card">
+        <h2 class="p-wire-divider">ご予約の流れ</h2>
+        <ol class="p-wire-flow-list">
+          <li><span>1</span>コースを選択</li>
+          <li><span>2</span>日時を選択</li>
+          <li><span>3</span>お客様情報を入力</li>
+          <li><span>4</span>予約完了</li>
+        </ol>
       </section>
 
-      <h2 class="p-wire-divider">よくあるご質問</h2>
-      <div class="p-faq__item"><button class="p-faq__button js-faq-toggle" aria-expanded="false" aria-controls="home-f1">初心者でも大丈夫ですか？</button><div id="home-f1" class="p-faq__panel" hidden><p>回答が入ります。回答が入ります。</p></div></div>
-      <div class="p-faq__item"><button class="p-faq__button js-faq-toggle" aria-expanded="false" aria-controls="home-f2">質問が入ります。</button><div id="home-f2" class="p-faq__panel" hidden><p>回答が入ります。</p></div></div>
-      <div class="p-faq__item"><button class="p-faq__button js-faq-toggle" aria-expanded="false" aria-controls="home-f3">質問が入ります。</button><div id="home-f3" class="p-faq__panel" hidden><p>回答が入ります。</p></div></div>    </main>
+      <section class="p-section-card">
+        <h2 class="p-wire-divider">体験の流れ</h2>
+        <div class="p-wire-grid-2 p-wire-step-grid">
+          <article class="p-wire-card p-wire-center">
+            <h3>1.受付</h3>
+            <img class="p-wire-step-image" src="images/step1.jpg" alt="受付の様子">
+            <p class="p-wire-step-copy">受付でコース内容を確認し、体験の流れをご案内します。初めての方でも安心して始められます。</p>
+          </article>
+          <article class="p-wire-card p-wire-center">
+            <h3>2.香り選び</h3>
+            <img class="p-wire-step-image" src="images/step2.jpg" alt="香り選びの様子">
+            <p class="p-wire-step-copy">香りをひとつずつ試しながら、気になるノートを選びます。スタッフが組み合わせも丁寧にご提案します。</p>
+          </article>
+          <article class="p-wire-card p-wire-center">
+            <h3>3.ブレンド</h3>
+            <img class="p-wire-step-image" src="images/step3.jpg" alt="ブレンド作業の様子">
+            <p class="p-wire-step-copy">選んだ香りを少しずつ調整しながら、自分だけのバランスに仕上げます。迷う場面も一緒に進められます。</p>
+          </article>
+          <article class="p-wire-card p-wire-center">
+            <h3>4.完成</h3>
+            <img class="p-wire-step-image" src="images/step4.jpg" alt="完成した香水のイメージ">
+            <p class="p-wire-step-copy">完成した香水はそのままお持ち帰り可能です。旅の思い出や大切なギフトにもおすすめです。</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="p-section-card">
+        <h2 class="p-wire-divider">体験された方の声</h2>
+        <section class="p-reviews-scroll" aria-label="口コミ一覧">
+          <article class="c-card">
+            <p class="p-meta p-meta--google"><span class="p-review-badge" aria-hidden="true">G</span>Google / ★★★★★</p>
+            <p>スタッフの説明が分かりやすく、初めてでも安心して楽しめました。香りの組み合わせで迷っても丁寧に提案してもらえて満足です。</p>
+            <p class="p-meta">Mika S. ・ 2026年2月来店</p>
+          </article>
+          <article class="c-card">
+            <p class="p-meta">じゃらん / ★★★★★</p>
+            <p>浅草観光の合間に立ち寄りました。自分で選んだ香りを持ち帰れるので、旅の思い出として残せるのが良かったです。写真もきれいに撮れました。</p>
+            <p class="p-meta">30代女性 ・ 2026年1月利用</p>
+          </article>
+          <article class="c-card">
+            <p class="p-meta p-meta--google"><span class="p-review-badge" aria-hidden="true">G</span>Google / ★★★★★</p>
+            <p>予約から当日までスムーズでした。店内も落ち着いた雰囲気で、完成した香りの仕上がりも想像以上。また別の組み合わせで体験したいです。</p>
+            <p class="p-meta">Kei T. ・ 2026年2月来店</p>
+          </article>
+          <article class="c-card">
+            <p class="p-meta">じゃらん / ★★★★☆</p>
+            <p>女子旅で参加しました。スタッフの方がやさしく、香りの違いも分かりやすく説明してくれます。短時間でも満足感がありました。</p>
+            <p class="p-meta">20代女性 ・ 2026年2月利用</p>
+          </article>
+          <article class="c-card">
+            <p class="p-meta p-meta--google"><span class="p-review-badge" aria-hidden="true">G</span>Google / ★★★★★</p>
+            <p>20種類コースで参加しました。選べる香りが多く、細かいニュアンスまで調整できるのが面白かったです。こだわって作りたい人に向いています。</p>
+            <p class="p-meta">Yuto N. ・ 2026年3月来店</p>
+          </article>
+          <article class="c-card">
+            <p class="p-meta">じゃらん / ★★★★☆</p>
+            <p>友人と一緒に参加しました。浅草らしいお出かけの中で少し特別感のある体験ができ、香りを持ち帰れるのもうれしかったです。</p>
+            <p class="p-meta">40代女性 ・ 2026年1月利用</p>
+          </article>
+        </section>
+      </section>
+
+      <section class="p-section-card">
+        <h2 class="p-wire-divider">よくあるご質問</h2>
+        <div class="p-faq__item"><button class="p-faq__button js-faq-toggle" aria-expanded="false" aria-controls="home-f1">初心者でも大丈夫ですか？</button><div id="home-f1" class="p-faq__panel" hidden><p>はい。香りの選び方からブレンドの進め方まで、スタッフが順番にご案内します。香水作りが初めての方でも無理なく体験していただけます。</p></div></div>
+        <div class="p-faq__item"><button class="p-faq__button js-faq-toggle" aria-expanded="false" aria-controls="home-f2">作った香水は持ち帰れますか？</button><div id="home-f2" class="p-faq__panel" hidden><p>完成した香水はそのまま当日お持ち帰りいただけます。ご自宅で使ったり、旅の思い出として残したりできます。</p></div></div>
+        <div class="p-faq__item"><button class="p-faq__button js-faq-toggle" aria-expanded="false" aria-controls="home-f3">どのコースを選べばよいですか？</button><div id="home-f3" class="p-faq__panel" hidden><p>迷った場合は、スタンダードな12種類コースがおすすめです。より多くの香りを試したい方や、こだわって作りたい方には20種類コースが向いています。</p></div></div>
+      </section>
+    </main>
   </div>
   <footer class="p-home-footer">
     <div class="p-home-footer__inner">
       <div><h2>サイトリンク</h2><ul><li><a href="index.html">トップ</a></li><li class="p-home-side-parent"><a href="courses.html">コース</a></li><li>・<a href="course-12blend.html">12種類コース</a></li><li>・<a href="course-20blend-limited.html">20種類コース</a></li><li><a href="faq.html">よくある質問</a></li><li><a href="access.html">アクセス</a></li><li><a href="contact.html">お問い合わせ</a></li></ul></div>
       <div><h2>ご利用について</h2><ul><li><a href="reserve.html">利用規約</a></li><li><a href="compare.html">料金案内</a></li><li><a href="flow.html">キャンセルポリシー</a></li></ul></div>
-      <div><h2>基本情報</h2><p>営業時間: 9時〜18時</p><p>所在地: 東京都台東区1丁目○-○</p><p>電話番号: 0352-12-3456</p><p class="p-home-sns"><a class="p-home-sns__link" href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><span aria-hidden="true">◎</span></a><a class="p-home-sns__link" href="https://x.com/" target="_blank" rel="noopener noreferrer" aria-label="X（旧Twitter）"><span aria-hidden="true">𝕏</span></a></p></div>
+      <div><h2>基本情報</h2><p>営業時間: 9時〜18時</p><p>所在地: 〒110-0015 東京都台東区東上野3丁目15-5 曽我ビル 3F</p><p>電話番号: 03-1234-5678</p><p class="p-home-sns"><a class="p-home-sns__link" href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><span aria-hidden="true">◎</span></a><a class="p-home-sns__link" href="https://x.com/" target="_blank" rel="noopener noreferrer" aria-label="X（旧Twitter）"><span aria-hidden="true">𝕏</span></a></p></div>
     </div>
     <p class="p-home-copy">© 2026 Demo Site</p>
   </footer>
   <script src="assets/js/main.js"></script>
 </body>
 </html>
-
-
-
-
-
-
-
-

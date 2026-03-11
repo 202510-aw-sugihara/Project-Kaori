@@ -1,0 +1,161 @@
+短い版
+
+`repo root/site` は文字化け復旧後で、`index.html` `access.html` `course-12blend.html` `course-20blend-limited.html` `images/README.md` は再実装済みです。残りとして `assets/css/perfume.css` と `assets/js/main.js` を仕上げてください。
+
+要件
+- UTF-8 を壊さない方法で編集
+- サイト全体に温かみのある紙風背景
+- `p-section-card` の共通カード化
+- デスクトップは左サイドヘッダー固定、FAQ 開閉で動かない
+- モバイルはドロワー式ハンバーガー
+- `コース` 親項目はリンク無効、arrow 非表示
+- hero 背景スライドショー実装
+- 体験の流れを2列画像レイアウト対応
+- `access.html` の Google Map と道順画像対応
+- コースページのブレンド例を全面画像カード化
+- `こんな方におすすめ` の丸印をやわらかいアイコン風に変更
+- FAQ ボタン右端に開閉 arrow
+- Google 口コミに Google 風アイコン
+- スマホ時口コミは縦スクロールで高さ制限
+- 全ページの文字サイズをレスポンシブ化
+- 特に `h2` は確実に縮むようにする
+- `main.js` には hero スライドショーとモバイルドロワー開閉を追加
+- 予約リンクは公開ページで `reserve-select-course.html` に統一
+
+確認対象
+- `index.html`
+- `access.html`
+- `course-12blend.html`
+- `course-20blend-limited.html`
+
+注意
+- `course-20blend-limited.html` の最後のブレンド例は `blend20-rich.jpg / RICH / リッチ系` を維持
+- 予約フロー用 JS は壊さない
+
+
+詳細版
+
+Project-Kaori の `repo root/site` は、文字化け復旧後に一部だけ再実装済みです。残りの必要タスクを安全に仕上げてください。前提として、HTML は UTF-8 を維持し、PowerShell の既定エンコーディングに依存しない方法で編集してください。
+
+現在の状態
+- `index.html`
+- `access.html`
+- `course-12blend.html`
+- `course-20blend-limited.html`
+- `repo root/site/images/README.md`
+
+上記は再実装済みです。
+ただし、`perfume.css` と `assets/js/main.js` の再実装は未完了です。
+そのため、HTML で追加したクラスに対応するスタイルと挙動を実装してください。
+
+残タスク
+1. `repo root/site/assets/css/perfume.css`
+- サイト全体の背景を温かみのある紙風に変更
+  - ベース色 `#f7f2eb`
+  - サブ色 `#f3ede6`
+  - アクセント `#c8a96a`
+  - ボーダー `#ddd2c4`
+- 薄いグリッド + 紙テクスチャ風の背景を実装
+- 公開ページ共通の `p-section-card` を実装
+  - 白寄り背景
+  - 枠線
+  - 角丸
+  - 控えめなシャドウ
+- デスクトップでは左サイドヘッダー固定
+  - 本文は左オフセットで表示
+  - FAQ 開閉でもヘッダー位置が動かないようにする
+- モバイルではサイドヘッダーをドロワー化
+  - 左白パネル
+  - 右半透明オーバーレイ
+  - 開閉ボタン
+  - 閉じるボタン
+- `コース` 親項目はリンク無効
+- `コース` 親項目の arrow は非表示
+- Hero スライドショー用スタイルを実装
+  - 背景3枚
+  - フェード切替
+  - ゆるいズーム
+  - オーバーレイ
+- `index.html` の各コースカード画像用スタイル
+- `index.html` と `course-12blend.html` の体験の流れ
+  - 2列レイアウト
+  - 画像大きめ
+  - 下に説明文
+- `access.html` の Google Map 埋め込み枠スタイル
+- `access.html` の道順画像スタイル
+- `course-12blend.html` と `course-20blend-limited.html` のブレンド例カード
+  - 2列
+  - カード全面画像
+  - 中央に英字大見出し + 日本語小見出し
+  - 透過オーバーレイと text-shadow で視認性確保
+  - 見本画像寄りのバナー感ある見た目
+- `こんな方におすすめ` の丸印を、やわらかいアイコン風に変更
+- FAQ 開閉ボタン右端に arrow を追加
+  - 開閉時に向きが変わる
+- Google 口コミに Google 風アイコンを付与
+- スマホ時の口コミ一覧は縦スクロール化
+  - セクション内だけスクロール
+  - 高さを抑えて画面を埋めない
+- 文字サイズを全ページでレスポンシブ対応
+  - 特に `h1`, `h2`, `h3`, 本文, ボタン, 価格, FAQ
+  - `h2` は既存固定値に負けないように確実に効かせること
+
+2. `repo root/site/assets/js/main.js`
+- FAQ 開閉は既存を維持
+- Hero スライドショー挙動を追加
+  - 自動切替
+  - アクティブクラス切替
+- モバイル用ハンバーガー開閉を追加
+  - `p-home-sidebar` をドロワーとして開閉
+  - backdrop クリックで閉じる
+  - `Esc` で閉じる
+  - 開いている間は body スクロール禁止
+  - メニューリンク押下後に閉じる
+- 公開ページの予約リンクを `reserve-select-course.html` に統一補助
+  - 必要なら JS 側でも href を補正
+
+3. 動作確認
+- `index.html`
+  - hero スライドショーが動く
+  - FAQ 開閉で左ヘッダーが動かない
+  - 口コミがスマホで縦スクロールになる
+- `access.html`
+  - Google Map 埋め込み表示
+  - `[ Googleマップで開く ]` が正しい住所を開く
+- `course-12blend.html`
+  - 体験の流れが `index.html` と同じ見た目
+- `course-20blend-limited.html`
+  - ブレンド例の最後は `blend20-rich.jpg / RICH / リッチ系` を維持
+- モバイル
+  - ハンバーガーメニューが開閉できる
+  - `コース` 親項目は押せず、arrow も出ない
+- 全ページ
+  - `h2` がスマホ幅で適切に縮む
+
+実装済みHTMLで使っている画像名
+- hero1.jpg
+- hero2.jpg
+- hero3.jpg
+- course1.jpg
+- course2.jpg
+- step1.jpg
+- step2.jpg
+- step3.jpg
+- step4.jpg
+- access1.jpg
+- access2.jpg
+- access3.jpg
+- blend12-relax.jpg
+- blend12-spice.jpg
+- blend12-fruits.jpg
+- blend12-woody.jpg
+- blend20.jpg
+- blend20-floral.jpg
+- blend20-citrus.jpg
+- blend20-woody.jpg
+- blend20-rich.jpg
+
+注意
+- 文字化け事故があったため、文字コードを壊さない編集手順を最優先
+- 既存の予約フロー画面の JS は壊さないこと
+- 既存 CSS は末尾追記の override 方式でもよい
