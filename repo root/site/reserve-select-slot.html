@@ -17,25 +17,23 @@
     <main class="p-app-main">
       <h1>日程選択</h1>
       <section class="p-app-panel">
-        <input class="js-slot-date" type="hidden" value="2026-04-18">
+        <input class="js-slot-date" type="hidden" value="">
         <div class="p-app-calendar" aria-label="日付選択">
           <div class="p-app-calendar-head">
-            <span aria-hidden="true">❮</span>
-            <strong>2026年4月</strong>
-            <span aria-hidden="true">❯</span>
+            <button class="js-calendar-prev" type="button" aria-label="前の月を表示">❮</button>
+            <strong class="js-calendar-title">-</strong>
+            <button class="js-calendar-next" type="button" aria-label="次の月を表示">❯</button>
           </div>
-          <div class="p-app-calendar-grid">
-            <strong>日</strong><strong>月</strong><strong>火</strong><strong>水</strong><strong>木</strong><strong>金</strong><strong>土</strong>
-            <span class="is-muted">12</span><span class="is-muted">13</span><span class="is-muted">14</span><span class="is-muted">15</span><span class="is-muted">16</span><span class="is-muted">17</span>
-            <button class="js-date-pick" type="button" data-date="2026-04-18">18</button>
-            <span class="is-muted">19</span><span class="is-muted">20</span><span class="is-muted">21</span><span class="is-muted">22</span><span class="is-muted">23</span><span class="is-muted">24</span><span class="is-muted">25</span>
-          </div>
+          <div class="p-app-calendar-grid js-calendar-grid"></div>
         </div>
 
-        <p class="p-app-note">※グレーアウトしている日程は選択できません
+        <p class="p-app-note">※土日祝のみご予約いただけます
+※当月・翌月・翌々月まで選択可能です
+※それ以外の月は表示のみで選択できません
+※グレーアウトしている日程は選択できません
 ※最大10名様の枠内でのご予約となります</p>
 
-        <p class="p-app-selected">選択日：<span class="js-selected-date">2026-04-18</span><br>選択時間：<span class="js-selected-time">未選択</span></p>
+        <p class="p-app-selected">選択日：<span class="js-selected-date">未選択</span><br>選択時間：<span class="js-selected-time">未選択</span></p>
 
         <div class="p-app-time" aria-label="時間選択">
           <button class="js-slot-select" type="button" data-time="11:00〜" data-status="available">○ 11:00〜</button>

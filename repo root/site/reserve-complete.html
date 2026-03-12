@@ -11,7 +11,9 @@
     <p class="p-app-logo">LOGO</p>
 
     <main class="p-app-main p-app-complete">
-      <div class="p-app-complete-hero" aria-hidden="true"></div>
+      <figure class="p-app-complete-hero">
+        <img src="images/course2.jpg" alt="香水づくり体験のイメージ">
+      </figure>
       <h1>予約が完了しました！</h1>
       <p class="p-app-complete-time js-complete-datetime">-</p>
 
@@ -26,9 +28,30 @@
 
       <div class="p-app-share" aria-label="シェアする">
         <strong>シェアする</strong>
-        <span class="p-app-share-dot" aria-hidden="true"></span>
-        <span class="p-app-share-dot" aria-hidden="true"></span>
-        <span class="p-app-share-dot" aria-hidden="true"></span>
+        <a class="p-app-share-link p-app-share-link--line" href="https://line.me/R/msg/text/?" target="_blank" rel="noopener noreferrer" aria-label="LINEでシェア">
+          <span class="p-app-share-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none">
+              <path d="M6 5.5h12a2.5 2.5 0 0 1 2.5 2.5v6A2.5 2.5 0 0 1 18 16.5h-4.5L10 19v-2.5H6A2.5 2.5 0 0 1 3.5 14V8A2.5 2.5 0 0 1 6 5.5Z" fill="currentColor"></path>
+              <path d="M8 12h8" stroke="#06c755" stroke-width="1.6" stroke-linecap="round"></path>
+            </svg>
+          </span>
+        </a>
+        <a class="p-app-share-link p-app-share-link--x" href="https://x.com/intent/tweet" target="_blank" rel="noopener noreferrer" aria-label="X（旧Twitter）でシェア">
+          <span class="p-app-share-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none">
+              <path d="M6 5.5h3.1l8.9 13H14.9L6 5.5Zm9 0H18l-4.2 4.8-1.5-2.2L15 5.5ZM9.3 18.5H6l4.5-5.1 1.5 2.2-2.7 2.9Z" fill="currentColor"></path>
+            </svg>
+          </span>
+        </a>
+        <a class="p-app-share-link p-app-share-link--instagram" href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer" aria-label="Instagramを見る">
+          <span class="p-app-share-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none">
+              <rect x="5.2" y="5.2" width="13.6" height="13.6" rx="4.2" stroke="currentColor" stroke-width="1.8"></rect>
+              <circle cx="12" cy="12" r="3.2" stroke="currentColor" stroke-width="1.8"></circle>
+              <circle cx="16.4" cy="7.8" r="1" fill="currentColor"></circle>
+            </svg>
+          </span>
+        </a>
       </div>
 
       <p class="p-app-button-row"><a class="p-app-btn p-app-btn--dark" href="index.html">TOPに戻る</a></p>
