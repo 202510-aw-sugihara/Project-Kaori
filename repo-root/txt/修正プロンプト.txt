@@ -1,4 +1,4 @@
-`repo root/site` は文字化け復旧後で、`index.html` `access.html` `course-12blend.html` `course-20blend-limited.html` `images/README.md` は再実装済みです。残りとして `assets/css/perfume.css` と `assets/js/main.js` を仕上げてください。
+`repo-root/site` は文字化け復旧後で、`index.html` `access.html` `course-12blend.html` `course-20blend-limited.html` `images/README.md` は再実装済みです。残りとして `assets/css/perfume.css` と `assets/js/main.js` を仕上げてください。
 
 要件
 - UTF-8 を壊さない方法で編集

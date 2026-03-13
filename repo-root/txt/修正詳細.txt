@@ -1,55 +1,18 @@
-短い版
-
-`repo root/site` は文字化け復旧後で、`index.html` `access.html` `course-12blend.html` `course-20blend-limited.html` `images/README.md` は再実装済みです。残りとして `assets/css/perfume.css` と `assets/js/main.js` を仕上げてください。
-
-要件
-- UTF-8 を壊さない方法で編集
-- サイト全体に温かみのある紙風背景
-- `p-section-card` の共通カード化
-- デスクトップは左サイドヘッダー固定、FAQ 開閉で動かない
-- モバイルはドロワー式ハンバーガー
-- `コース` 親項目はリンク無効、arrow 非表示
-- hero 背景スライドショー実装
-- 体験の流れを2列画像レイアウト対応
-- `access.html` の Google Map と道順画像対応
-- コースページのブレンド例を全面画像カード化
-- `こんな方におすすめ` の丸印をやわらかいアイコン風に変更
-- FAQ ボタン右端に開閉 arrow
-- Google 口コミに Google 風アイコン
-- スマホ時口コミは縦スクロールで高さ制限
-- 全ページの文字サイズをレスポンシブ化
-- 特に `h2` は確実に縮むようにする
-- `main.js` には hero スライドショーとモバイルドロワー開閉を追加
-- 予約リンクは公開ページで `reserve-select-course.html` に統一
-
-確認対象
-- `index.html`
-- `access.html`
-- `course-12blend.html`
-- `course-20blend-limited.html`
-
-注意
-- `course-20blend-limited.html` の最後のブレンド例は `blend20-rich.jpg / RICH / リッチ系` を維持
-- 予約フロー用 JS は壊さない
-
-
-詳細版
-
-Project-Kaori の `repo root/site` は、文字化け復旧後に一部だけ再実装済みです。残りの必要タスクを安全に仕上げてください。前提として、HTML は UTF-8 を維持し、PowerShell の既定エンコーディングに依存しない方法で編集してください。
+Project-Kaori の `repo-root/site` は、文字化け復旧後に一部だけ再実装済みです。残りの必要タスクを安全に仕上げてください。前提として、HTML は UTF-8 を維持し、PowerShell の既定エンコーディングに依存しない方法で編集してください。
 
 現在の状態
 - `index.html`
 - `access.html`
 - `course-12blend.html`
 - `course-20blend-limited.html`
-- `repo root/site/images/README.md`
+- `repo-root/site/images/README.md`
 
 上記は再実装済みです。
 ただし、`perfume.css` と `assets/js/main.js` の再実装は未完了です。
 そのため、HTML で追加したクラスに対応するスタイルと挙動を実装してください。
 
 残タスク
-1. `repo root/site/assets/css/perfume.css`
+1. `repo-root/site/assets/css/perfume.css`
 - サイト全体の背景を温かみのある紙風に変更
   - ベース色 `#f7f2eb`
   - サブ色 `#f3ede6`
@@ -100,7 +63,7 @@ Project-Kaori の `repo root/site` は、文字化け復旧後に一部だけ再
   - 特に `h1`, `h2`, `h3`, 本文, ボタン, 価格, FAQ
   - `h2` は既存固定値に負けないように確実に効かせること
 
-2. `repo root/site/assets/js/main.js`
+2. `repo-root/site/assets/js/main.js`
 - FAQ 開閉は既存を維持
 - Hero スライドショー挙動を追加
   - 自動切替

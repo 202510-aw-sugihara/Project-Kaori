@@ -42,7 +42,7 @@ All user-facing content must reflect the documentation.
 
 # Root Directory Structure
 
-repo root
+repo-root
 │
 ├ site/        → Frontend implementation
 ├ docs/        → Project documentation
