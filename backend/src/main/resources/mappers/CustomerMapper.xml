@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kaori.reservation.mapper.CustomerMapper">
+
+    <select id="findCustomerByEmail" resultType="com.kaori.reservation.model.Customer">
+        SELECT * FROM customers WHERE email = #{email}
+    </select>
+
+    <insert id="insertCustomer" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO customers (name, email, phone, created_at)
+        VALUES (#{name}, #{email}, #{phone}, NOW())
+    </insert>
+
+</mapper>

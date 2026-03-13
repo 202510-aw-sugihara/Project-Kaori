@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kaori.reservation.mapper.SlotMapper">
+
+    <select id="findSlotById" resultType="com.kaori.reservation.model.Slot">
+        SELECT * FROM slots WHERE id = #{id}
+    </select>
+
+    <select id="findSlotsByDate" resultType="com.kaori.reservation.model.Slot">
+        SELECT * FROM slots WHERE date = #{date} ORDER BY time
+    </select>
+
+    <update id="updateReservedCount">
+        UPDATE slots SET reserved_count = #{count} WHERE id = #{slotId}
+    </update>
+
+</mapper>

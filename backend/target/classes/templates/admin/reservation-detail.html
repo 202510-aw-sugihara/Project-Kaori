@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>予約詳細</title>
+</head>
+
+<body>
+    <h1>予約詳細</h1>
+    <p>予約ID: <span th:text="${reservation.reservationId}"></span></p>
+    <p>日時: <span th:text="${reservation.date} + ' ' + ${reservation.time}"></span></p>
+    <p>コース: <span th:text="${reservation.courseName}"></span></p>
+    <p>人数: <span th:text="${reservation.people}"></span></p>
+    <p>顧客名: <span th:text="${reservation.customerName}"></span></p>
+    <p>メール: <span th:text="${reservation.email}"></span></p>
+    <p>電話: <span th:text="${reservation.phone}"></span></p>
+    <p>備考: <span th:text="${reservation.note}"></span></p>
+    <p>ステータス: <span th:text="${reservation.status}"></span></p>
+    <a href="/admin/reservations">戻る</a>
+</body>
+
+</html>

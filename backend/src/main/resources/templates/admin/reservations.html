@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>予約一覧</title>
+</head>
+
+<body>
+    <h1>予約一覧</h1>
+    <div th:if="${param.message}" style="color: green;">
+        <p th:text="${param.message}"></p>
+    </div>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>予約ID</th>
+                <th>日付</th>
+                <th>時間</th>
+                <th>コース名</th>
+                <th>人数</th>
+                <th>顧客名</th>
+                <th>ステータス</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="reservation : ${reservations}">
+                <td th:text="${reservation.reservationId}"></td>
+                <td th:text="${reservation.date}"></td>
+                <td th:text="${reservation.time}"></td>
+                <td th:text="${reservation.courseName}"></td>
+                <td th:text="${reservation.people}"></td>
+                <td th:text="${reservation.customerName}"></td>
+                <td th:text="${reservation.status}"></td>
+                <td>
+                    <a th:href="@{/admin/reservations/{id}(id=${reservation.reservationId})}">詳細</a>
+                    <button onclick="cancelReservation(${reservation.reservationId})">キャンセル</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <script>
+        async function cancelReservation(id) {
+            if (confirm('キャンセルしますか？')) {
+                try {
+                    const response = await fetch('/api/reservations/' + id + '/cancel', {
+                        method: 'PUT',
+                        headers: { 'Content-Type': 'application/json' }
+                    });
+                    if (response.ok) {
+                        window.location.href = '/admin/reservations?message=Reservation cancelled successfully';
+                    } else {
+                        alert('キャンセルに失敗しました');
+                    }
+                } catch (error) {
+                    alert('エラーが発生しました');
+                }
+            }
+        }
+    </script>
+</body>
+
+</html>
