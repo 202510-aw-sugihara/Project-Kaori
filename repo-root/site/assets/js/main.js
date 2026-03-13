@@ -215,6 +215,15 @@
       .trim();
   }
 
+  function normalizePhone(value) {
+    return String(value || "")
+      .replace(/[０-９]/g, function (char) {
+        return String.fromCharCode(char.charCodeAt(0) - 0xFEE0);
+      })
+      .replace(/[‐－ー―−]/g, "-")
+      .trim();
+  }
+
   function isKanaOnly(value) {
     return /^[\u3041-\u3096\u30A1-\u30FA\u30FC\s]+$/.test(String(value || "").trim());
   }
@@ -562,7 +571,14 @@
     }
 
     if (kanaField) {
-      kanaField.addEventListener("input", function () {
+      var kanaComposing = false;
+
+      kanaField.addEventListener("compositionstart", function () {
+        kanaComposing = true;
+      });
+
+      kanaField.addEventListener("input", function (event) {
+        if (kanaComposing || (event && event.isComposing)) return;
         var caret = kanaField.selectionStart;
         kanaField.value = toKatakana(kanaField.value);
         kanaEditedManually = kanaField.value.trim().length > 0;
@@ -572,6 +588,7 @@
       });
 
       kanaField.addEventListener("compositionend", function () {
+        kanaComposing = false;
         kanaField.value = toKatakana(kanaField.value);
         kanaEditedManually = kanaField.value.trim().length > 0;
       });
@@ -586,20 +603,24 @@
     form.addEventListener("submit", function (e) {
       e.preventDefault();
       var ok = true;
+      var firstInvalid = null;
 
       function setError(name, message) {
         var input = qs('[name="' + name + '"]', form);
         var error = qs('[data-error="' + name + '"]', form);
         if (input) input.classList.toggle("is-error", !!message);
         if (error) error.textContent = message || "";
-        if (message) ok = false;
+        if (message) {
+          ok = false;
+          if (!firstInvalid && input) firstInvalid = input;
+        }
       }
 
       var user = {
         name: qs('[name="name"]', form).value.trim(),
         kana: toKatakana(qs('[name="kana"]', form).value.trim()),
         email: qs('[name="email"]', form).value.trim(),
-        phone: qs('[name="phone"]', form).value.trim(),
+        phone: normalizePhone(qs('[name="phone"]', form).value),
         note: qs('[name="note"]', form).value.trim()
       };
 
@@ -608,7 +629,12 @@
       setError("email", /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(user.email) ? "" : "メールアドレスの形式が正しくありません。");
       setError("phone", /^[0-9\-]{10,13}$/.test(user.phone) ? "" : "電話番号は10〜13桁の数字またはハイフンで入力してください。");
 
-      if (!ok) return;
+      if (!ok) {
+        if (firstInvalid && typeof firstInvalid.focus === "function") {
+          firstInvalid.focus();
+        }
+        return;
+      }
 
       var data = getData();
       data.user = user;

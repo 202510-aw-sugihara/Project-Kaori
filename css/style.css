@@ -28,6 +28,7 @@
   --font-ja: 'Noto Sans JP', sans-serif;
   --font-en: 'Inter', sans-serif;
   --sidebar-width: 280px;
+  --content-max-width: 1120px;
 }
 
 /* --- Reset & Base --- */
@@ -220,7 +221,7 @@ a:hover {
 /* --- Document Body --- */
 .doc-body {
   padding: 48px 56px 96px;
-  max-width: 960px;
+  max-width: var(--content-max-width);
 }
 
 /* --- Section --- */
@@ -1204,7 +1205,7 @@ h3,
 }
 
 .fill-content {
-  background: #ffffff;
+  background: #f3efe8;
 }
 
 /* ===================================
@@ -1544,7 +1545,7 @@ h3,
 
 /* sec4 内の見た目調整 */
 #sec4 .fill-content {
-  background: #ffffff;
+  background: #f3efe8;
 }
 
 #sec4 .code-block {

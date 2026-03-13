@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
@@ -9,7 +9,9 @@
 <body class="perfume-site">
   <div class="p-home-shell">
     <aside class="p-home-sidebar" aria-label="サイドナビゲーション">
-      <a class="p-home-logo" href="index.html">LOGO</a>
+      <a class="p-home-logo" href="index.html" aria-label="SHIZUKA ホーム">
+        <img src="images/logo-cropped.png" alt="SHIZUKA">
+      </a>
       <nav>
         <ul class="p-home-side-list">
           <li><a href="index.html">トップ</a></li>
@@ -21,22 +23,92 @@
           <li><a href="contact.html">お問い合わせ</a></li>
         </ul>
       </nav>
-      <p><a class="p-home-side-cta" href="reserve.html">予約はこちらから</a></p>
+      <p><a class="p-home-side-cta" href="reserve-select-course.html">予約はこちらから</a></p>
     </aside>
+
     <main class="p-home-main p-sub-main">
-      <h1 class="c-heading-2">12種と20種の比較</h1>
-      <section class="p-home-section">
-        <h2>コース比較表</h2>
+      <section class="p-wire-hero">
+        <h1>コース比較</h1>
+        <p class="p-wire-lead">「まずは気軽に体験したい方」と「香りにしっかりこだわりたい方」のどちらにも選びやすいよう、2つのコースを比較しやすくまとめました。迷ったときは、体験スタイルや当日の過ごし方に合わせてご検討ください。</p>
+      </section>
+
+      <section class="p-section-card">
+        <h2 class="p-wire-divider">比較表</h2>
         <table class="p-compare">
-          <tr><th>項目</th><th>12種</th><th>20種（月末限定）</th></tr>
-          <tr><td>価格</td><td>4,000円</td><td>4,000円</td></tr>
-          <tr><td>所要時間</td><td>約45分</td><td>約60分</td></tr>
-          <tr><td>おすすめ</td><td>初めての方</td><td>こだわりたい方</td></tr>
+          <thead>
+            <tr>
+              <th>項目</th>
+              <th>12種類コース</th>
+              <th>20種類コース</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>料金</td>
+              <td>¥4,000（税込）</td>
+              <td>¥4,000（税込）</td>
+            </tr>
+            <tr>
+              <td>所要時間</td>
+              <td>約45〜60分</td>
+              <td>約60分</td>
+            </tr>
+            <tr>
+              <td>選べる香り</td>
+              <td>12種類</td>
+              <td>20種類</td>
+            </tr>
+            <tr>
+              <td>向いている方</td>
+              <td>初めての方、短時間で楽しみたい方</td>
+              <td>香りをじっくり選びたい方、こだわり派の方</td>
+            </tr>
+            <tr>
+              <td>体験の特徴</td>
+              <td>迷いにくく、選びやすい</td>
+              <td>選択肢が広く、自分らしい香りを作りやすい</td>
+            </tr>
+          </tbody>
         </table>
-        <p><a class="c-button c-button--primary" href="reserve-select-course.html">コースを選んで予約へ</a></p>
+      </section>
+
+      <section class="p-section-card">
+        <h2 class="p-wire-divider">こんな方におすすめ</h2>
+        <div class="p-wire-grid-2">
+          <article class="p-wire-card">
+            <p class="p-wire-course-tag">はじめての方に</p>
+            <h3>12種類コース</h3>
+            <p>香り選びで迷いすぎず、スタッフの案内に沿ってスムーズに体験したい方に向いています。旅行中の予定に組み込みやすく、短時間でも満足感を得やすいコースです。</p>
+            <ul class="p-wire-checklist p-wire-checklist--soft">
+              <li class="p-wire-icon--beginner">初めて香水作りを体験する方</li>
+              <li class="p-wire-icon--casual">気軽に楽しみたい方</li>
+              <li class="p-wire-icon--travel">旅行やデートで立ち寄りたい方</li>
+            </ul>
+            <p class="p-wire-center"><a class="c-button c-button--primary" href="course-12blend.html">12種類コースを見る</a></p>
+          </article>
+
+          <article class="p-wire-card">
+            <p class="p-wire-course-tag">こだわり派の方に</p>
+            <h3>20種類コース</h3>
+            <p>香りの選択肢を広げて、自分だけのブレンドをじっくり作りたい方に向いています。好みのニュアンスを細かく調整したい方におすすめです。</p>
+            <ul class="p-wire-checklist p-wire-checklist--soft">
+              <li class="p-wire-icon--focus">香りにこだわりたい方</li>
+              <li class="p-wire-icon--custom">自分らしい一本を作りたい方</li>
+              <li class="p-wire-icon--premium">より多くの香りから選びたい方</li>
+            </ul>
+            <p class="p-wire-center"><a class="c-button c-button--accent" href="course-20blend-limited.html">20種類コースを見る</a></p>
+          </article>
+        </div>
+      </section>
+
+      <section class="p-section-card">
+        <h2 class="p-wire-divider">迷ったら</h2>
+        <p class="p-wire-lead">「初めてで不安」「短時間で楽しみたい」なら 12種類コース、「香りをじっくり比較したい」「自分好みを追求したい」なら 20種類コースがおすすめです。どちらも体験料金は同じなので、当日の過ごし方に合わせてお選びください。</p>
+        <p class="p-wire-center"><a class="c-button c-button--primary" href="reserve-select-course.html">コースを選んで予約へ</a></p>
       </section>
     </main>
   </div>
+
   <footer class="p-home-footer">
     <div class="p-home-footer__inner">
       <div>
@@ -51,7 +123,7 @@
       <div>
         <h2>ご利用について</h2>
         <ul>
-          <li><a href="reserve.html">予約の流れ</a></li>
+          <li><a href="reserve-select-course.html">予約の流れ</a></li>
           <li><a href="compare.html">コース比較</a></li>
           <li><a href="flow.html">体験の流れ</a></li>
         </ul>
@@ -60,7 +132,11 @@
         <h2>基本情報</h2>
         <p>営業時間: 9:00〜18:00</p>
         <p>所在地: 東京都台東区浅草1-1-1</p>
-        <p>電話番号: 03-5212-3456</p><p class="p-home-sns"><a class="p-home-sns__link" href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><span aria-hidden="true">◎</span></a><a class="p-home-sns__link" href="https://x.com/" target="_blank" rel="noopener noreferrer" aria-label="X（旧Twitter）"><span aria-hidden="true">𝕏</span></a></p>
+        <p>電話番号: 03-5212-3456</p>
+        <p class="p-home-sns">
+          <a class="p-home-sns__link" href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><span aria-hidden="true">◎</span></a>
+          <a class="p-home-sns__link" href="https://x.com/" target="_blank" rel="noopener noreferrer" aria-label="X（旧Twitter）"><span aria-hidden="true">𝕏</span></a>
+        </p>
       </div>
     </div>
     <p class="p-home-copy">© 2026 Demo Site</p>
@@ -68,11 +144,3 @@
   <script src="assets/js/main.js"></script>
 </body>
 </html>
-
-
-
-
-
-
-
-
