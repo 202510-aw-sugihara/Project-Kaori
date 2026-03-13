@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>管理ダッシュボード</title>
+</head>
+<body>
+    <h1 th:text="${title}">管理ダッシュボード</h1>
+    <p>今日の予約数: 12件</p>
+    <p>今週の予約数: 68件</p>
+    <p>人気コース: 1位 20種コース, 2位 12種コース</p>
+    <nav>
+        <a href="/admin/reservations">予約一覧</a>
+        <a href="/admin/slots">空き枠管理</a>
+        <a href="/admin/courses">コース管理</a>
+        <a href="/admin/customers">顧客一覧</a>
+    </nav>
+</body>
+</html>
