@@ -1,19 +1,23 @@
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>仕様書（機能仕様書） -  プロジェクトアーカイブ</title>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
+  <title>仕様書（機能仕様書） - プロジェクトアーカイブ</title>
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
   <link rel="stylesheet" href="../css/style2.css">
+  <link rel="stylesheet" href="../css/specification.css">
 </head>
-<body>
+
+<body class="page-specification">
   <button class="hamburger" aria-label="メニュー">
     <span></span><span></span><span></span>
   </button>
 
   <div class="page-wrapper">
-  <aside class="sidebar" data-nav-level="docs"></aside>
+    <aside class="sidebar" data-nav-level="docs"></aside>
 
     <main class="main-content">
       <header class="doc-header">
@@ -37,8 +41,11 @@
             このページは概要のみを記載しています。詳細な仕様書は以下のリンクからご確認ください。
           </div>
           <div class="external-link-input">
-            <input type="text" placeholder="https://docs.google.com/spreadsheets/d/xxxxx" id="external-link-07">
-            <a href="#" class="link-btn" onclick="window.open(document.getElementById('external-link-07').value || 'https://docs.google.com', '_blank'); return false;">
+            <input type="text"
+              placeholder="https://docs.google.com/document/d/1C8gupWxFKSgFb-AIcdG4V7k2NvNVyDXXNwOZF6qdyzU/edit?usp=sharing"
+              id="external-link-07">
+            <a href="#" class="link-btn"
+              onclick="window.open(document.getElementById('external-link-07').value || 'https://docs.google.com/document/d/1C8gupWxFKSgFb-AIcdG4V7k2NvNVyDXXNwOZF6qdyzU/edit?usp=sharing', '_blank'); return false;">
               <span class="material-symbols-outlined">open_in_new</span>
               開く
             </a>
@@ -59,21 +66,54 @@
         <section class="section" id="sec1">
           <h2 class="section-title"><span class="section-icon">1</span> システム概要</h2>
 
-        <div class="fill-block">
-          <div class="fill-label">システムの目的 <span class="required">必須</span></div>
-          <div class="fill-hint">このシステムが解決する課題と提供する価値</div>
-          <div class="fill-content">
-            <p>（システムの目的を記載）</p>
+          <div class="fill-block">
+            <div class="fill-label">システムの目的 <span class="required">必須</span></div>
+            <div class="fill-hint">このシステムが解決する課題と提供する価値</div>
+            <div class="fill-content">
+              <p>
+                本システムは、店舗スタッフおよび管理者が利用する予約管理システムである。
+                予約情報の確認、キャンセル対応、顧客情報の管理などを一元的に行うことで、
+                手作業による管理の負担を軽減し、運営管理の効率化と顧客対応品質の向上を
+                実現することを目的とする。
+              </p>
+            </div>
           </div>
-        </div>
-        <div class="fill-block">
-          <div class="fill-label">システム構成図 <span class="required">必須</span></div>
-          <div class="fill-hint">フロントエンド ↔ バックエンド ↔ データベースの関係を図示</div>
-          <div class="fill-content">
-            <p>（システム構成図を記載）</p>
-          </div>
-        </div>
 
+          <div class="fill-block">
+            <div class="fill-label">システム構成図 <span class="required">必須</span></div>
+            <div class="fill-hint">フロントエンド ↔ バックエンド ↔ データベースの関係を図示</div>
+            <div class="fill-content">
+              <pre>
+┌─────────────────────────────┐
+│ クライアント層              │
+│ Webブラウザ                 │
+└───────────────┬─────────────┘
+                ▼
+┌─────────────────────────────┐
+│ フロントエンド層            │
+│ HTML / CSS / JavaScript     │
+│ Thymeleaf                   │
+└───────────────┬─────────────┘
+                ▼
+┌─────────────────────────────┐
+│ アプリケーション層          │
+│ Spring Boot                 │
+│ Controller → Service → Repository │
+└───────────────┬─────────────┘
+                ▼
+┌─────────────────────────────┐
+│ データ層                    │
+│ MySQL / H2                  │
+└─────────────────────────────┘
+</pre>
+              <p>
+                本システムは、Webブラウザをクライアントとした三層構造のWebアプリケーションとして構成されている。
+                ブラウザから送信されたHTTPリクエストはSpring Bootアプリケーションで処理され、
+                Controller・Service・Repositoryの各レイヤーを通じてデータベースへアクセスする。
+                取得したデータはThymeleafによってHTMLとして生成され、ブラウザへレスポンスとして返却される。
+              </p>
+            </div>
+          </div>
         </section>
 
         <section class="section" id="sec2">
@@ -81,86 +121,965 @@
 
           <div class="fill-block">
             <div class="fill-label">機能一覧表 <span class="required">必須</span></div>
-        <table class="doc-table">
-          <thead><tr><th>No.</th><th>機能名</th><th>概要</th><th>対応画面</th><th>優先度</th></tr></thead>
-          <tbody>
-          <tr class="template-row"><td>F-001</td><td>（ログイン）</td><td>（メール/パスワードで認証）</td><td>（ログイン画面）</td><td><span class="badge badge-must">Must</span></td></tr>
-          <tr class="template-row"><td>F-002</td><td>（一覧表示）</td><td>（データの一覧表示・ページネーション）</td><td>（一覧画面）</td><td><span class="badge badge-must">Must</span></td></tr>
-          <tr class="template-row"><td>F-003</td><td>（新規登録）</td><td>（フォームから新規データ登録）</td><td>（登録画面）</td><td><span class="badge badge-must">Must</span></td></tr>
-          <tr class="template-row"><td>F-004</td><td>（詳細表示）</td><td>（データの詳細情報表示）</td><td>（詳細画面）</td><td><span class="badge badge-must">Must</span></td></tr>
-          <tr class="template-row"><td>F-005</td><td>（編集）</td><td>（既存データの更新）</td><td>（編集画面）</td><td><span class="badge badge-must">Must</span></td></tr>
-          <tr class="template-row"><td>F-006</td><td>（削除）</td><td>（データの削除・確認ダイアログ）</td><td>（一覧画面）</td><td><span class="badge badge-must">Must</span></td></tr>
-          <tr class="template-row"><td>F-007</td><td>（検索）</td><td>（キーワード・条件検索）</td><td>（一覧画面）</td><td><span class="badge badge-should">Should</span></td></tr>
-          <tr class="template-row"><td>F-008</td><td>（ソート）</td><td>（カラムクリックでの並び替え）</td><td>（一覧画面）</td><td><span class="badge badge-should">Should</span></td></tr>
-          <tr class="template-row"><td>F-009</td><td>（CSV出力）</td><td>（データのCSVエクスポート）</td><td>（一覧画面）</td><td><span class="badge badge-could">Could</span></td></tr>
-          <tr class="template-row"><td>…</td><td>…</td><td>…</td><td>…</td><td>…</td></tr>
-          </tbody>
-        </table>
-
+            <table class="doc-table">
+              <thead>
+                <tr>
+                  <th>No.</th>
+                  <th>機能名</th>
+                  <th>概要</th>
+                  <th>対応画面</th>
+                  <th>優先度</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>F-001</td>
+                  <td>管理者ログイン</td>
+                  <td>管理者がメールアドレスとパスワードでログインする</td>
+                  <td>管理ログイン画面</td>
+                  <td><span class="badge badge-must">Must</span></td>
+                </tr>
+                <tr>
+                  <td>F-002</td>
+                  <td>ログアウト</td>
+                  <td>管理者セッションを終了する</td>
+                  <td>管理画面共通</td>
+                  <td><span class="badge badge-must">Must</span></td>
+                </tr>
+                <tr>
+                  <td>F-003</td>
+                  <td>予約一覧表示</td>
+                  <td>登録されている予約情報を一覧表示する</td>
+                  <td>予約一覧画面</td>
+                  <td><span class="badge badge-must">Must</span></td>
+                </tr>
+                <tr>
+                  <td>F-004</td>
+                  <td>予約詳細表示</td>
+                  <td>選択した予約の詳細情報を表示する</td>
+                  <td>予約詳細画面</td>
+                  <td><span class="badge badge-must">Must</span></td>
+                </tr>
+                <tr>
+                  <td>F-005</td>
+                  <td>予約登録</td>
+                  <td>顧客予約を新規登録する</td>
+                  <td>予約フォーム</td>
+                  <td><span class="badge badge-must">Must</span></td>
+                </tr>
+                <tr>
+                  <td>F-006</td>
+                  <td>予約編集</td>
+                  <td>既存予約情報を更新する</td>
+                  <td>予約編集画面</td>
+                  <td><span class="badge badge-must">Must</span></td>
+                </tr>
+                <tr>
+                  <td>F-007</td>
+                  <td>予約キャンセル</td>
+                  <td>予約をキャンセル状態に変更する</td>
+                  <td>予約一覧 / 詳細画面</td>
+                  <td><span class="badge badge-must">Must</span></td>
+                </tr>
+                <tr>
+                  <td>F-008</td>
+                  <td>顧客情報管理</td>
+                  <td>顧客の氏名・連絡先などの情報を管理する</td>
+                  <td>顧客一覧 / 顧客詳細</td>
+                  <td><span class="badge badge-must">Must</span></td>
+                </tr>
+                <tr>
+                  <td>F-009</td>
+                  <td>入力バリデーション</td>
+                  <td>必須項目や入力形式などの入力チェックを行う</td>
+                  <td>予約フォーム / 管理画面</td>
+                  <td><span class="badge badge-must">Must</span></td>
+                </tr>
+                <tr>
+                  <td>F-010</td>
+                  <td>予約枠管理</td>
+                  <td>日時ごとの予約可能枠を管理する</td>
+                  <td>管理画面</td>
+                  <td><span class="badge badge-must">Must</span></td>
+                </tr>
+                <tr>
+                  <td>F-011</td>
+                  <td>検索</td>
+                  <td>顧客名や日付などで予約情報を検索する</td>
+                  <td>予約一覧画面</td>
+                  <td><span class="badge badge-should">Should</span></td>
+                </tr>
+                <tr>
+                  <td>F-012</td>
+                  <td>ソート</td>
+                  <td>一覧データを昇順・降順に並び替える</td>
+                  <td>予約一覧画面</td>
+                  <td><span class="badge badge-should">Should</span></td>
+                </tr>
+                <tr>
+                  <td>F-013</td>
+                  <td>ページネーション</td>
+                  <td>一覧データをページ分割して表示する</td>
+                  <td>予約一覧画面</td>
+                  <td><span class="badge badge-should">Should</span></td>
+                </tr>
+                <tr>
+                  <td>F-014</td>
+                  <td>ステータス絞り込み</td>
+                  <td>予約状態でデータを絞り込む</td>
+                  <td>予約一覧画面</td>
+                  <td><span class="badge badge-should">Should</span></td>
+                </tr>
+                <tr>
+                  <td>F-015</td>
+                  <td>CSV出力</td>
+                  <td>予約データをCSV形式でダウンロードする</td>
+                  <td>予約一覧画面</td>
+                  <td><span class="badge badge-could">Could</span></td>
+                </tr>
+                <tr>
+                  <td>F-016</td>
+                  <td>ファイルアップロード</td>
+                  <td>コース画像などのファイルを登録する</td>
+                  <td>コース管理画面</td>
+                  <td><span class="badge badge-could">Could</span></td>
+                </tr>
+                <tr>
+                  <td>F-017</td>
+                  <td>メール通知</td>
+                  <td>予約完了や変更時にメール通知を行う</td>
+                  <td>予約処理</td>
+                  <td><span class="badge badge-could">Could</span></td>
+                </tr>
+              </tbody>
+            </table>
           </div>
         </section>
 
         <section class="section" id="sec3">
           <h2 class="section-title"><span class="section-icon">3</span> 画面遷移図</h2>
 
-        <div class="fill-block">
-          <div class="fill-label">画面遷移図 <span class="required">必須</span></div>
-          <div class="fill-hint">各画面間の遷移関係を図示</div>
-          <div class="fill-content">
-            <p>（画面遷移図を記載）</p>
+          <div class="fill-block">
+            <div class="fill-label">画面遷移図 <span class="required">必須</span></div>
+            <div class="fill-hint">各画面間の遷移関係を図示</div>
+            <div class="fill-content">
+              <pre>
+[管理ログイン画面]
+        │
+        │ ログイン
+        ▼
+[予約一覧画面 / ダッシュボード]
+        ├─ 詳細 → [予約詳細画面] → 編集 → [予約編集画面]
+        ├─ 顧客一覧 → [顧客一覧画面] → 詳細 → [顧客詳細画面]
+        ├─ 予約枠管理 → [予約枠管理画面]
+        ├─ コース管理 → [コース管理画面]
+        ├─ 検索 / ソート / ページ切替 → 同画面更新
+        ├─ CSV出力 → CSVダウンロード
+        └─ ログアウト → [管理ログイン画面]
+</pre>
+              <p>
+                管理ログイン後、予約一覧画面を中心として予約管理・顧客管理・予約枠管理・コース管理などの
+                各機能へ遷移する構成となっている。
+              </p>
+            </div>
           </div>
-        </div>
-
         </section>
 
         <section class="section" id="sec4">
           <h2 class="section-title"><span class="section-icon">4</span> 機能詳細仕様</h2>
 
-
           <div class="subsection">
-            <h3 class="subsection-title">機能仕様テンプレート（コピーして使用）</h3>
+            <h3 class="subsection-title">主要機能詳細仕様</h3>
 
-        <div class="fill-block">
-          <div class="fill-label">機能名：（機能名を入力） <span class="required">必須</span></div>
-          <div class="fill-hint">機能ID：F-XXX</div>
-          <div class="fill-content">
-            <p>（機能の詳細仕様を記載）</p>
-          </div>
-        </div>
+            <!-- F-001 管理者ログイン -->
+            <div class="fill-block">
+              <div class="fill-label">機能名：管理者ログイン <span class="required">必須</span></div>
+              <div class="fill-hint">機能ID：F-001</div>
+              <div class="fill-content">
+                <p><strong>1. 画面レイアウト</strong><br>
+                  メールアドレス入力欄、パスワード入力欄、ログインボタンを縦配置するシンプルなログインフォームを表示する。
+                  入力エラー時には各入力欄の下にエラーメッセージを表示する。
+                </p>
+
+                <p><strong>2. 処理フロー</strong><br>
+                  管理者がメールアドレスとパスワードを入力してログインボタンを押下する。
+                  システムは入力値を検証後、Spring Securityによる認証処理を実行する。
+                </p>
+
+                <p><strong>3. 正常時の動作</strong><br>
+                  認証成功時は管理者セッションを発行し、予約一覧画面へ遷移する。
+                </p>
+
+                <p><strong>4. エラー時の動作</strong><br>
+                  認証失敗時は「メールアドレスまたはパスワードが正しくありません」と表示する。
+                </p>
+
+                <p><strong>5. 画面遷移先</strong><br>
+                  成功：予約一覧画面<br>
+                  失敗：ログイン画面
+                </p>
+              </div>
+            </div>
 
             <div class="fill-block">
-              <div class="fill-label">入力項目一覧 <span class="required">必須</span></div>
-        <table class="doc-table">
-          <thead><tr><th>項目名</th><th>データ型</th><th>必須</th><th>バリデーション</th><th>備考</th></tr></thead>
-          <tbody>
-          <tr class="template-row"><td>（項目名）</td><td>（String / Integer / Date 等）</td><td>（○ / —）</td><td>（必須チェック / 文字数制限 等）</td><td>（備考）</td></tr>
-          <tr class="template-row"><td>…</td><td>…</td><td>…</td><td>…</td><td>…</td></tr>
-          </tbody>
-        </table>
-
+              <div class="fill-label">入力項目一覧</div>
+              <table class="doc-table">
+                <thead>
+                  <tr>
+                    <th>項目名</th>
+                    <th>データ型</th>
+                    <th>必須</th>
+                    <th>バリデーション</th>
+                    <th>備考</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>メールアドレス</td>
+                    <td>String</td>
+                    <td>○</td>
+                    <td>未入力不可 / メール形式 / 255文字以内</td>
+                    <td>管理者アカウント</td>
+                  </tr>
+                  <tr>
+                    <td>パスワード</td>
+                    <td>String</td>
+                    <td>○</td>
+                    <td>未入力不可 / 8文字以上</td>
+                    <td>マスク表示</td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
+
+            <!-- F-003 予約一覧表示 -->
+            <div class="fill-block">
+              <div class="fill-label">機能名：予約一覧表示 <span class="required">必須</span></div>
+              <div class="fill-hint">機能ID：F-003</div>
+              <div class="fill-content">
+                <p><strong>1. 画面レイアウト</strong><br>
+                  予約情報をテーブル形式で表示する。カラムは「予約日」「時間」「顧客名」「人数」「ステータス」「操作」とする。
+                  上部には検索条件エリアを配置し、必要に応じてソート・ページ切替・CSV出力の操作を行えるようにする。
+                </p>
+
+                <p><strong>2. 処理フロー</strong><br>
+                  画面表示時に予約データを取得し一覧表示する。検索条件入力時は再検索を実行し、
+                  詳細ボタン押下時は対象予約の詳細画面へ遷移する。
+                </p>
+
+                <p><strong>3. 正常時の動作</strong><br>
+                  該当する予約データをページ単位で表示する。検索条件やソート条件に応じて結果を更新する。
+                </p>
+
+                <p><strong>4. エラー時の動作</strong><br>
+                  データ取得失敗時はエラーメッセージを表示する。検索条件に一致する予約が存在しない場合は
+                  「該当する予約はありません」と表示する。
+                </p>
+
+                <p><strong>5. 画面遷移先</strong><br>
+                  詳細クリック：予約詳細画面<br>
+                  顧客一覧クリック：顧客一覧画面<br>
+                  予約枠管理クリック：予約枠管理画面
+                </p>
+              </div>
+            </div>
+
+            <div class="fill-block">
+              <div class="fill-label">入力項目一覧</div>
+              <table class="doc-table">
+                <thead>
+                  <tr>
+                    <th>項目名</th>
+                    <th>データ型</th>
+                    <th>必須</th>
+                    <th>バリデーション</th>
+                    <th>備考</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>顧客名</td>
+                    <td>String</td>
+                    <td>—</td>
+                    <td>100文字以内</td>
+                    <td>部分一致検索</td>
+                  </tr>
+                  <tr>
+                    <td>予約日</td>
+                    <td>Date</td>
+                    <td>—</td>
+                    <td>日付形式</td>
+                    <td>検索条件</td>
+                  </tr>
+                  <tr>
+                    <td>予約ステータス</td>
+                    <td>Enum</td>
+                    <td>—</td>
+                    <td>定義済み値</td>
+                    <td>予約済 / キャンセル済</td>
+                  </tr>
+                  <tr>
+                    <td>ページ番号</td>
+                    <td>Integer</td>
+                    <td>—</td>
+                    <td>1以上の整数</td>
+                    <td>ページネーション用</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <!-- F-004 予約詳細表示 -->
+            <div class="fill-block">
+              <div class="fill-label">機能名：予約詳細表示 <span class="required">必須</span></div>
+              <div class="fill-hint">機能ID：F-004</div>
+              <div class="fill-content">
+                <p><strong>1. 画面レイアウト</strong><br>
+                  予約情報を確認できる詳細画面を表示する。表示項目は「予約日」「予約時間」「コース」「人数」「顧客名」
+                  「メールアドレス」「電話番号」「予約ステータス」「備考」とし、画面下部に「編集」「キャンセル」
+                  「一覧へ戻る」ボタンを配置する。
+                </p>
+
+                <p><strong>2. 処理フロー</strong><br>
+                  予約一覧画面から対象予約を選択し、詳細情報を取得して表示する。
+                  管理者は詳細確認後、編集またはキャンセル処理へ遷移できる。
+                </p>
+
+                <p><strong>3. 正常時の動作</strong><br>
+                  対象予約の詳細情報を正しく表示する。各ボタン押下に応じて適切な処理画面へ遷移する。
+                </p>
+
+                <p><strong>4. エラー時の動作</strong><br>
+                  指定した予約IDが存在しない場合は「対象の予約情報が見つかりません」と表示し、一覧画面へ戻す。
+                </p>
+
+                <p><strong>5. 画面遷移先</strong><br>
+                  編集クリック：予約編集画面<br>
+                  キャンセルクリック：予約キャンセル処理<br>
+                  一覧へ戻る：予約一覧画面
+                </p>
+              </div>
+            </div>
+
+            <div class="fill-block">
+              <div class="fill-label">入力項目一覧</div>
+              <table class="doc-table">
+                <thead>
+                  <tr>
+                    <th>項目名</th>
+                    <th>データ型</th>
+                    <th>必須</th>
+                    <th>バリデーション</th>
+                    <th>備考</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>予約ID</td>
+                    <td>Long</td>
+                    <td>○</td>
+                    <td>存在する予約IDであること</td>
+                    <td>詳細表示対象</td>
+                  </tr>
+                  <tr>
+                    <td>編集操作</td>
+                    <td>Action</td>
+                    <td>—</td>
+                    <td>対象予約が存在すること</td>
+                    <td>編集画面へ遷移</td>
+                  </tr>
+                  <tr>
+                    <td>キャンセル操作</td>
+                    <td>Action</td>
+                    <td>—</td>
+                    <td>未キャンセル予約のみ実行可</td>
+                    <td>状態変更処理</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <!-- F-005 予約登録 -->
+            <div class="fill-block">
+              <div class="fill-label">機能名：予約登録 <span class="required">必須</span></div>
+              <div class="fill-hint">機能ID：F-005</div>
+              <div class="fill-content">
+                <p><strong>1. 画面レイアウト</strong><br>
+                  予約登録フォームを表示する。入力項目は「コース」「予約日」「予約時間」「人数」「顧客名」
+                  「メールアドレス」「電話番号」「備考」とする。
+                </p>
+
+                <p><strong>2. 処理フロー</strong><br>
+                  管理者が入力後「登録」を押すとバリデーションを実施し、予約枠の空き状況を確認したうえで
+                  予約データを登録する。
+                </p>
+
+                <p><strong>3. 正常時の動作</strong><br>
+                  データベースに予約情報を登録し、予約詳細画面へ遷移する。
+                </p>
+
+                <p><strong>4. エラー時の動作</strong><br>
+                  入力エラー時は該当項目にエラーメッセージを表示する。満席の場合は
+                  「選択した日時は満席です」と表示する。
+                </p>
+
+                <p><strong>5. 画面遷移先</strong><br>
+                  登録成功：予約詳細画面<br>
+                  登録失敗：予約登録画面
+                </p>
+              </div>
+            </div>
+
+            <div class="fill-block">
+              <div class="fill-label">入力項目一覧</div>
+              <table class="doc-table">
+                <thead>
+                  <tr>
+                    <th>項目名</th>
+                    <th>データ型</th>
+                    <th>必須</th>
+                    <th>バリデーション</th>
+                    <th>備考</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>コース</td>
+                    <td>Integer</td>
+                    <td>○</td>
+                    <td>定義済みコースのみ選択可</td>
+                    <td>12種類コース / 20種類コース</td>
+                  </tr>
+                  <tr>
+                    <td>予約日</td>
+                    <td>Date</td>
+                    <td>○</td>
+                    <td>過去日不可</td>
+                    <td>営業日のみ</td>
+                  </tr>
+                  <tr>
+                    <td>予約時間</td>
+                    <td>String</td>
+                    <td>○</td>
+                    <td>定義済み枠</td>
+                    <td>11:00 / 13:00 / 15:00</td>
+                  </tr>
+                  <tr>
+                    <td>人数</td>
+                    <td>Integer</td>
+                    <td>○</td>
+                    <td>1以上</td>
+                    <td>定員以下</td>
+                  </tr>
+                  <tr>
+                    <td>顧客名</td>
+                    <td>String</td>
+                    <td>○</td>
+                    <td>未入力不可 / 100文字以内</td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td>メールアドレス</td>
+                    <td>String</td>
+                    <td>○</td>
+                    <td>未入力不可 / メール形式</td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td>電話番号</td>
+                    <td>String</td>
+                    <td>○</td>
+                    <td>未入力不可 / 数字 / ハイフン</td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td>備考</td>
+                    <td>String</td>
+                    <td>—</td>
+                    <td>500文字以内</td>
+                    <td></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <!-- F-006 予約編集 -->
+            <div class="fill-block">
+              <div class="fill-label">機能名：予約編集 <span class="required">必須</span></div>
+              <div class="fill-hint">機能ID：F-006</div>
+              <div class="fill-content">
+                <p><strong>1. 画面レイアウト</strong><br>
+                  画面上部にページタイトル「予約編集」を配置し、その下に編集フォームを縦並びで表示する。
+                  フォーム内には「予約日」「予約時間」「コース」「人数」「顧客名」「メールアドレス」「電話番号」
+                  「備考」を配置し、画面下部に「保存」ボタンと「キャンセル」ボタンを配置する。
+                </p>
+
+                <p><strong>2. 処理フロー</strong><br>
+                  管理者が予約詳細画面から「編集」を押下すると、既存の予約情報を読み込んだ予約編集画面を表示する。
+                  管理者が内容を修正して「保存」を押下すると、システムは入力内容のバリデーションを実施し、
+                  あわせて対象日時の予約枠に空きがあるかを確認する。
+                </p>
+
+                <p><strong>3. 正常時の動作</strong><br>
+                  入力内容に問題がなく、予約枠にも空きがある場合は予約情報を更新する。
+                  更新完了後は予約詳細画面へ遷移し、最新の予約内容を表示する。
+                </p>
+
+                <p><strong>4. エラー時の動作</strong><br>
+                  バリデーションエラーがある場合は更新処理を行わず、該当項目の下にエラーメッセージを表示する。
+                  予約枠が満席の場合は「選択した日時は満席のため変更できません」と表示する。
+                </p>
+
+                <p><strong>5. 画面遷移先</strong><br>
+                  保存成功時：予約詳細画面<br>
+                  保存失敗時：予約編集画面<br>
+                  キャンセル押下時：予約詳細画面
+                </p>
+              </div>
+            </div>
+
+            <div class="fill-block">
+              <div class="fill-label">入力項目一覧</div>
+              <table class="doc-table">
+                <thead>
+                  <tr>
+                    <th>項目名</th>
+                    <th>データ型</th>
+                    <th>必須</th>
+                    <th>バリデーション</th>
+                    <th>備考</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>予約日</td>
+                    <td>Date</td>
+                    <td>○</td>
+                    <td>未入力不可 / 過去日付不可 / 営業日であること</td>
+                    <td>カレンダーUIから選択</td>
+                  </tr>
+                  <tr>
+                    <td>予約時間</td>
+                    <td>String</td>
+                    <td>○</td>
+                    <td>定義済み予約枠のみ選択可</td>
+                    <td>11:00 / 13:00 / 15:00</td>
+                  </tr>
+                  <tr>
+                    <td>コース</td>
+                    <td>Integer</td>
+                    <td>○</td>
+                    <td>定義済みコースのみ選択可</td>
+                    <td>12種類コース / 20種類コース</td>
+                  </tr>
+                  <tr>
+                    <td>人数</td>
+                    <td>Integer</td>
+                    <td>○</td>
+                    <td>1以上 / 最大予約人数以下</td>
+                    <td>残席数と整合性チェック</td>
+                  </tr>
+                  <tr>
+                    <td>顧客名</td>
+                    <td>String</td>
+                    <td>○</td>
+                    <td>未入力不可 / 100文字以内</td>
+                    <td>姓・名まとめて入力</td>
+                  </tr>
+                  <tr>
+                    <td>メールアドレス</td>
+                    <td>String</td>
+                    <td>○</td>
+                    <td>未入力不可 / メール形式チェック</td>
+                    <td>予約確認メール送信先</td>
+                  </tr>
+                  <tr>
+                    <td>電話番号</td>
+                    <td>String</td>
+                    <td>○</td>
+                    <td>未入力不可 / 数字・ハイフンのみ</td>
+                    <td>緊急連絡用</td>
+                  </tr>
+                  <tr>
+                    <td>備考</td>
+                    <td>String</td>
+                    <td>—</td>
+                    <td>500文字以内</td>
+                    <td>アレルギー・要望など</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <!-- F-007 予約キャンセル -->
+            <div class="fill-block">
+              <div class="fill-label">機能名：予約キャンセル <span class="required">必須</span></div>
+              <div class="fill-hint">機能ID：F-007</div>
+              <div class="fill-content">
+                <p><strong>1. 画面レイアウト</strong><br>
+                  予約詳細画面上に「キャンセル」ボタンを配置し、押下時に確認ダイアログを表示する。
+                  確認ダイアログには「確定」ボタンと「戻る」ボタンを配置する。
+                </p>
+
+                <p><strong>2. 処理フロー</strong><br>
+                  管理者が予約詳細画面からキャンセルボタンを押下し、確認ダイアログで確定すると、
+                  システムは対象予約のステータスをキャンセル済みに更新する。
+                </p>
+
+                <p><strong>3. 正常時の動作</strong><br>
+                  対象予約のステータスを「キャンセル済」に変更し、予約詳細画面へ戻って更新後の状態を表示する。
+                </p>
+
+                <p><strong>4. エラー時の動作</strong><br>
+                  対象予約が存在しない場合、またはすでにキャンセル済みの場合はエラーメッセージを表示する。
+                </p>
+
+                <p><strong>5. 画面遷移先</strong><br>
+                  成功：予約詳細画面<br>
+                  失敗：予約詳細画面
+                </p>
+              </div>
+            </div>
+
+            <div class="fill-block">
+              <div class="fill-label">入力項目一覧</div>
+              <table class="doc-table">
+                <thead>
+                  <tr>
+                    <th>項目名</th>
+                    <th>データ型</th>
+                    <th>必須</th>
+                    <th>バリデーション</th>
+                    <th>備考</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>予約ID</td>
+                    <td>Long</td>
+                    <td>○</td>
+                    <td>存在する予約IDであること</td>
+                    <td>キャンセル対象</td>
+                  </tr>
+                  <tr>
+                    <td>キャンセル確認</td>
+                    <td>Boolean</td>
+                    <td>○</td>
+                    <td>確認ダイアログで確定時のみ実行</td>
+                    <td>戻る押下時は処理しない</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <!-- F-008 顧客情報管理 -->
+            <div class="fill-block">
+              <div class="fill-label">機能名：顧客情報管理 <span class="required">必須</span></div>
+              <div class="fill-hint">機能ID：F-008</div>
+              <div class="fill-content">
+                <p><strong>1. 画面レイアウト</strong><br>
+                  顧客一覧画面では顧客名、メールアドレス、電話番号を一覧表示する。
+                  顧客詳細画面では個別の顧客情報および関連予約情報を確認できる構成とする。
+                </p>
+
+                <p><strong>2. 処理フロー</strong><br>
+                  管理者が顧客一覧を表示し、対象顧客を選択すると詳細情報を取得して表示する。
+                </p>
+
+                <p><strong>3. 正常時の動作</strong><br>
+                  顧客情報を一覧・詳細の各画面で正しく表示する。
+                </p>
+
+                <p><strong>4. エラー時の動作</strong><br>
+                  顧客情報が取得できない場合はエラーメッセージを表示する。
+                </p>
+
+                <p><strong>5. 画面遷移先</strong><br>
+                  顧客一覧クリック：顧客詳細画面<br>
+                  関連予約クリック：予約一覧画面
+                </p>
+              </div>
+            </div>
+
+            <div class="fill-block">
+              <div class="fill-label">入力項目一覧</div>
+              <table class="doc-table">
+                <thead>
+                  <tr>
+                    <th>項目名</th>
+                    <th>データ型</th>
+                    <th>必須</th>
+                    <th>バリデーション</th>
+                    <th>備考</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>顧客名</td>
+                    <td>String</td>
+                    <td>○</td>
+                    <td>未入力不可 / 100文字以内</td>
+                    <td>一覧・詳細に表示</td>
+                  </tr>
+                  <tr>
+                    <td>メールアドレス</td>
+                    <td>String</td>
+                    <td>○</td>
+                    <td>未入力不可 / メール形式</td>
+                    <td>連絡先</td>
+                  </tr>
+                  <tr>
+                    <td>電話番号</td>
+                    <td>String</td>
+                    <td>○</td>
+                    <td>未入力不可 / 数字・ハイフンのみ</td>
+                    <td>連絡先</td>
+                  </tr>
+                  <tr>
+                    <td>備考</td>
+                    <td>String</td>
+                    <td>—</td>
+                    <td>500文字以内</td>
+                    <td>個別対応メモ</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <!-- F-009 入力バリデーション -->
+            <div class="fill-block">
+              <div class="fill-label">機能名：入力バリデーション <span class="required">必須</span></div>
+              <div class="fill-hint">機能ID：F-009</div>
+              <div class="fill-content">
+                <p><strong>1. 画面レイアウト</strong><br>
+                  各入力画面に共通して、入力エラー時は該当項目の直下にエラーメッセージを表示する。
+                </p>
+
+                <p><strong>2. 処理フロー</strong><br>
+                  フォーム送信時にサーバー側で入力値を検証し、必要に応じてエラーを返却する。
+                </p>
+
+                <p><strong>3. 正常時の動作</strong><br>
+                  バリデーションを通過した場合は後続処理へ進む。
+                </p>
+
+                <p><strong>4. エラー時の動作</strong><br>
+                  必須入力漏れ、形式不正、文字数超過、定義外値などの場合は送信を中断し、エラーメッセージを表示する。
+                </p>
+
+                <p><strong>5. 画面遷移先</strong><br>
+                  成功：各処理の成功画面<br>
+                  失敗：入力元画面
+                </p>
+              </div>
+            </div>
+
+            <div class="fill-block">
+              <div class="fill-label">入力項目一覧</div>
+              <table class="doc-table">
+                <thead>
+                  <tr>
+                    <th>項目名</th>
+                    <th>データ型</th>
+                    <th>必須</th>
+                    <th>バリデーション</th>
+                    <th>備考</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>必須項目チェック</td>
+                    <td>Rule</td>
+                    <td>○</td>
+                    <td>対象項目が未入力でないこと</td>
+                    <td>共通バリデーション</td>
+                  </tr>
+                  <tr>
+                    <td>形式チェック</td>
+                    <td>Rule</td>
+                    <td>○</td>
+                    <td>メール形式 / 電話番号形式 / 日付形式</td>
+                    <td>入力項目ごとに適用</td>
+                  </tr>
+                  <tr>
+                    <td>文字数チェック</td>
+                    <td>Rule</td>
+                    <td>○</td>
+                    <td>最大文字数以内であること</td>
+                    <td>氏名・備考などに適用</td>
+                  </tr>
+                  <tr>
+                    <td>定義値チェック</td>
+                    <td>Rule</td>
+                    <td>○</td>
+                    <td>コース・時間・ステータスが定義済み値であること</td>
+                    <td>選択項目に適用</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <!-- F-010 予約枠管理 -->
+            <div class="fill-block">
+              <div class="fill-label">機能名：予約枠管理 <span class="required">必須</span></div>
+              <div class="fill-hint">機能ID：F-010</div>
+              <div class="fill-content">
+                <p><strong>1. 画面レイアウト</strong><br>
+                  予約日、予約時間、定員、現在予約人数を一覧またはフォーム形式で表示し、
+                  管理者が予約枠の登録・更新・確認を行える画面構成とする。
+                </p>
+
+                <p><strong>2. 処理フロー</strong><br>
+                  管理者が予約枠情報を入力・更新すると、システムは値を検証したうえで予約枠情報を保存する。
+                </p>
+
+                <p><strong>3. 正常時の動作</strong><br>
+                  予約枠情報を保存し、更新後の一覧または詳細を表示する。
+                </p>
+
+                <p><strong>4. エラー時の動作</strong><br>
+                  不正な入力値や定員超過などがある場合はエラーメッセージを表示する。
+                </p>
+
+                <p><strong>5. 画面遷移先</strong><br>
+                  保存成功：予約枠管理画面<br>
+                  保存失敗：予約枠管理画面
+                </p>
+              </div>
+            </div>
+
+            <div class="fill-block">
+              <div class="fill-label">入力項目一覧</div>
+              <table class="doc-table">
+                <thead>
+                  <tr>
+                    <th>項目名</th>
+                    <th>データ型</th>
+                    <th>必須</th>
+                    <th>バリデーション</th>
+                    <th>備考</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>予約日</td>
+                    <td>Date</td>
+                    <td>○</td>
+                    <td>未入力不可 / 営業日のみ</td>
+                    <td>予約枠対象日</td>
+                  </tr>
+                  <tr>
+                    <td>予約時間</td>
+                    <td>String</td>
+                    <td>○</td>
+                    <td>定義済み予約枠のみ選択可</td>
+                    <td>11:00 / 13:00 / 15:00</td>
+                  </tr>
+                  <tr>
+                    <td>定員</td>
+                    <td>Integer</td>
+                    <td>○</td>
+                    <td>1以上の整数</td>
+                    <td>最大受入人数</td>
+                  </tr>
+                  <tr>
+                    <td>現在予約人数</td>
+                    <td>Integer</td>
+                    <td>○</td>
+                    <td>0以上 / 定員以下</td>
+                    <td>システム計算値または参照値</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
           </div>
         </section>
 
         <section class="section" id="sec5">
           <h2 class="section-title"><span class="section-icon">5</span> 非機能要件</h2>
 
-        <div class="fill-block">
-          <div class="fill-label">セキュリティ要件 <span class="required">必須</span></div>
-          <div class="fill-hint">認証・認可・データ保護に関する要件</div>
-          <div class="fill-content">
-            <p>（セキュリティ要件を記載）</p>
+          <div class="fill-block">
+            <div class="fill-label">セキュリティ要件 <span class="required">必須</span></div>
+            <div class="fill-hint">認証・認可・データ保護に関する要件</div>
+            <div class="fill-content">
+              <p>
+                本システムでは、管理画面への不正アクセス防止と顧客情報の保護を目的として、
+                以下のセキュリティ要件を満たすものとする。
+              </p>
+
+              <p><strong>1. 認証方式</strong><br>
+                認証はSpring Securityを用いて実装する。管理者はログイン画面からメールアドレスおよび
+                パスワードを入力して認証を行い、未認証ユーザーは管理画面へアクセスできない。
+                認証が必要なURLにはアクセス制御を設定し、ログイン後のみ利用可能とする。
+              </p>
+
+              <p><strong>2. パスワードの暗号化方式</strong><br>
+                パスワードは平文で保存せず、BCryptによるハッシュ化を行ったうえで保存する。
+                認証時は入力値と保存済みハッシュ値を照合し、パスワードの復号は行わない。
+              </p>
+
+              <p><strong>3. CSRF対策</strong><br>
+                Spring SecurityのCSRF保護機能を有効化する。登録・更新・削除・キャンセルなど
+                状態を変更するリクエストにはCSRFトークンを付与し、正しいトークンを持たない
+                リクエストは拒否する。
+              </p>
+
+              <p><strong>4. XSS対策</strong><br>
+                入力値を画面表示する際は、Thymeleafの標準エスケープ機能を利用して
+                HTMLとして危険な文字列をそのまま出力しない。備考欄などの自由入力項目には、
+                必要に応じてサニタイズまたは文字数制限を設ける。
+              </p>
+
+              <p><strong>5. SQLインジェクション対策</strong><br>
+                データベースアクセスはRepository、ORM、またはプレースホルダ付きSQLを利用し、
+                文字列連結によるSQL生成を避ける。ユーザー入力値をそのままSQL文へ埋め込まず、
+                バインド変数を用いて安全に処理する。
+              </p>
+
+              <p><strong>6. セッション管理</strong><br>
+                ログイン成功時にセッションを発行し、認証状態を管理する。ログアウト時には
+                セッションを無効化し、ログイン成功時にはセッションIDを再生成する。
+                また、一定時間操作がない場合はセッションをタイムアウトさせ、再認証を求める。
+              </p>
+            </div>
           </div>
-        </div>
-        <div class="fill-block">
-          <div class="fill-label">対応環境 <span class="required">必須</span></div>
-          <div class="fill-hint">対応ブラウザ・デバイス</div>
-          <div class="fill-content">
-            <p>・対応ブラウザ：Chrome（最新版）/ Firefox（最新版）/ Edge（最新版）
-・対応デバイス：PC / タブレット / スマートフォン
-（自分の実際の対応範囲に合わせて編集してください）</p>
+
+          <div class="fill-block">
+            <div class="fill-label">対応環境 <span class="required">必須</span></div>
+            <div class="fill-hint">対応ブラウザ・デバイス</div>
+            <div class="fill-content">
+              <p>
+                本システムはWebブラウザを利用してアクセスするWebアプリケーションとして提供される。
+                サーバー側はSpring Bootアプリケーションとして動作し、ブラウザを通じて予約管理および顧客情報管理を行う。
+              </p>
+
+              <p><strong>対応ブラウザ</strong><br>
+                Google Chrome（最新版）<br>
+                Mozilla Firefox（最新版）<br>
+                Microsoft Edge（最新版）<br>
+                ※Internet Explorerには対応しない
+              </p>
+
+              <p><strong>対応デバイス</strong><br>
+                PC（Windows / macOS）<br>
+                タブレット（iPad / Android タブレット）<br>
+                スマートフォン（iOS / Android）
+              </p>
+
+              <p><strong>サーバー環境</strong><br>
+                アプリケーションフレームワーク：Spring Boot<br>
+                テンプレートエンジン：Thymeleaf<br>
+                データベース：MySQL（本番環境） / H2（開発環境）<br>
+                Java実行環境：Java 17 以上
+              </p>
+
+              <p><strong>ネットワーク環境</strong><br>
+                本システムはインターネットまたは社内ネットワークを通じてアクセスするWebシステムとして提供される。
+                ブラウザとサーバー間の通信はHTTPまたはHTTPSを使用する。
+              </p>
+            </div>
           </div>
-        </div>
 
         </section>
 
@@ -170,4 +1089,5 @@
 
   <script src="../js/main.js"></script>
 </body>
+
 </html>

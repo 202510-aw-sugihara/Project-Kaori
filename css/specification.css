@@ -1,0 +1,73 @@
+/* =====================================================
+   specification.css
+   仕様書ページ専用（最小変更版）
+   既存UIを崩さず可読性のみ改善
+   ===================================================== */
+
+/* ------------------------------
+   構成図 / 画面遷移図
+------------------------------ */
+
+.page-specification #sec1 pre,
+.page-specification #sec3 pre {
+    padding: 20px 22px;
+    background: var(--gray-100);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    font-family: "Courier New", monospace;
+    font-size: 13px;
+    line-height: 1.8;
+    overflow-x: auto;
+}
+
+
+/* ------------------------------
+   機能詳細本文
+------------------------------ */
+
+.page-specification #sec4 .fill-content {
+    line-height: 2;
+}
+
+
+/* ------------------------------
+   段落間隔
+------------------------------ */
+
+.page-specification #sec4 .fill-content p {
+    margin-bottom: 16px;
+}
+
+.page-specification #sec4 .fill-content p:last-child {
+    margin-bottom: 0;
+}
+
+
+/* ------------------------------
+   機能ブロック間隔
+------------------------------ */
+
+.page-specification #sec4 .fill-block {
+    margin-bottom: 32px;
+}
+
+
+/* ------------------------------
+   テーブル可読性
+------------------------------ */
+
+.page-specification #sec4 .doc-table th,
+.page-specification #sec4 .doc-table td {
+    padding-top: 16px;
+    padding-bottom: 16px;
+    line-height: 1.75;
+}
+
+
+/* ------------------------------
+   非機能要件本文
+------------------------------ */
+
+.page-specification #sec5 .fill-content {
+    line-height: 2;
+}

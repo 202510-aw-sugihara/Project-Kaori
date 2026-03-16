@@ -1474,3 +1474,415 @@ h3,
         border-style: solid;
     }
 }
+
+/* ============================================================
+   SPECIFICATION PAGE ONLY
+   07-specification.html 専用
+   ============================================================ */
+
+.page-specification .doc-body {
+    max-width: 1160px;
+    padding-top: 44px;
+}
+
+.page-specification #sec1 .fill-content,
+.page-specification #sec3 .fill-content,
+.page-specification #sec4 .fill-content,
+.page-specification #sec5 .fill-content {
+    line-height: 1.95;
+    font-size: 14px;
+}
+
+.page-specification #sec4 .subsection {
+    margin-top: 8px;
+}
+
+.page-specification #sec4 .subsection-title {
+    font-size: 22px;
+    font-weight: 800;
+    line-height: 1.4;
+    margin-bottom: 24px;
+    padding: 0 0 0 16px;
+    border-left: 4px solid var(--black);
+    color: var(--black);
+}
+
+.page-specification #sec4 .fill-block {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 24px;
+    margin-bottom: 28px;
+    box-shadow: var(--shadow-md);
+    transition:
+        transform var(--transition-base),
+        box-shadow var(--transition-base),
+        border-color var(--transition-base);
+}
+
+.page-specification #sec4 .fill-block:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.06);
+    border-color: var(--gray-300);
+}
+
+.page-specification #sec4 .fill-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--black);
+    color: var(--white);
+    padding: 8px 14px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 1.4;
+    margin-bottom: 10px;
+}
+
+.page-specification #sec4 .fill-label .required,
+.page-specification #sec4 .fill-label .optional {
+    background: rgba(255, 255, 255, 0.16);
+    color: var(--white);
+    padding: 2px 8px;
+}
+
+.page-specification #sec4 .fill-hint {
+    font-size: 12px;
+    color: var(--gray-600);
+    margin-bottom: 16px;
+    font-weight: 500;
+}
+
+.page-specification #sec4 .fill-content {
+    background: #fafafa;
+    border: 1px solid var(--gray-200);
+    border-radius: 8px;
+    padding: 22px 24px;
+    font-size: 14px;
+    line-height: 1.95;
+    color: var(--text);
+}
+
+.page-specification #sec4 .fill-content p {
+    margin-bottom: 18px;
+}
+
+.page-specification #sec4 .fill-content p:last-child {
+    margin-bottom: 0;
+}
+
+.page-specification #sec4 .fill-content strong {
+    display: inline-block;
+    font-size: 14px;
+    font-weight: 800;
+    color: var(--black);
+    margin-bottom: 4px;
+}
+
+.page-specification #sec4 .fill-block:has(.doc-table) .fill-label {
+    background: var(--gray-100);
+    color: var(--black);
+    border: 1px solid var(--border);
+    padding: 8px 12px;
+}
+
+.page-specification #sec4 .doc-table,
+.page-specification #sec2 .doc-table,
+.page-specification #sec5 .doc-table {
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
+}
+
+.page-specification #sec4 .doc-table thead th,
+.page-specification #sec2 .doc-table thead th,
+.page-specification #sec5 .doc-table thead th {
+    background: var(--gray-800);
+    color: var(--white);
+    font-size: 13px;
+    font-weight: 700;
+    padding: 13px 16px;
+    letter-spacing: 0.01em;
+}
+
+.page-specification #sec4 .doc-table tbody td,
+.page-specification #sec2 .doc-table tbody td,
+.page-specification #sec5 .doc-table tbody td {
+    padding: 13px 16px;
+    line-height: 1.75;
+    vertical-align: top;
+}
+
+.page-specification #sec4 .doc-table tbody tr:nth-child(even),
+.page-specification #sec2 .doc-table tbody tr:nth-child(even),
+.page-specification #sec5 .doc-table tbody tr:nth-child(even) {
+    background: #fafafa;
+}
+
+.page-specification #sec4 .doc-table tbody tr:hover,
+.page-specification #sec2 .doc-table tbody tr:hover,
+.page-specification #sec5 .doc-table tbody tr:hover {
+    background: #f3f3f3;
+}
+
+.page-specification #sec1 pre,
+.page-specification #sec3 pre {
+    background: #fafafa;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 22px 24px;
+    margin-bottom: 18px;
+    overflow-x: auto;
+    font-family: "Courier New", Courier, monospace;
+    font-size: 13px;
+    line-height: 1.8;
+    color: var(--gray-900);
+    box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.01);
+}
+
+.page-specification .toc {
+    border-radius: 10px;
+    box-shadow: var(--shadow-sm);
+}
+
+.page-specification .toc-title {
+    font-size: 15px;
+    margin-bottom: 14px;
+}
+
+.page-specification .toc-list li a {
+    padding: 12px 0;
+}
+
+.page-specification #sec5 .fill-content {
+    background: #fafafa;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+}
+
+.page-specification .badge {
+    border-radius: 999px;
+    padding: 4px 10px;
+    min-width: 60px;
+    justify-content: center;
+    letter-spacing: 0.02em;
+}
+
+@media (max-width: 768px) {
+    .page-specification #sec4 .fill-block {
+        padding: 18px;
+        margin-bottom: 22px;
+    }
+
+    .page-specification #sec4 .fill-content {
+        padding: 16px 16px;
+        font-size: 13px;
+    }
+
+    .page-specification #sec1 pre,
+    .page-specification #sec3 pre {
+        padding: 16px;
+        font-size: 12px;
+        line-height: 1.7;
+    }
+}
+
+/* =========================================================
+   08-db-design.html 専用調整
+   対象: body.page-db-design
+   ========================================================= */
+
+/* ページ本体の横幅と余白 */
+.page-db-design .doc-body {
+    max-width: 1180px;
+    padding-top: 44px;
+}
+
+/* セクション本文の読みやすさ */
+.page-db-design .fill-content,
+.page-db-design .fill-hint,
+.page-db-design .doc-table td,
+.page-db-design .doc-table th {
+    line-height: 1.75;
+}
+
+/* テーブル名ラベルの視認性向上 */
+.page-db-design .fill-label {
+    letter-spacing: 0.01em;
+}
+
+/* ---------------------------------------------------------
+   ER図 / SQL 表示用 pre
+--------------------------------------------------------- */
+.page-db-design .fill-content pre {
+    margin: 0;
+    padding: 20px 22px;
+    background: #f7f7f7;
+    border: 1px solid #e3e3e3;
+    border-radius: 12px;
+    overflow-x: auto;
+    white-space: pre;
+    font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+    font-size: 12.5px;
+    line-height: 1.7;
+    color: #222;
+}
+
+/* ER図は少しだけコンパクトに */
+.page-db-design #sec1 .fill-content pre {
+    font-size: 12px;
+    line-height: 1.65;
+}
+
+/* SQLは横長になりやすいので少し余白を広めに */
+.page-db-design #sec4 .fill-content pre {
+    font-size: 12.5px;
+    line-height: 1.75;
+    padding: 22px 24px;
+}
+
+/* ---------------------------------------------------------
+   テーブル共通
+--------------------------------------------------------- */
+.page-db-design .doc-table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+
+.page-db-design .doc-table th,
+.page-db-design .doc-table td {
+    vertical-align: top;
+    word-break: break-word;
+}
+
+.page-db-design .doc-table thead th {
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.page-db-design .doc-table tbody td {
+    font-size: 13px;
+}
+
+/* 行が多いのでセル内余白を少し最適化 */
+.page-db-design .doc-table th,
+.page-db-design .doc-table td {
+    padding: 12px 14px;
+}
+
+/* ---------------------------------------------------------
+   セクション2 テーブル定義
+--------------------------------------------------------- */
+.page-db-design #sec2 .doc-table th:nth-child(1),
+.page-db-design #sec2 .doc-table td:nth-child(1) {
+    width: 16%;
+}
+
+.page-db-design #sec2 .doc-table th:nth-child(2),
+.page-db-design #sec2 .doc-table td:nth-child(2) {
+    width: 15%;
+}
+
+.page-db-design #sec2 .doc-table th:nth-child(3),
+.page-db-design #sec2 .doc-table td:nth-child(3) {
+    width: 7%;
+    text-align: center;
+}
+
+.page-db-design #sec2 .doc-table th:nth-child(4),
+.page-db-design #sec2 .doc-table td:nth-child(4) {
+    width: 14%;
+}
+
+.page-db-design #sec2 .doc-table th:nth-child(5),
+.page-db-design #sec2 .doc-table td:nth-child(5) {
+    width: 16%;
+}
+
+.page-db-design #sec2 .doc-table th:nth-child(6),
+.page-db-design #sec2 .doc-table td:nth-child(6) {
+    width: 32%;
+}
+
+/* ---------------------------------------------------------
+   セクション3 インデックス設計
+--------------------------------------------------------- */
+.page-db-design #sec3 .doc-table th:nth-child(1),
+.page-db-design #sec3 .doc-table td:nth-child(1) {
+    width: 14%;
+}
+
+.page-db-design #sec3 .doc-table th:nth-child(2),
+.page-db-design #sec3 .doc-table td:nth-child(2) {
+    width: 24%;
+}
+
+.page-db-design #sec3 .doc-table th:nth-child(3),
+.page-db-design #sec3 .doc-table td:nth-child(3) {
+    width: 20%;
+}
+
+.page-db-design #sec3 .doc-table th:nth-child(4),
+.page-db-design #sec3 .doc-table td:nth-child(4) {
+    width: 10%;
+    text-align: center;
+}
+
+.page-db-design #sec3 .doc-table th:nth-child(5),
+.page-db-design #sec3 .doc-table td:nth-child(5) {
+    width: 32%;
+}
+
+/* ---------------------------------------------------------
+   外部キー制約一覧
+--------------------------------------------------------- */
+.page-db-design #sec2 .fill-block:last-child .fill-content pre {
+    font-size: 12.5px;
+    line-height: 1.8;
+}
+
+/* ---------------------------------------------------------
+   リンクボックス
+--------------------------------------------------------- */
+.page-db-design .external-link-box-desc {
+    line-height: 1.8;
+}
+
+.page-db-design .external-link-input input[type="text"] {
+    font-size: 14px;
+}
+
+/* ---------------------------------------------------------
+   画面幅別調整
+--------------------------------------------------------- */
+@media (max-width: 1024px) {
+    .page-db-design .doc-body {
+        max-width: 100%;
+    }
+
+    .page-db-design .fill-content pre {
+        font-size: 11.5px;
+        padding: 18px 18px;
+    }
+
+    .page-db-design .doc-table th,
+    .page-db-design .doc-table td {
+        padding: 10px 12px;
+        font-size: 12px;
+    }
+}
+
+@media (max-width: 768px) {
+    .page-db-design .fill-content pre {
+        font-size: 11px;
+        line-height: 1.6;
+    }
+
+    .page-db-design .doc-table {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+    }
+}
