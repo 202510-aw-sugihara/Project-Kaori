@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.shizuka.mapper.ReservationMapper">
+
+  <resultMap id="ReservationMap" type="com.example.shizuka.entity.Reservation">
+    <id property="id" column="id" />
+    <result property="userId" column="user_id" />
+    <result property="planId" column="plan_id" />
+    <result property="planTimeSlotId" column="plan_time_slot_id" />
+    <result property="reservationDate" column="reservation_date" />
+    <result property="startTime" column="start_time" />
+    <result property="status" column="status" />
+    <result property="participantCount" column="participant_count" />
+    <result property="totalPrice" column="total_price" />
+    <result property="createdAt" column="created_at" />
+    <result property="updatedAt" column="updated_at" />
+    <result property="deletedAt" column="deleted_at" />
+  </resultMap>
+
+  <select id="findById" resultMap="ReservationMap">
+    SELECT * FROM reservations
+    WHERE id = #{id}
+      AND deleted_at IS NULL
+  </select>
+
+  <select id="search" resultMap="ReservationMap">
+    SELECT r.*
+    FROM reservations r
+    INNER JOIN users u ON u.id = r.user_id AND u.deleted_at IS NULL
+    WHERE r.deleted_at IS NULL
+    <if test="status != null">
+      AND r.status = #{status}
+    </if>
+    <if test="reservationDate != null">
+      AND r.reservation_date = #{reservationDate}
+    </if>
+    <if test="customerName != null">
+      AND u.name LIKE CONCAT('%', #{customerName}, '%')
+    </if>
+    ORDER BY r.reservation_date, r.start_time
+    <if test="limit != null">
+      LIMIT #{limit}
+    </if>
+    <if test="offset != null">
+      OFFSET #{offset}
+    </if>
+  </select>
+
+  <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+    INSERT INTO reservations
+      (user_id, plan_id, plan_time_slot_id, reservation_date, start_time, status, participant_count, total_price, created_at, updated_at)
+    VALUES
+      (#{userId}, #{planId}, #{planTimeSlotId}, #{reservationDate}, #{startTime}, #{status}, #{participantCount}, #{totalPrice}, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
+  </insert>
+
+  <update id="update">
+    UPDATE reservations
+    SET
+      user_id = #{userId},
+      plan_id = #{planId},
+      plan_time_slot_id = #{planTimeSlotId},
+      reservation_date = #{reservationDate},
+      start_time = #{startTime},
+      status = #{status},
+      participant_count = #{participantCount},
+      total_price = #{totalPrice},
+      updated_at = CURRENT_TIMESTAMP
+    WHERE id = #{id}
+      AND deleted_at IS NULL
+  </update>
+
+  <update id="softDelete">
+    UPDATE reservations
+    SET deleted_at = CURRENT_TIMESTAMP
+    WHERE id = #{id}
+      AND deleted_at IS NULL
+  </update>
+</mapper>

@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.shizuka.mapper.PlanTimeSlotMapper">
+
+  <resultMap id="PlanTimeSlotMap" type="com.example.shizuka.entity.PlanTimeSlot">
+    <id property="id" column="id" />
+    <result property="planId" column="plan_id" />
+    <result property="slotDate" column="slot_date" />
+    <result property="startTime" column="start_time" />
+    <result property="endTime" column="end_time" />
+    <result property="capacity" column="capacity" />
+    <result property="reservedCount" column="reserved_count" />
+    <result property="isOpen" column="is_open" />
+    <result property="createdAt" column="created_at" />
+    <result property="updatedAt" column="updated_at" />
+    <result property="deletedAt" column="deleted_at" />
+  </resultMap>
+
+  <select id="findById" resultMap="PlanTimeSlotMap">
+    SELECT * FROM plan_time_slots
+    WHERE id = #{id}
+      AND deleted_at IS NULL
+  </select>
+
+  <select id="findByPlanAndSlot" resultMap="PlanTimeSlotMap">
+    SELECT * FROM plan_time_slots
+    WHERE plan_id = #{planId}
+      AND slot_date = #{slotDate}
+      AND start_time = #{startTime}
+      AND deleted_at IS NULL
+  </select>
+
+  <select id="search" resultMap="PlanTimeSlotMap">
+    SELECT *
+    FROM plan_time_slots
+    WHERE deleted_at IS NULL
+    <if test="planId != null">
+      AND plan_id = #{planId}
+    </if>
+    <if test="slotDate != null">
+      AND slot_date = #{slotDate}
+    </if>
+    <if test="isOpen != null">
+      AND is_open = #{isOpen}
+    </if>
+    ORDER BY slot_date, start_time
+    <if test="limit != null">
+      LIMIT #{limit}
+    </if>
+    <if test="offset != null">
+      OFFSET #{offset}
+    </if>
+  </select>
+
+  <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+    INSERT INTO plan_time_slots
+      (plan_id, slot_date, start_time, end_time, capacity, reserved_count, is_open, created_at, updated_at)
+    VALUES
+      (#{planId}, #{slotDate}, #{startTime}, #{endTime}, #{capacity}, #{reservedCount}, #{isOpen}, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
+  </insert>
+
+  <update id="update">
+    UPDATE plan_time_slots
+    SET
+      plan_id = #{planId},
+      slot_date = #{slotDate},
+      start_time = #{startTime},
+      end_time = #{endTime},
+      capacity = #{capacity},
+      is_open = #{isOpen},
+      updated_at = CURRENT_TIMESTAMP
+    WHERE id = #{id}
+      AND deleted_at IS NULL
+  </update>
+
+  <update id="incrementReservedCount">
+    UPDATE plan_time_slots
+    SET reserved_count = reserved_count + #{delta},
+        updated_at = CURRENT_TIMESTAMP
+    WHERE id = #{id}
+      AND deleted_at IS NULL
+  </update>
+
+  <update id="softDelete">
+    UPDATE plan_time_slots
+    SET deleted_at = CURRENT_TIMESTAMP
+    WHERE id = #{id}
+      AND deleted_at IS NULL
+  </update>
+</mapper>

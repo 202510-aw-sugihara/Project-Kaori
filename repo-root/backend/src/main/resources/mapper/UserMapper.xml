@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.shizuka.mapper.UserMapper">
+
+  <resultMap id="UserMap" type="com.example.shizuka.entity.User">
+    <id property="id" column="id" />
+    <result property="name" column="name" />
+    <result property="email" column="email" />
+    <result property="passwordHash" column="password_hash" />
+    <result property="phone" column="phone" />
+    <result property="role" column="role" />
+    <result property="createdAt" column="created_at" />
+    <result property="updatedAt" column="updated_at" />
+    <result property="deletedAt" column="deleted_at" />
+  </resultMap>
+
+  <select id="findByEmail" resultMap="UserMap">
+    SELECT * FROM users
+    WHERE email = #{email}
+      AND deleted_at IS NULL
+  </select>
+
+  <select id="findById" resultMap="UserMap">
+    SELECT * FROM users
+    WHERE id = #{id}
+      AND deleted_at IS NULL
+  </select>
+
+  <select id="findByRole" resultMap="UserMap">
+    SELECT * FROM users
+    WHERE role = #{role}
+      AND deleted_at IS NULL
+    ORDER BY name
+  </select>
+
+  <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+    INSERT INTO users
+      (name, email, password_hash, phone, role, created_at, updated_at)
+    VALUES
+      (#{name}, #{email}, #{passwordHash}, #{phone}, #{role}, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
+  </insert>
+
+  <update id="update">
+    UPDATE users
+    SET
+      name = #{name},
+      email = #{email},
+      password_hash = #{passwordHash},
+      phone = #{phone},
+      role = #{role},
+      updated_at = CURRENT_TIMESTAMP
+    WHERE id = #{id}
+      AND deleted_at IS NULL
+  </update>
+
+  <update id="softDelete">
+    UPDATE users
+    SET deleted_at = CURRENT_TIMESTAMP
+    WHERE id = #{id}
+      AND deleted_at IS NULL
+  </update>
+</mapper>

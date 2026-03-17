@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.shizuka.mapper.PlanMapper">
+
+  <resultMap id="PlanMap" type="com.example.shizuka.entity.Plan">
+    <id property="id" column="id" />
+    <result property="name" column="name" />
+    <result property="description" column="description" />
+    <result property="durationMinutes" column="duration_minutes" />
+    <result property="price" column="price" />
+    <result property="capacity" column="capacity" />
+    <result property="isActive" column="is_active" />
+    <result property="createdAt" column="created_at" />
+    <result property="updatedAt" column="updated_at" />
+    <result property="deletedAt" column="deleted_at" />
+  </resultMap>
+
+  <select id="findById" resultMap="PlanMap">
+    SELECT * FROM plans
+    WHERE id = #{id}
+      AND deleted_at IS NULL
+  </select>
+
+  <select id="findAllActive" resultMap="PlanMap">
+    SELECT * FROM plans
+    WHERE is_active = TRUE
+      AND deleted_at IS NULL
+    ORDER BY name
+  </select>
+
+  <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+    INSERT INTO plans
+      (name, description, duration_minutes, price, capacity, is_active, created_at, updated_at)
+    VALUES
+      (#{name}, #{description}, #{durationMinutes}, #{price}, #{capacity}, #{isActive}, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
+  </insert>
+
+  <update id="update">
+    UPDATE plans
+    SET
+      name = #{name},
+      description = #{description},
+      duration_minutes = #{durationMinutes},
+      price = #{price},
+      capacity = #{capacity},
+      is_active = #{isActive},
+      updated_at = CURRENT_TIMESTAMP
+    WHERE id = #{id}
+      AND deleted_at IS NULL
+  </update>
+
+  <update id="softDelete">
+    UPDATE plans
+    SET deleted_at = CURRENT_TIMESTAMP
+    WHERE id = #{id}
+      AND deleted_at IS NULL
+  </update>
+</mapper>

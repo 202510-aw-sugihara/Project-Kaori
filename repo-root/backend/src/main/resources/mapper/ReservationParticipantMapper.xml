@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.shizuka.mapper.ReservationParticipantMapper">
+
+  <resultMap id="ReservationParticipantMap" type="com.example.shizuka.entity.ReservationParticipant">
+    <id property="id" column="id" />
+    <result property="reservationId" column="reservation_id" />
+    <result property="participantName" column="participant_name" />
+    <result property="participantNameKana" column="participant_name_kana" />
+    <result property="ageGroup" column="age_group" />
+    <result property="allergyNote" column="allergy_note" />
+    <result property="createdAt" column="created_at" />
+    <result property="updatedAt" column="updated_at" />
+    <result property="deletedAt" column="deleted_at" />
+  </resultMap>
+
+  <select id="findByReservationId" resultMap="ReservationParticipantMap">
+    SELECT * FROM reservation_participants
+    WHERE reservation_id = #{reservationId}
+      AND deleted_at IS NULL
+  </select>
+
+  <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+    INSERT INTO reservation_participants
+      (reservation_id, participant_name, participant_name_kana, age_group, allergy_note, created_at, updated_at)
+    VALUES
+      (#{reservationId}, #{participantName}, #{participantNameKana}, #{ageGroup}, #{allergyNote}, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
+  </insert>
+
+  <insert id="insertBatch">
+    INSERT INTO reservation_participants
+      (reservation_id, participant_name, participant_name_kana, age_group, allergy_note, created_at, updated_at)
+    VALUES
+    <foreach collection="list" item="item" separator="," >
+      (#{item.reservationId}, #{item.participantName}, #{item.participantNameKana}, #{item.ageGroup}, #{item.allergyNote}, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
+    </foreach>
+  </insert>
+
+  <delete id="deleteByReservationId">
+    UPDATE reservation_participants
+    SET deleted_at = CURRENT_TIMESTAMP
+    WHERE reservation_id = #{reservationId}
+      AND deleted_at IS NULL
+  </delete>
+</mapper>
