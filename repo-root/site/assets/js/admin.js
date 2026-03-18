@@ -42,6 +42,24 @@
   function formatTime(value) { return value ? String(value).slice(0, 5) : ""; }
   function formatYen(value) { var num = Number(value || 0); return "¥" + num.toLocaleString("ja-JP"); }
 
+  function escapeHtml(value) {
+    return String(value == null ? "" : value)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#39;");
+  }
+
+  function parseErrorBody(err) {
+    if (!err || !err.body) return null;
+    try {
+      return JSON.parse(err.body);
+    } catch (e) {
+      return null;
+    }
+  }
+
   var userEl = qs(".js-admin-user");
   var logoutBtn = qs(".js-admin-logout");
   var loginForm = qs(".js-admin-login");
@@ -54,8 +72,8 @@
 
   function loadMe() {
     return fetchJson("/api/admin/auth/me")
-      .then(function (user) { setUser(user); return user; })
-      .catch(function () { setUser(null); return null; });
+      .then(function (user) { setUser(user); setCreateReservationEnabled(true); return user; })
+      .catch(function () { setUser(null); setCreateReservationEnabled(false); return null; });
   }
 
   if (loginForm) {
@@ -68,7 +86,7 @@
       };
       withCsrf({ method: "POST", body: JSON.stringify(data) })
         .then(function (opt) { return fetchJson("/api/admin/auth/login", opt); })
-        .then(function (user) { setUser(user); refreshAll(); })
+        .then(function (user) { setUser(user); setCreateReservationEnabled(true); refreshAll(); })
         .catch(function () { if (loginError) loginError.textContent = "ログインに失敗しました。"; });
     });
   }
@@ -77,8 +95,8 @@
     logoutBtn.addEventListener("click", function () {
       withCsrf({ method: "POST" })
         .then(function (opt) { return fetchJson("/api/admin/auth/logout", opt); })
-        .then(function () { setUser(null); })
-        .catch(function () { setUser(null); });
+        .then(function () { setUser(null); setCreateReservationEnabled(false); })
+        .catch(function () { setUser(null); setCreateReservationEnabled(false); });
     });
   }
 
@@ -270,7 +288,11 @@
   }
 
   function fetchPlans() {
-    return fetchJson("/api/admin/plans").then(function (list) { renderPlanList(list || []); });
+    return fetchJson("/api/admin/plans").then(function (list) {
+      var plans = list || [];
+      renderPlanList(plans);
+      renderCreatePlanOptions(plans);
+    });
   }
 
   if (planListEl) {
@@ -306,6 +328,494 @@
         .then(function (opt) { return fetchJson("/api/admin/plans/" + id, opt); })
         .then(function () { fetchPlans(); })
         .catch(function () { if (planError) planError.textContent = "更新に失敗しました。"; });
+    });
+  }
+
+  var createReservationForm = qs(".js-admin-create-reservation");
+  var createReservationSection = createReservationForm ? createReservationForm.closest(".admin-card") : null;
+  var createParticipantListEl = qs(".js-create-participant-list");
+  var createPreviewEl = qs(".js-create-reservation-preview");
+  var createErrorEl = qs(".js-create-reservation-error");
+  var createSuccessEl = qs(".js-create-reservation-success");
+  var createLoginNoticeEl = qs(".js-create-login-notice");
+  var createSlotHelpEl = qs(".js-create-slot-help");
+  var createLoadSlotsBtn = qs(".js-load-create-slots");
+  var createPreviewBtn = qs(".js-create-preview");
+  var createSubmitBtn = qs(".js-create-submit");
+  var createPlanSelect = createReservationForm ? qs('[name="planId"]', createReservationForm) : null;
+  var createDateInput = createReservationForm ? qs('[name="slotDate"]', createReservationForm) : null;
+  var createSlotSelect = createReservationForm ? qs('[name="planTimeSlotId"]', createReservationForm) : null;
+  var createParticipantCountInput = createReservationForm ? qs('[name="participantCount"]', createReservationForm) : null;
+  var createSlotCache = {};
+  var createPreviewConfirmed = false;
+  var createReservationEnabled = false;
+
+  function getCreateErrorEl(field) {
+    return createReservationForm ? qs('[data-error-for="' + field + '"]', createReservationForm) : null;
+  }
+
+  function setCreateAlert(el, message) {
+    if (!el) return;
+    if (!message) {
+      el.hidden = true;
+      el.innerHTML = "";
+      return;
+    }
+    el.hidden = false;
+    el.innerHTML = message;
+  }
+
+  function clearCreateAlerts() {
+    setCreateAlert(createErrorEl, "");
+    setCreateAlert(createSuccessEl, "");
+  }
+
+  function setCreateReservationEnabled(enabled) {
+    createReservationEnabled = !!enabled;
+    if (!createReservationForm) return;
+
+    qsa("input, select, textarea, button", createReservationForm).forEach(function (el) {
+      if (el.classList.contains("js-create-submit")) return;
+      el.disabled = !enabled;
+    });
+
+    if (createReservationSection) {
+      createReservationSection.classList.toggle("admin-create-disabled", !enabled);
+    }
+    if (createLoginNoticeEl) {
+      createLoginNoticeEl.hidden = !!enabled;
+    }
+    if (!enabled) {
+      clearCreateAlerts();
+      clearCreateErrors();
+      createPreviewConfirmed = false;
+      resetCreateSlotOptions("先に管理者ログインしてください");
+      if (createSlotHelpEl) createSlotHelpEl.textContent = "ログイン後に空き枠を読み込めます。";
+      if (createPreviewEl) {
+        createPreviewEl.classList.add("admin-muted");
+        createPreviewEl.innerHTML = "先に管理者ログインしてください。ログイン後に予約内容の確認ができます。";
+      }
+    } else {
+      renderReservationPreview(null);
+    }
+    updateCreateSubmitState();
+  }
+
+  function clearCreateErrors() {
+    if (!createReservationForm) return;
+    qsa(".admin-field-error", createReservationForm).forEach(function (el) {
+      el.textContent = "";
+    });
+  }
+
+  function renderCreateErrors(errors) {
+    clearCreateErrors();
+    Object.keys(errors || {}).forEach(function (key) {
+      var el = getCreateErrorEl(key);
+      if (el) el.textContent = errors[key];
+    });
+  }
+
+  function renderCreatePlanOptions(list) {
+    if (!createPlanSelect) return;
+    var selected = createPlanSelect.value;
+    var options = ['<option value="">プランを選択</option>'].concat((list || []).map(function (plan) {
+      return '<option value="' + plan.id + '">' + escapeHtml(plan.name) + "</option>";
+    }));
+    createPlanSelect.innerHTML = options.join("");
+    if (selected && planCache[selected]) {
+      createPlanSelect.value = selected;
+    }
+  }
+
+  function getParticipantCountValue() {
+    if (!createParticipantCountInput) return 1;
+    return Math.max(1, Number(createParticipantCountInput.value || 1));
+  }
+
+  function setSlotLoadingState(isLoading, message) {
+    if (createLoadSlotsBtn) createLoadSlotsBtn.disabled = !!isLoading;
+    if (createSlotSelect) createSlotSelect.disabled = !!isLoading;
+    if (createSlotHelpEl && message) createSlotHelpEl.textContent = message;
+    if (createSlotSelect) createSlotSelect.classList.toggle("admin-loading", !!isLoading);
+  }
+
+  function resetCreateSlotOptions(message) {
+    createSlotCache = {};
+    if (!createSlotSelect) return;
+    createSlotSelect.innerHTML = '<option value="">' + escapeHtml(message || "先に空き枠を読み込んでください") + "</option>";
+    createSlotSelect.disabled = true;
+  }
+
+  function getSlotRemainingCapacity(slot) {
+    return Number(slot.capacity || 0) - Number(slot.reservedCount || 0);
+  }
+
+  function renderCreateSlotOptions(slots) {
+    if (!createSlotSelect) return;
+    var selected = createSlotSelect.value;
+    var participantCount = getParticipantCountValue();
+    createSlotCache = {};
+    var filtered = (slots || []).filter(function (slot) {
+      return getSlotRemainingCapacity(slot) >= participantCount;
+    });
+    if (!filtered.length) {
+      resetCreateSlotOptions("選択した日付に空き枠がありません");
+      if (createSlotHelpEl) createSlotHelpEl.textContent = "利用可能な空き枠が見つかりませんでした。";
+      updateCreateSubmitState();
+      return;
+    }
+    createSlotSelect.disabled = false;
+    createSlotSelect.innerHTML = ['<option value="">時間枠を選択</option>'].concat(filtered.map(function (slot) {
+      createSlotCache[slot.id] = slot;
+      return '<option value="' + slot.id + '">' + escapeHtml(formatTime(slot.startTime) + " - " + formatTime(slot.endTime) + " / 残り " + getSlotRemainingCapacity(slot)) + "</option>";
+    })).join("");
+    if (selected && createSlotCache[selected]) {
+      createSlotSelect.value = selected;
+    }
+    if (createSlotHelpEl) createSlotHelpEl.textContent = filtered.length + "件の空き枠があります。";
+    updateCreateSubmitState();
+  }
+
+  function getSubmitErrorMessage(err) {
+    var parsed = parseErrorBody(err);
+    if (err && err.status === 401) return "セッションの有効期限が切れました。再度ログインしてください。";
+    if (err && err.status === 403) return "この操作を実行する権限がありません。";
+    if (parsed && parsed.message) {
+      if (parsed.status === 409 && /slot/i.test(parsed.message)) {
+        return "選択した枠は現在利用できません。空き枠を再読み込みしてください。";
+      }
+      return parsed.message;
+    }
+    if (err && err.status >= 500) return "サーバーエラーが発生しました。時間をおいて再度お試しください。";
+    return "リクエストに失敗しました。入力内容を確認してください。";
+  }
+
+  function loadAvailableSlots() {
+    if (!createPlanSelect || !createDateInput) return Promise.resolve();
+    clearCreateAlerts();
+    clearCreateErrors();
+    createPreviewConfirmed = false;
+    updateCreateSubmitState();
+
+    var planId = createPlanSelect.value;
+    var slotDate = createDateInput.value;
+    if (!planId || !slotDate) {
+      renderCreateErrors({
+        planId: planId ? "" : "プランを選択してください。",
+        slotDate: slotDate ? "" : "日付を入力してください。"
+      });
+      resetCreateSlotOptions("先にプランと日付を選択してください");
+      if (createSlotHelpEl) createSlotHelpEl.textContent = "プランと日付を選択してから空き枠を読み込んでください。";
+      return Promise.resolve();
+    }
+
+    setSlotLoadingState(true, "空き枠を読み込み中です...");
+    return fetchJson("/api/plans/" + encodeURIComponent(planId) + "/time-slots?slotDate=" + encodeURIComponent(slotDate))
+      .then(function (slots) {
+        renderCreateSlotOptions(slots || []);
+      })
+      .catch(function (err) {
+        resetCreateSlotOptions("空き枠の読み込みに失敗しました");
+        setCreateAlert(createErrorEl, escapeHtml(getSubmitErrorMessage(err)));
+      })
+      .then(function () {
+        setSlotLoadingState(false);
+      });
+  }
+
+  function readParticipantValues() {
+    if (!createParticipantListEl) return [];
+    return qsa(".js-create-participant-card", createParticipantListEl).map(function (card) {
+      return {
+        participantName: qs('[name="participantName"]', card).value.trim(),
+        participantNameKana: qs('[name="participantNameKana"]', card).value.trim(),
+        ageGroup: qs('[name="ageGroup"]', card).value.trim(),
+        allergyNote: qs('[name="allergyNote"]', card).value.trim()
+      };
+    });
+  }
+
+  function renderParticipantFields(count) {
+    if (!createParticipantListEl) return;
+    var safeCount = Math.max(1, Number(count || 1));
+    var existing = readParticipantValues();
+    var cards = [];
+    for (var i = 0; i < safeCount; i += 1) {
+      var current = existing[i] || {};
+      cards.push(
+        '<section class="admin-participant-card js-create-participant-card" data-index="' + i + '">'
+          + "<h4>参加者 " + (i + 1) + "</h4>"
+          + '<div class="admin-participant-grid">'
+            + "<label><span>氏名</span>"
+            + '<input type="text" name="participantName" maxlength="100" value="' + escapeHtml(current.participantName || "") + '" required />'
+            + '<span class="admin-field-error" data-error-for="participants.' + i + '.participantName"></span></label>'
+            + "<label><span>氏名かな</span>"
+            + '<input type="text" name="participantNameKana" maxlength="100" value="' + escapeHtml(current.participantNameKana || "") + '" required />'
+            + '<span class="admin-field-error" data-error-for="participants.' + i + '.participantNameKana"></span></label>'
+            + "<label><span>年代</span>"
+            + '<input type="text" name="ageGroup" maxlength="50" value="' + escapeHtml(current.ageGroup || "") + '" />'
+            + '<span class="admin-field-error" data-error-for="participants.' + i + '.ageGroup"></span></label>'
+            + "<label><span>アレルギー備考</span>"
+            + '<input type="text" name="allergyNote" maxlength="255" value="' + escapeHtml(current.allergyNote || "") + '" />'
+            + '<span class="admin-field-error" data-error-for="participants.' + i + '.allergyNote"></span></label>'
+          + "</div>"
+        + "</section>"
+      );
+    }
+    createParticipantListEl.innerHTML = cards.join("");
+  }
+
+  function collectReservationFormData() {
+    if (!createReservationForm) return null;
+    return {
+      planId: Number(createPlanSelect.value || 0) || null,
+      slotDate: createDateInput.value,
+      planTimeSlotId: Number(createSlotSelect.value || 0) || null,
+      customerName: qs('[name="customerName"]', createReservationForm).value.trim(),
+      email: qs('[name="email"]', createReservationForm).value.trim(),
+      phone: qs('[name="phone"]', createReservationForm).value.trim(),
+      participantCount: getParticipantCountValue(),
+      participants: readParticipantValues()
+    };
+  }
+
+  function validateReservationForm(data, options) {
+    var errors = {};
+    var requireConfirm = !options || options.requireConfirm !== false;
+    var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (!data.planId) errors.planId = "プランを選択してください。";
+    if (!data.slotDate) errors.slotDate = "日付を入力してください。";
+    if (!data.planTimeSlotId) errors.planTimeSlotId = "時間枠を選択してください。";
+    if (!data.customerName) errors.customerName = "顧客名を入力してください。";
+    if (!data.email) errors.email = "メールアドレスを入力してください。";
+    else if (!emailPattern.test(data.email)) errors.email = "メールアドレスの形式が正しくありません。";
+    if (!data.phone) errors.phone = "電話番号を入力してください。";
+    if (!data.participantCount || data.participantCount < 1) errors.participantCount = "参加人数は1名以上にしてください。";
+    if (!Array.isArray(data.participants) || data.participants.length !== data.participantCount) {
+      errors.participants = "参加人数と参加者入力欄の数が一致していません。";
+    }
+
+    (data.participants || []).forEach(function (participant, index) {
+      if (!participant.participantName) {
+        errors["participants." + index + ".participantName"] = "氏名を入力してください。";
+      }
+      if (!participant.participantNameKana) {
+        errors["participants." + index + ".participantNameKana"] = "氏名かなを入力してください。";
+      }
+    });
+
+    if (requireConfirm && !createPreviewConfirmed) {
+      errors.participants = errors.participants || "登録前に確認を行ってください。";
+    }
+
+    return errors;
+  }
+
+  function renderReservationPreview(data) {
+    if (!createPreviewEl) return;
+    var plan = data && data.planId ? planCache[data.planId] : null;
+    var slot = data && data.planTimeSlotId ? createSlotCache[data.planTimeSlotId] : null;
+    if (!data) {
+      createPreviewEl.classList.add("admin-muted");
+      createPreviewEl.innerHTML = "フォームを入力して「確認」を押すと、登録前に内容を確認できます。";
+      return;
+    }
+    createPreviewEl.classList.remove("admin-muted");
+    createPreviewEl.innerHTML = ""
+      + '<p class="admin-preview-meta"><strong>プラン:</strong> ' + escapeHtml(plan ? plan.name : "") + "</p>"
+      + '<p class="admin-preview-meta"><strong>日時:</strong> ' + escapeHtml((data.slotDate || "") + (slot ? " " + formatTime(slot.startTime) + " - " + formatTime(slot.endTime) : "")) + "</p>"
+      + '<p class="admin-preview-meta"><strong>顧客名:</strong> ' + escapeHtml(data.customerName) + "</p>"
+      + '<p class="admin-preview-meta"><strong>メールアドレス:</strong> ' + escapeHtml(data.email) + "</p>"
+      + '<p class="admin-preview-meta"><strong>電話番号:</strong> ' + escapeHtml(data.phone) + "</p>"
+      + '<p class="admin-preview-meta"><strong>参加人数:</strong> ' + escapeHtml(data.participantCount) + "</p>"
+      + '<ul class="admin-preview-list">' + data.participants.map(function (participant) {
+        return "<li>" + escapeHtml(participant.participantName + (participant.participantNameKana ? " / " + participant.participantNameKana : "")) + "</li>";
+      }).join("") + "</ul>";
+  }
+
+  function renderCreatedReservationSummary(reservation, fallbackData) {
+    if (!createPreviewEl) return;
+    var source = reservation || {};
+    var participants = source.participants || (fallbackData ? fallbackData.participants : []) || [];
+    createPreviewEl.classList.remove("admin-muted");
+    createPreviewEl.innerHTML = ""
+      + '<p class="admin-preview-meta"><strong>予約ID:</strong> ' + escapeHtml(source.id || "") + "</p>"
+      + '<p class="admin-preview-meta"><strong>プラン:</strong> ' + escapeHtml(source.planName || (fallbackData && planCache[fallbackData.planId] ? planCache[fallbackData.planId].name : "")) + "</p>"
+      + '<p class="admin-preview-meta"><strong>日時:</strong> ' + escapeHtml((source.reservationDate || (fallbackData && fallbackData.slotDate) || "") + (source.startTime ? " " + formatTime(source.startTime) : "")) + "</p>"
+      + '<p class="admin-preview-meta"><strong>顧客名:</strong> ' + escapeHtml(source.customerName || (fallbackData && fallbackData.customerName) || "") + "</p>"
+      + '<p class="admin-preview-meta"><strong>メールアドレス:</strong> ' + escapeHtml(source.customerEmail || (fallbackData && fallbackData.email) || "") + "</p>"
+      + '<p class="admin-preview-meta"><strong>電話番号:</strong> ' + escapeHtml(source.customerPhone || (fallbackData && fallbackData.phone) || "") + "</p>"
+      + '<p class="admin-preview-meta"><strong>状態:</strong> ' + escapeHtml(source.status || "") + "</p>"
+      + '<ul class="admin-preview-list">' + participants.map(function (participant) {
+        return "<li>" + escapeHtml((participant.participantName || "") + ((participant.participantNameKana || "") ? " / " + participant.participantNameKana : "")) + "</li>";
+      }).join("") + "</ul>";
+  }
+
+  function applyServerValidation(err) {
+    var parsed = parseErrorBody(err);
+    var fieldErrors = {};
+    if (parsed && Array.isArray(parsed.details)) {
+      parsed.details.forEach(function (detail) {
+        if (!detail || !detail.field) return;
+        var field = detail.field;
+        if (field.indexOf("participants[") === 0) {
+          field = field.replace(/\[(\d+)\]\./g, ".$1.");
+        }
+        fieldErrors[field] = detail.reason || parsed.message;
+      });
+    }
+    renderCreateErrors(fieldErrors);
+    return Object.keys(fieldErrors).length > 0;
+  }
+
+  function buildReservationPayload(data) {
+    return {
+      planId: data.planId,
+      planTimeSlotId: data.planTimeSlotId,
+      participantCount: data.participantCount,
+      participants: data.participants.map(function (participant) {
+        return {
+          participantName: participant.participantName,
+          participantNameKana: participant.participantNameKana,
+          ageGroup: participant.ageGroup || null,
+          allergyNote: participant.allergyNote || null
+        };
+      }),
+      customerName: data.customerName,
+      email: data.email,
+      phone: data.phone
+    };
+  }
+
+  function updateCreateSubmitState() {
+    if (!createSubmitBtn || !createReservationForm) return;
+    if (!createReservationEnabled) {
+      createSubmitBtn.disabled = true;
+      return;
+    }
+    var data = collectReservationFormData();
+    var hasErrors = Object.keys(validateReservationForm(data, { requireConfirm: false })).length > 0;
+    createSubmitBtn.disabled = hasErrors || !createPreviewConfirmed;
+  }
+
+  function resetReservationForm(options) {
+    if (!createReservationForm) return;
+    var keepPlan = options && options.keepPlanDate;
+    var planValue = keepPlan && createPlanSelect ? createPlanSelect.value : "";
+    var dateValue = keepPlan && createDateInput ? createDateInput.value : "";
+    createReservationForm.reset();
+    if (createPlanSelect) createPlanSelect.value = planValue;
+    if (createDateInput) createDateInput.value = dateValue;
+    if (createParticipantCountInput) createParticipantCountInput.value = "1";
+    clearCreateErrors();
+    clearCreateAlerts();
+    createPreviewConfirmed = false;
+    resetCreateSlotOptions(keepPlan ? "選択中の日付で空き枠を再読み込みしてください" : "先に空き枠を読み込んでください");
+    if (createSlotHelpEl) createSlotHelpEl.textContent = keepPlan ? "登録が完了しました。必要に応じて空き枠を再読み込みしてください。" : "プランと日付を選択して、空き枠を読み込んでください。";
+    renderParticipantFields(1);
+    renderReservationPreview(null);
+    updateCreateSubmitState();
+  }
+
+  function submitAdminReservation(data) {
+    return withCsrf({ method: "POST", body: JSON.stringify(buildReservationPayload(data)) })
+      .then(function (opt) { return fetchJson("/api/admin/reservations", opt); });
+  }
+
+  if (createReservationForm) {
+    renderParticipantFields(getParticipantCountValue());
+    renderReservationPreview(null);
+    resetCreateSlotOptions("先に空き枠を読み込んでください");
+    setCreateReservationEnabled(false);
+    updateCreateSubmitState();
+
+    createReservationForm.addEventListener("input", function (e) {
+      clearCreateAlerts();
+      if (e.target === createParticipantCountInput) {
+        renderParticipantFields(getParticipantCountValue());
+        resetCreateSlotOptions("参加人数変更後は空き枠を再読み込みしてください");
+        if (createSlotHelpEl) createSlotHelpEl.textContent = "参加人数が変わったため、空き枠を再読み込みしてください。";
+      }
+      createPreviewConfirmed = false;
+      updateCreateSubmitState();
+    });
+
+    createReservationForm.addEventListener("change", function (e) {
+      if (e.target === createPlanSelect || e.target === createDateInput) {
+        createPreviewConfirmed = false;
+        resetCreateSlotOptions("プランまたは日付の変更後は再読み込みしてください");
+        if (createSlotHelpEl) createSlotHelpEl.textContent = "プランまたは日付が変わったため、空き枠を再読み込みしてください。";
+      }
+      if (e.target === createSlotSelect) {
+        createPreviewConfirmed = false;
+      }
+      updateCreateSubmitState();
+    });
+
+    if (createLoadSlotsBtn) {
+      createLoadSlotsBtn.addEventListener("click", function () {
+        loadAvailableSlots();
+      });
+    }
+
+    if (createPreviewBtn) {
+      createPreviewBtn.addEventListener("click", function () {
+        clearCreateAlerts();
+        var data = collectReservationFormData();
+        var errors = validateReservationForm(data, { requireConfirm: false });
+        renderCreateErrors(errors);
+        if (Object.keys(errors).length) {
+          createPreviewConfirmed = false;
+          renderReservationPreview(null);
+          setCreateAlert(createErrorEl, "入力内容を確認してから確認表示を行ってください。");
+          updateCreateSubmitState();
+          return;
+        }
+        createPreviewConfirmed = true;
+        renderReservationPreview(data);
+        setCreateAlert(createSuccessEl, "確認が完了しました。このまま予約を登録できます。");
+        updateCreateSubmitState();
+      });
+    }
+
+    createReservationForm.addEventListener("reset", function () {
+      window.setTimeout(function () {
+        resetReservationForm();
+      }, 0);
+    });
+
+    createReservationForm.addEventListener("submit", function (e) {
+      e.preventDefault();
+      clearCreateAlerts();
+      var data = collectReservationFormData();
+      var errors = validateReservationForm(data);
+      renderCreateErrors(errors);
+      if (Object.keys(errors).length) {
+        setCreateAlert(createErrorEl, "入力内容を確認してから登録してください。");
+        updateCreateSubmitState();
+        return;
+      }
+
+      if (createSubmitBtn) createSubmitBtn.disabled = true;
+      submitAdminReservation(data)
+        .then(function (reservation) {
+          var summary = "予約を登録しました";
+          if (reservation && reservation.id) {
+            summary += "（ID: " + reservation.id + "）";
+          }
+          fetchReservations({ page: 0, size: 50 });
+          resetReservationForm({ keepPlanDate: true });
+          renderCreatedReservationSummary(reservation, data);
+          setCreateAlert(createSuccessEl, summary + ".");
+        })
+        .catch(function (err) {
+          applyServerValidation(err);
+          setCreateAlert(createErrorEl, escapeHtml(getSubmitErrorMessage(err)));
+          createPreviewConfirmed = false;
+          updateCreateSubmitState();
+        });
     });
   }
 
