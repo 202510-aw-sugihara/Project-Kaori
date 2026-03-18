@@ -11,8 +11,8 @@ VALUES
 -- PLANS
 INSERT INTO plans (name, description, duration_minutes, price, capacity, is_active, created_at, updated_at)
 VALUES
-('12種ブレンド体験', '12種類の香料から選んで香水を作成する初心者向けコース', 60, 5500, 6, TRUE, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-('20種ブレンド体験', '20種類の香料から選べる自由度の高い人気コース', 90, 7700, 6, TRUE, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+('12種ブレンド体験', '12種類の香料から選んで香水を作成する初心者向けコース', 60, 4000, 6, TRUE, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+('20種ブレンド体験', '月末限定の20種類の香料から選べる自由度の高い人気コース', 60, 4000, 6, TRUE, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
 
 -- PLAN TIME SLOTS
 INSERT INTO plan_time_slots (plan_id, slot_date, start_time, end_time, capacity, reserved_count, is_open, created_at, updated_at)
