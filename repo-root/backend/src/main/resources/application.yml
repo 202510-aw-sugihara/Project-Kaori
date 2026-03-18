@@ -28,5 +28,6 @@ logging:
     com.example.shizuka: DEBUG
 
 server:
+  port: ${PORT:8080}
   servlet:
     context-path: /
