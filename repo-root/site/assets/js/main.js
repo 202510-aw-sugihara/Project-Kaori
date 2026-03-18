@@ -1,7 +1,9 @@
 ﻿(function () {
   var KEY = "perfumeReservation";
   var FINAL_KEY = "perfumeReservationFinal";
+  var CSRF_KEY = "perfumeReservationCsrf";
   var MAX_PEOPLE = 10;
+  var API_BASE = "https://project-kaori-fmup.onrender.com";
   var COURSE_PRESETS = {
     "12blend": {
       id: "12blend",
@@ -34,6 +36,70 @@
   function qs(selector, root) {
     return (root || document).querySelector(selector);
   }
+  */
+  var confirmBtn = qs(".js-reserve-confirm");
+  if (confirmBtn) {
+    confirmBtn.addEventListener("click", function () {
+      var data = getData();
+      if (!data.course || !data.slot || !data.people || !data.user) {
+        alert("äºˆç´„æƒ…å ±ãŒä¸è¶³ã—ã¦ã„ã¾ã™ã€‚æœ€åˆã‹ã‚‰å…¥åŠ›ã—ã¦ãã ã•ã„ã€‚");
+        window.location.href = "reserve-select-course.html";
+        return;
+      }
+      var planId = getPlanIdFromCourse(data.course);
+      if (!planId || !data.slot.id) {
+        alert("æ—¥ç¨‹ã¨æ™‚é–“ã‚’ã‚‚ã†ä¸€åº¦é¸æŠžã—ã¦ãã ã•ã„ã€‚");
+        window.location.href = "reserve-select-slot.html";
+        return;
+      }
+
+      var errorEl = qs(".js-confirm-error");
+      if (!errorEl) {
+        errorEl = document.createElement("p");
+        errorEl.className = "p-form__error js-confirm-error";
+        if (confirmBtn.parentElement) {
+          confirmBtn.parentElement.insertAdjacentElement("afterend", errorEl);
+        }
+      }
+      errorEl.textContent = "";
+
+      var originalText = confirmBtn.textContent;
+      confirmBtn.disabled = true;
+      confirmBtn.textContent = "é€ä¿¡ä¸­...";
+
+      var payload = {
+        planId: planId,
+        planTimeSlotId: data.slot.id,
+        participantCount: data.people,
+        participants: buildParticipants(data.user, data.people),
+        customerName: data.user.name,
+        email: data.user.email,
+        phone: data.user.phone
+      };
+
+      getCsrfToken()
+        .then(function (csrf) {
+          var headers = {};
+          headers[csrf.headerName] = csrf.token;
+          return fetchJson("/api/reservations", {
+            method: "POST",
+            headers: headers,
+            body: JSON.stringify(payload)
+          });
+        })
+        .then(function (response) {
+          data.apiResponse = response;
+          sessionStorage.setItem(FINAL_KEY, JSON.stringify(data));
+          sessionStorage.removeItem(KEY);
+          window.location.href = "reserve-complete.html";
+        })
+        .catch(function () {
+          confirmBtn.disabled = false;
+          confirmBtn.textContent = originalText;
+          if (errorEl) errorEl.textContent = "é€ä¿¡ã«å¤±æ•—ã—ã¾ã—ãŸã€‚æ™‚é–“ã‚’ç½®ã„ã¦å†åº¦ãŠè©¦ã—ãã ã•ã„ã€‚";
+        });
+    });
+  }
 
   function qsa(selector, root) {
     return Array.prototype.slice.call((root || document).querySelectorAll(selector));
@@ -46,6 +112,192 @@
 
   function formatYen(value) {
     return "¥" + toNumber(value).toLocaleString("ja-JP");
+  }
+
+  function formatMinutes(value) {
+    var minutes = toNumber(value);
+    return minutes ? ("ç´„" + minutes + "åˆ†") : "ç´„60åˆ†";
+  }
+
+  function formatTime(value) {
+    if (!value) return "";
+    return String(value).slice(0, 5);
+  }
+
+  function fetchJson(path, options) {
+    var url = path.indexOf("http") === 0 ? path : (API_BASE + path);
+    var opt = options || {};
+    var headers = Object.assign({
+      "Content-Type": "application/json"
+    }, opt.headers || {});
+    return fetch(url, Object.assign({
+      credentials: "include",
+      headers: headers
+    }, opt, { headers: headers })).then(function (res) {
+      if (!res.ok) {
+        var err = new Error("Request failed");
+        err.status = res.status;
+        return res.text().then(function (text) {
+          err.body = text;
+          throw err;
+        });
+      }
+      if (res.status === 204) return null;
+      return res.json();
+    });
+    */
+    function getSlotStatus(slot) {
+      if (!slot || slot.isOpen === false) return "full";
+      var capacity = toNumber(slot.capacity);
+      var reserved = toNumber(slot.reservedCount);
+      var remaining = capacity - reserved;
+      if (remaining <= 0) return "full";
+      if (remaining <= 2) return "few";
+      return "available";
+    }
+
+    function renderTimeSlots(slots) {
+      if (!timeContainer) return;
+      if (!Array.isArray(slots) || !slots.length) {
+        timeContainer.innerHTML = '<p class="p-app-note">æœ¬æ—¥ã®ç©ºãæž ãŒã‚ã‚Šã¾ã›ã‚“ã€‚åˆ¥ã®æ—¥ä»˜ã‚’é¸æŠžã—ã¦ãã ã•ã„ã€‚</p>';
+        return;
+      }
+      var buttons = slots.map(function (slot) {
+        var timeLabel = formatTime(slot.startTime);
+        var status = getSlotStatus(slot);
+        var symbol = status === "full" ? "Ã—" : status === "few" ? "â–³" : "â—‹";
+        var remaining = toNumber(slot.capacity) - toNumber(slot.reservedCount);
+        var disabled = status === "full";
+        return '<button class="js-slot-select" type="button"'
+          + ' data-slot-id="' + escapeHtml(String(slot.id)) + '"'
+          + ' data-time="' + escapeHtml(timeLabel) + '"'
+          + ' data-status="' + status + '"'
+          + ' data-remaining="' + escapeHtml(String(remaining)) + '"'
+          + ' data-capacity="' + escapeHtml(String(slot.capacity || 0)) + '"'
+          + (disabled ? ' disabled aria-disabled="true"' : '')
+          + '>' + symbol + ' ' + escapeHtml(timeLabel) + '</button>';
+      }).join("");
+      timeContainer.innerHTML = buttons;
+
+      if (slotData.time) {
+        qsa(".js-slot-select", timeContainer).forEach(function (btn) {
+          if (btn.getAttribute("data-time") === slotData.time) {
+            btn.classList.add("is-selected");
+          }
+        });
+      }
+    }
+
+    function loadTimeSlots(dateKey) {
+      var planId = getPlanIdFromCourse(selectedCourse);
+      if (!planId || !dateKey) return;
+      if (timeContainer) {
+        timeContainer.innerHTML = '<p class="p-app-note">èª­ã¿è¾¼ã¿ä¸­ã§ã™â€¦</p>';
+      }
+      fetchJson("/api/plans/" + planId + "/time-slots?slotDate=" + encodeURIComponent(dateKey))
+        .then(function (slots) {
+          renderTimeSlots(slots || []);
+        })
+        .catch(function () {
+          if (timeContainer) {
+            timeContainer.innerHTML = '<p class="p-app-note">æ™‚é–“æž ã®å–å¾—ã«å¤±æ•—ã—ã¾ã—ãŸã€‚å†åº¦ãŠè©¦ã—ãã ã•ã„ã€‚</p>';
+          }
+        });
+    }
+
+    if (timeContainer && !timeContainer.getAttribute("data-bound")) {
+      timeContainer.setAttribute("data-bound", "true");
+      timeContainer.addEventListener("click", function (e) {
+        var button = e.target.closest(".js-slot-select");
+        if (!button || button.disabled) return;
+        qsa(".js-slot-select", timeContainer).forEach(function (b) {
+          b.classList.remove("is-selected");
+        });
+        button.classList.add("is-selected");
+        var data = getData();
+        data.slot = data.slot || {};
+        data.slot.date = slotDate.value;
+        data.slot.time = button.getAttribute("data-time");
+        data.slot.id = Number(button.getAttribute("data-slot-id"));
+        data.slot.status = button.getAttribute("data-status");
+        data.slot.remaining = Number(button.getAttribute("data-remaining"));
+        data.slot.capacity = Number(button.getAttribute("data-capacity"));
+        setData(data);
+        if (selectedTimeText) selectedTimeText.textContent = data.slot.time || "æœªé¸æŠž";
+        if (selectedDateText) selectedDateText.textContent = slotDate.value ? formatDisplayDate(slotDate.value) : "æœªé¸æŠž";
+      });
+    }
+
+    if (slotDate.value) {
+      loadTimeSlots(slotDate.value);
+    }
+  }
+
+  function getCsrfToken() {
+    var cached = sessionStorage.getItem(CSRF_KEY);
+    if (cached) {
+      try {
+        return Promise.resolve(JSON.parse(cached));
+      } catch (e) {}
+    }
+    return fetchJson("/api/csrf").then(function (data) {
+      sessionStorage.setItem(CSRF_KEY, JSON.stringify(data));
+      return data;
+    });
+  }
+
+  function getPlanIdFromCourse(course) {
+    if (!course) return null;
+    if (Number.isFinite(course.planId)) return course.planId;
+    var numeric = Number(course.id);
+    return Number.isFinite(numeric) ? numeric : null;
+  }
+
+  function renderCoursesFromApi(plans) {
+    var container = qs(".p-app-courses");
+    if (!container || !Array.isArray(plans) || !plans.length) return false;
+    var html = plans.map(function (plan) {
+      var name = escapeHtml(plan.name || "ãƒ—ãƒ©ãƒ³");
+      var label = escapeHtml(plan.description || "ã”äºˆç´„ã®ã”æ¡ˆå†…");
+      var price = formatYen(plan.price);
+      var duration = formatMinutes(plan.durationMinutes);
+      return ''
+        + '<article class="p-app-course">'
+        + '<h2>' + name + '</h2>'
+        + '<dl>'
+        + '<div><dt>ã‚³ãƒ¼ã‚¹</dt><dd>' + label + '</dd></div>'
+        + '<div><dt>æ‰€è¦æ™‚é–“</dt><dd>' + duration + '</dd></div>'
+        + '<div><dt>æ–™é‡‘</dt><dd>' + price + '</dd></div>'
+        + '</dl>'
+        + '<p class="p-app-button-row">'
+        + '<button class="p-app-btn p-app-btn--muted js-course-select" type="button"'
+        + ' data-course-id="' + escapeHtml(String(plan.id)) + '"'
+        + ' data-plan-id="' + escapeHtml(String(plan.id)) + '"'
+        + ' data-course-name="' + name + '"'
+        + ' data-course-label="' + label + '"'
+        + ' data-course-price="' + escapeHtml(String(plan.price || 0)) + '"'
+        + ' data-course-duration="' + duration + '">'
+        + 'æ—¥ç¨‹ã‚’é¸æŠžã™ã‚‹</button>'
+        + '</p>'
+        + '</article>';
+    }).join("");
+    container.innerHTML = html;
+    return true;
+  }
+
+  function loadCourses() {
+    return fetchJson("/api/plans").then(function (plans) {
+      if (renderCoursesFromApi(plans)) {
+        qsa(".js-course-select").forEach(function (button) {
+          button.addEventListener("click", function () {
+            saveCourseSelection(getCourseFromElement(button));
+            window.location.href = "reserve-select-slot.html";
+          });
+        });
+      }
+    }).catch(function () {
+      return null;
+    });
   }
 
   function getCoursePreset(id) {
@@ -61,8 +313,11 @@
 
   function getCourseFromElement(element) {
     var courseId = element.getAttribute("data-course-id");
+    var planIdAttr = element.getAttribute("data-plan-id");
+    var planId = planIdAttr ? Number(planIdAttr) : null;
     return {
       id: courseId,
+      planId: Number.isFinite(planId) ? planId : null,
       name: element.getAttribute("data-course-name") || (getCoursePreset(courseId) || {}).name,
       label: element.getAttribute("data-course-label") || (getCoursePreset(courseId) || {}).label,
       price: toNumber(element.getAttribute("data-course-price") || (getCoursePreset(courseId) || {}).price),
@@ -228,6 +483,29 @@
     return /^[\u3041-\u3096\u30A1-\u30FA\u30FC\s]+$/.test(String(value || "").trim());
   }
 
+  function buildParticipants(user, count) {
+    var total = Math.max(1, toNumber(count));
+    var list = [];
+    for (var i = 0; i < total; i += 1) {
+      if (i === 0) {
+        list.push({
+          participantName: user.name,
+          participantNameKana: user.kana,
+          ageGroup: "",
+          allergyNote: user.note || ""
+        });
+      } else {
+        list.push({
+          participantName: "åŒä¼´è€…" + i,
+          participantNameKana: "",
+          ageGroup: "",
+          allergyNote: ""
+        });
+      }
+    }
+    return list;
+  }
+
   qsa('.js-smooth[href^="#"]').forEach(function (link) {
     link.addEventListener("click", function (e) {
       var id = link.getAttribute("href");
@@ -261,6 +539,8 @@
     });
   });
 
+  loadCourses();
+
   var courseText = qs(".js-chosen-course");
   if (courseText) {
     var courseData = getData().course;
@@ -288,6 +568,7 @@
     var calendarTitle = qs(".js-calendar-title");
     var calendarPrev = qs(".js-calendar-prev");
     var calendarNext = qs(".js-calendar-next");
+    var timeContainer = qs(".p-app-time");
     var today = normalizeDate(new Date());
     var selectableStartMonth = startOfMonth(today);
     var selectableEndMonth = startOfMonth(addMonths(today, 2));
@@ -306,7 +587,9 @@
     function isSelectableDate(date) {
       var day = date.getDay();
       var isWeekendOrHoliday = day === 0 || day === 6 || isJapaneseHoliday(date);
-      if (!isWithinWindow(date) || !isWeekendOrHoliday) return false;
+      if (!isWithinWindow(date)) return false;
+      if (selectedCourse && Number.isFinite(selectedCourse.planId)) return true;
+      if (!isWeekendOrHoliday) return false;
       if (!selectedCourse || !selectedCourse.id) return true;
       if (selectedCourse.id === "20blend") return isMonthEndDate(date);
       if (selectedCourse.id === "12blend") return !isMonthEndDate(date);
@@ -326,7 +609,14 @@
       var data = getData();
       data.slot = data.slot || {};
       data.slot.date = key;
+      data.slot.time = "";
+      data.slot.id = null;
+      data.slot.status = "";
+      data.slot.remaining = null;
+      data.slot.capacity = null;
       setData(data);
+      if (selectedTimeText) selectedTimeText.textContent = "æœªé¸æŠž";
+      if (key) loadTimeSlots(key);
       if (selectedDateText) selectedDateText.textContent = date ? formatDisplayDate(date) : "未選択";
     }
 
@@ -416,6 +706,7 @@
       });
     }
 
+    /*
     qsa(".js-slot-select").forEach(function (button) {
       if (button.getAttribute("data-status") === "full") {
         button.disabled = true;
@@ -451,7 +742,7 @@
         window.location.href = "reserve-select-course.html";
         return;
       }
-      if (!data.slot || !data.slot.date || !data.slot.time || data.slot.status === "full") {
+      if (!data.slot || !data.slot.date || !data.slot.time || !data.slot.id || data.slot.status === "full") {
         alert("日程と時間を選択してください。");
         return;
       }
@@ -480,10 +771,14 @@
 
     function updatePeopleView() {
       var d = getData();
+      var slotRemaining = d.slot && Number.isFinite(d.slot.remaining) ? d.slot.remaining : null;
+      var maxPeople = slotRemaining && slotRemaining > 0 ? Math.min(MAX_PEOPLE, slotRemaining) : MAX_PEOPLE;
+      people = Math.min(Math.max(1, people), maxPeople);
       var unit = d.course ? toNumber(d.course.price) : 4000;
       var total = unit * people;
       peopleCount.textContent = String(people);
       if (remainEl) remainEl.textContent = "空き" + (MAX_PEOPLE - people) + "枠";
+      if (remainEl) remainEl.textContent = slotRemaining ? ("ç©ºã" + slotRemaining + "æž ") : ("ç©ºã" + (MAX_PEOPLE - people) + "æž ");
       if (unitEl) unitEl.textContent = formatYen(unit);
       if (calcEl) calcEl.textContent = formatYen(unit) + " × " + people;
       if (totalEl) totalEl.textContent = formatYen(total);
@@ -513,7 +808,7 @@
   if (toForm) {
     toForm.addEventListener("click", function () {
       var data = getData();
-      if (!data.course || !data.slot || !data.slot.date || !data.slot.time) {
+      if (!data.course || !data.slot || !data.slot.date || !data.slot.time || !data.slot.id) {
         alert("コースと日程を先に選択してください。");
         window.location.href = "reserve-select-course.html";
         return;
@@ -663,6 +958,7 @@
     }
   }
 
+  /*
   var confirmBtn = qs(".js-reserve-confirm");
   if (confirmBtn) {
     confirmBtn.addEventListener("click", function () {
@@ -693,6 +989,15 @@
     qs(".js-complete-course").textContent = finalData.course.name;
     qs(".js-complete-people").textContent = (finalData.people || 1) + "名様";
     qs(".js-complete-total").textContent = formatYen(finalTotal);
+    if (finalData.apiResponse && finalData.apiResponse.id) {
+      var box = qs(".js-complete-summary");
+      if (box && !qs(".js-complete-id", box)) {
+        var p = document.createElement("p");
+        p.className = "js-complete-id";
+        p.textContent = "äºˆç´„ç•ªå·: " + finalData.apiResponse.id;
+        box.appendChild(p);
+      }
+    }
   }
 
   function isPublicPage() {
