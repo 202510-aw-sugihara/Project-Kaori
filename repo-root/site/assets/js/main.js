@@ -434,14 +434,22 @@
       return date.getDate() >= lastDay - 6;
     }
 
+    function isMonthEndCourse(course) {
+      if (!course) return false;
+      if (course.id === "20blend") return true;
+      if (course.id === "12blend") return false;
+      var name = String(course.name || "");
+      var label = String(course.label || "");
+      return /20/.test(name) && /月末/.test(name + label);
+    }
+
     function isSelectableDate(date) {
       var day = date.getDay();
       var isWeekendOrHoliday = day === 0 || day === 6 || isJapaneseHoliday(date);
       if (!isWithinWindow(date)) return false;
-      if (selectedCourse && Number.isFinite(selectedCourse.planId)) return true;
       if (!isWeekendOrHoliday) return false;
-      if (!selectedCourse || !selectedCourse.id) return true;
-      if (selectedCourse.id === "20blend") return isMonthEndDate(date);
+      if (!selectedCourse) return true;
+      if (isMonthEndCourse(selectedCourse)) return isMonthEndDate(date);
       if (selectedCourse.id === "12blend") return !isMonthEndDate(date);
       return true;
     }
@@ -1102,8 +1110,10 @@
     var container = qs(".p-app-courses");
     if (!container || !Array.isArray(plans) || !plans.length) return false;
     var html = plans.map(function (plan) {
-      var name = escapeHtml(plan.name || "プラン");
-      var label = escapeHtml(plan.description || "当日のご案内");
+      var rawName = String(plan.name || "プラン");
+      var rawLabel = plan.description || (/月末/.test(rawName) ? "月末限定コース" : "初心者向けコース");
+      var name = escapeHtml(rawName);
+      var label = escapeHtml(rawLabel);
       var price = formatYen(plan.price);
       var duration = formatMinutes(plan.durationMinutes);
       return ''
