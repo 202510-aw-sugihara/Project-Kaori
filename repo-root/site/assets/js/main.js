@@ -1089,6 +1089,47 @@
     });
   }
 
+  function formatYen(value) {
+    return "¥" + toNumber(value).toLocaleString("ja-JP");
+  }
+
+  function formatMinutes(value) {
+    var minutes = toNumber(value);
+    return minutes ? ("約" + minutes + "分") : "約60分";
+  }
+
+  function renderCoursesFromApi(plans) {
+    var container = qs(".p-app-courses");
+    if (!container || !Array.isArray(plans) || !plans.length) return false;
+    var html = plans.map(function (plan) {
+      var name = escapeHtml(plan.name || "プラン");
+      var label = escapeHtml(plan.description || "当日のご案内");
+      var price = formatYen(plan.price);
+      var duration = formatMinutes(plan.durationMinutes);
+      return ''
+        + '<article class="p-app-course">'
+        + '<h2>' + name + '</h2>'
+        + '<dl>'
+        + '<div><dt>コース</dt><dd>' + label + '</dd></div>'
+        + '<div><dt>所要時間</dt><dd>' + duration + '</dd></div>'
+        + '<div><dt>料金</dt><dd>' + price + '</dd></div>'
+        + '</dl>'
+        + '<p class="p-app-button-row">'
+        + '<button class="p-app-btn p-app-btn--muted js-course-select" type="button"'
+        + ' data-course-id="' + escapeHtml(String(plan.id)) + '"'
+        + ' data-plan-id="' + escapeHtml(String(plan.id)) + '"'
+        + ' data-course-name="' + name + '"'
+        + ' data-course-label="' + label + '"'
+        + ' data-course-price="' + escapeHtml(String(plan.price || 0)) + '"'
+        + ' data-course-duration="' + duration + '">'
+        + '日程を選択する</button>'
+        + '</p>'
+        + '</article>';
+    }).join("");
+    container.innerHTML = html;
+    return true;
+  }
+
   if (isPublicPage()) {
     normalizeReserveLinks();
     disableCourseParentLink();
