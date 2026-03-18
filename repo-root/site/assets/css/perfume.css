@@ -1315,6 +1315,17 @@
   font-size: clamp(14px, 1.45vw, 16px);
 }
 
+.perfume-site .p-app-course div:first-child {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+}
+
+.perfume-site .p-app-course div:first-child dd {
+  text-align: left;
+  line-height: 1.6;
+}
+
 .perfume-site .p-app-course dt,
 .perfume-site .p-app-course dd {
   margin: 0;
