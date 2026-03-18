@@ -36,70 +36,6 @@
   function qs(selector, root) {
     return (root || document).querySelector(selector);
   }
-  */
-  var confirmBtn = qs(".js-reserve-confirm");
-  if (confirmBtn) {
-    confirmBtn.addEventListener("click", function () {
-      var data = getData();
-      if (!data.course || !data.slot || !data.people || !data.user) {
-        alert("äºˆç´„æƒ…å ±ãŒä¸è¶³ã—ã¦ã„ã¾ã™ã€‚æœ€åˆã‹ã‚‰å…¥åŠ›ã—ã¦ãã ã•ã„ã€‚");
-        window.location.href = "reserve-select-course.html";
-        return;
-      }
-      var planId = getPlanIdFromCourse(data.course);
-      if (!planId || !data.slot.id) {
-        alert("æ—¥ç¨‹ã¨æ™‚é–“ã‚’ã‚‚ã†ä¸€åº¦é¸æŠžã—ã¦ãã ã•ã„ã€‚");
-        window.location.href = "reserve-select-slot.html";
-        return;
-      }
-
-      var errorEl = qs(".js-confirm-error");
-      if (!errorEl) {
-        errorEl = document.createElement("p");
-        errorEl.className = "p-form__error js-confirm-error";
-        if (confirmBtn.parentElement) {
-          confirmBtn.parentElement.insertAdjacentElement("afterend", errorEl);
-        }
-      }
-      errorEl.textContent = "";
-
-      var originalText = confirmBtn.textContent;
-      confirmBtn.disabled = true;
-      confirmBtn.textContent = "é€ä¿¡ä¸­...";
-
-      var payload = {
-        planId: planId,
-        planTimeSlotId: data.slot.id,
-        participantCount: data.people,
-        participants: buildParticipants(data.user, data.people),
-        customerName: data.user.name,
-        email: data.user.email,
-        phone: data.user.phone
-      };
-
-      getCsrfToken()
-        .then(function (csrf) {
-          var headers = {};
-          headers[csrf.headerName] = csrf.token;
-          return fetchJson("/api/reservations", {
-            method: "POST",
-            headers: headers,
-            body: JSON.stringify(payload)
-          });
-        })
-        .then(function (response) {
-          data.apiResponse = response;
-          sessionStorage.setItem(FINAL_KEY, JSON.stringify(data));
-          sessionStorage.removeItem(KEY);
-          window.location.href = "reserve-complete.html";
-        })
-        .catch(function () {
-          confirmBtn.disabled = false;
-          confirmBtn.textContent = originalText;
-          if (errorEl) errorEl.textContent = "é€ä¿¡ã«å¤±æ•—ã—ã¾ã—ãŸã€‚æ™‚é–“ã‚’ç½®ã„ã¦å†åº¦ãŠè©¦ã—ãã ã•ã„ã€‚";
-        });
-    });
-  }
 
   function qsa(selector, root) {
     return Array.prototype.slice.call((root || document).querySelectorAll(selector));
@@ -145,92 +81,6 @@
       if (res.status === 204) return null;
       return res.json();
     });
-    */
-    function getSlotStatus(slot) {
-      if (!slot || slot.isOpen === false) return "full";
-      var capacity = toNumber(slot.capacity);
-      var reserved = toNumber(slot.reservedCount);
-      var remaining = capacity - reserved;
-      if (remaining <= 0) return "full";
-      if (remaining <= 2) return "few";
-      return "available";
-    }
-
-    function renderTimeSlots(slots) {
-      if (!timeContainer) return;
-      if (!Array.isArray(slots) || !slots.length) {
-        timeContainer.innerHTML = '<p class="p-app-note">æœ¬æ—¥ã®ç©ºãæž ãŒã‚ã‚Šã¾ã›ã‚“ã€‚åˆ¥ã®æ—¥ä»˜ã‚’é¸æŠžã—ã¦ãã ã•ã„ã€‚</p>';
-        return;
-      }
-      var buttons = slots.map(function (slot) {
-        var timeLabel = formatTime(slot.startTime);
-        var status = getSlotStatus(slot);
-        var symbol = status === "full" ? "Ã—" : status === "few" ? "â–³" : "â—‹";
-        var remaining = toNumber(slot.capacity) - toNumber(slot.reservedCount);
-        var disabled = status === "full";
-        return '<button class="js-slot-select" type="button"'
-          + ' data-slot-id="' + escapeHtml(String(slot.id)) + '"'
-          + ' data-time="' + escapeHtml(timeLabel) + '"'
-          + ' data-status="' + status + '"'
-          + ' data-remaining="' + escapeHtml(String(remaining)) + '"'
-          + ' data-capacity="' + escapeHtml(String(slot.capacity || 0)) + '"'
-          + (disabled ? ' disabled aria-disabled="true"' : '')
-          + '>' + symbol + ' ' + escapeHtml(timeLabel) + '</button>';
-      }).join("");
-      timeContainer.innerHTML = buttons;
-
-      if (slotData.time) {
-        qsa(".js-slot-select", timeContainer).forEach(function (btn) {
-          if (btn.getAttribute("data-time") === slotData.time) {
-            btn.classList.add("is-selected");
-          }
-        });
-      }
-    }
-
-    function loadTimeSlots(dateKey) {
-      var planId = getPlanIdFromCourse(selectedCourse);
-      if (!planId || !dateKey) return;
-      if (timeContainer) {
-        timeContainer.innerHTML = '<p class="p-app-note">èª­ã¿è¾¼ã¿ä¸­ã§ã™â€¦</p>';
-      }
-      fetchJson("/api/plans/" + planId + "/time-slots?slotDate=" + encodeURIComponent(dateKey))
-        .then(function (slots) {
-          renderTimeSlots(slots || []);
-        })
-        .catch(function () {
-          if (timeContainer) {
-            timeContainer.innerHTML = '<p class="p-app-note">æ™‚é–“æž ã®å–å¾—ã«å¤±æ•—ã—ã¾ã—ãŸã€‚å†åº¦ãŠè©¦ã—ãã ã•ã„ã€‚</p>';
-          }
-        });
-    }
-
-    if (timeContainer && !timeContainer.getAttribute("data-bound")) {
-      timeContainer.setAttribute("data-bound", "true");
-      timeContainer.addEventListener("click", function (e) {
-        var button = e.target.closest(".js-slot-select");
-        if (!button || button.disabled) return;
-        qsa(".js-slot-select", timeContainer).forEach(function (b) {
-          b.classList.remove("is-selected");
-        });
-        button.classList.add("is-selected");
-        var data = getData();
-        data.slot = data.slot || {};
-        data.slot.date = slotDate.value;
-        data.slot.time = button.getAttribute("data-time");
-        data.slot.id = Number(button.getAttribute("data-slot-id"));
-        data.slot.status = button.getAttribute("data-status");
-        data.slot.remaining = Number(button.getAttribute("data-remaining"));
-        data.slot.capacity = Number(button.getAttribute("data-capacity"));
-        setData(data);
-        if (selectedTimeText) selectedTimeText.textContent = data.slot.time || "æœªé¸æŠž";
-        if (selectedDateText) selectedDateText.textContent = slotDate.value ? formatDisplayDate(slotDate.value) : "æœªé¸æŠž";
-      });
-    }
-
-    if (slotDate.value) {
-      loadTimeSlots(slotDate.value);
-    }
   }
 
   function getCsrfToken() {
@@ -615,7 +465,7 @@
       data.slot.remaining = null;
       data.slot.capacity = null;
       setData(data);
-      if (selectedTimeText) selectedTimeText.textContent = "æœªé¸æŠž";
+      if (selectedTimeText) selectedTimeText.textContent = "未選択";
       if (key) loadTimeSlots(key);
       if (selectedDateText) selectedDateText.textContent = date ? formatDisplayDate(date) : "未選択";
     }
@@ -705,21 +555,92 @@
         renderCalendar(displayMonth);
       });
     }
+    function getSlotStatus(slot) {
+      if (!slot || slot.isOpen === false) return "full";
+      var capacity = toNumber(slot.capacity);
+      var reserved = toNumber(slot.reservedCount);
+      var remaining = capacity - reserved;
+      if (remaining <= 0) return "full";
+      if (remaining <= 2) return "few";
+      return "available";
+    }
 
-    /*
-    qsa(".js-slot-select").forEach(function (button) {
-      if (button.getAttribute("data-status") === "full") {
-        button.disabled = true;
-        button.setAttribute("aria-disabled", "true");
+    function renderTimeSlots(slots) {
+      if (!timeContainer) return;
+      if (!Array.isArray(slots) || !slots.length) {
+        timeContainer.innerHTML = '<p class="p-app-note">本日の空き枠がありません。別の日付を選択してください。</p>';
+        return;
       }
-      if (slotData.time === button.getAttribute("data-time")) {
-        button.classList.add("is-selected");
+      var buttons = slots.map(function (slot) {
+        var timeLabel = formatTime(slot.startTime);
+        var status = getSlotStatus(slot);
+        var symbol = status === "full" ? "×" : status === "few" ? "△" : "○";
+        var remaining = toNumber(slot.capacity) - toNumber(slot.reservedCount);
+        var disabled = status === "full";
+        return '<button class="js-slot-select" type="button"'
+          + ' data-slot-id="' + escapeHtml(String(slot.id)) + '"'
+          + ' data-time="' + escapeHtml(timeLabel) + '"'
+          + ' data-status="' + status + '"'
+          + ' data-remaining="' + escapeHtml(String(remaining)) + '"'
+          + ' data-capacity="' + escapeHtml(String(slot.capacity || 0)) + '"'
+          + (disabled ? ' disabled aria-disabled="true"' : '')
+          + '>' + symbol + ' ' + escapeHtml(timeLabel) + '</button>';
+      }).join("");
+      timeContainer.innerHTML = buttons;
+
+      if (slotData.time) {
+        qsa(".js-slot-select", timeContainer).forEach(function (btn) {
+          if (btn.getAttribute("data-time") === slotData.time) {
+            btn.classList.add("is-selected");
+          }
+        });
       }
-      button.addEventListener("click", function () {
-        if (button.disabled) return;
-        qsa(".js-slot-select").forEach(function (b) {
+    }
+
+    function loadTimeSlots(dateKey) {
+      var planId = getPlanIdFromCourse(selectedCourse);
+      if (!planId || !dateKey) return;
+      if (timeContainer) {
+        timeContainer.innerHTML = '<p class="p-app-note">読み込み中です…</p>';
+      }
+      fetchJson("/api/plans/" + planId + "/time-slots?slotDate=" + encodeURIComponent(dateKey))
+        .then(function (slots) {
+          renderTimeSlots(slots || []);
+        })
+        .catch(function () {
+          if (timeContainer) {
+            timeContainer.innerHTML = '<p class="p-app-note">時間枠の取得に失敗しました。再度お試しください。</p>';
+          }
+        });
+    }
+
+    if (timeContainer && !timeContainer.getAttribute("data-bound")) {
+      timeContainer.setAttribute("data-bound", "true");
+      timeContainer.addEventListener("click", function (e) {
+        var button = e.target.closest(".js-slot-select");
+        if (!button || button.disabled) return;
+        qsa(".js-slot-select", timeContainer).forEach(function (b) {
           b.classList.remove("is-selected");
         });
+        button.classList.add("is-selected");
+        var data = getData();
+        data.slot = data.slot || {};
+        data.slot.date = slotDate.value;
+        data.slot.time = button.getAttribute("data-time");
+        data.slot.id = Number(button.getAttribute("data-slot-id"));
+        data.slot.status = button.getAttribute("data-status");
+        data.slot.remaining = Number(button.getAttribute("data-remaining"));
+        data.slot.capacity = Number(button.getAttribute("data-capacity"));
+        setData(data);
+        if (selectedTimeText) selectedTimeText.textContent = data.slot.time || "未選択";
+        if (selectedDateText) selectedDateText.textContent = slotDate.value ? formatDisplayDate(slotDate.value) : "未選択";
+      });
+    }
+
+    if (slotDate.value) {
+      loadTimeSlots(slotDate.value);
+    }
+    /*
         button.classList.add("is-selected");
         var data = getData();
         data.slot = data.slot || {};
@@ -731,8 +652,8 @@
         if (selectedDateText) selectedDateText.textContent = slotDate.value ? formatDisplayDate(slotDate.value) : "未選択";
       });
     });
+    */
   }
-
   var toPeople = qs(".js-to-people");
   if (toPeople) {
     toPeople.addEventListener("click", function () {
@@ -777,8 +698,7 @@
       var unit = d.course ? toNumber(d.course.price) : 4000;
       var total = unit * people;
       peopleCount.textContent = String(people);
-      if (remainEl) remainEl.textContent = "空き" + (MAX_PEOPLE - people) + "枠";
-      if (remainEl) remainEl.textContent = slotRemaining ? ("ç©ºã" + slotRemaining + "æž ") : ("ç©ºã" + (MAX_PEOPLE - people) + "æž ");
+      if (remainEl) remainEl.textContent = slotRemaining ? ("空き" + slotRemaining + "枠") : ("空き" + (MAX_PEOPLE - people) + "枠");
       if (unitEl) unitEl.textContent = formatYen(unit);
       if (calcEl) calcEl.textContent = formatYen(unit) + " × " + people;
       if (totalEl) totalEl.textContent = formatYen(total);
@@ -958,7 +878,6 @@
     }
   }
 
-  /*
   var confirmBtn = qs(".js-reserve-confirm");
   if (confirmBtn) {
     confirmBtn.addEventListener("click", function () {
@@ -968,9 +887,58 @@
         window.location.href = "reserve-select-course.html";
         return;
       }
-      sessionStorage.setItem(FINAL_KEY, JSON.stringify(data));
-      sessionStorage.removeItem(KEY);
-      window.location.href = "reserve-complete.html";
+      var planId = getPlanIdFromCourse(data.course);
+      if (!planId || !data.slot.id) {
+        alert("æ¥ç¨‹ã¨æ™‚é–“ã‚’é¸æŠžã—ã¦ãã ã•ã„ã€‚");
+        window.location.href = "reserve-select-slot.html";
+        return;
+      }
+
+      var errorEl = qs(".js-confirm-error");
+      if (!errorEl) {
+        errorEl = document.createElement("p");
+        errorEl.className = "p-form__error js-confirm-error";
+        confirmBtn.parentNode.insertBefore(errorEl, confirmBtn.nextSibling);
+      }
+      errorEl.textContent = "";
+
+      var originalText = confirmBtn.textContent;
+      confirmBtn.disabled = true;
+      confirmBtn.textContent = "é€ä¿¡ä¸­...";
+
+      var payload = {
+        planId: planId,
+        planTimeSlotId: data.slot.id,
+        participantCount: data.people,
+        participants: buildParticipants(data.user, data.people),
+        customerName: data.user.name,
+        email: data.user.email,
+        phone: data.user.phone
+      };
+
+      getCsrfToken()
+        .then(function (csrf) {
+          var headers = {};
+          headers[csrf.headerName || "X-XSRF-TOKEN"] = csrf.token;
+          return fetchJson("/api/reservations", {
+            method: "POST",
+            headers: headers,
+            body: JSON.stringify(payload)
+          });
+        })
+        .then(function (resp) {
+          data.apiResponse = resp || null;
+          sessionStorage.setItem(FINAL_KEY, JSON.stringify(data));
+          sessionStorage.removeItem(KEY);
+          window.location.href = "reserve-complete.html";
+        })
+        .catch(function () {
+          confirmBtn.disabled = false;
+          confirmBtn.textContent = originalText;
+          if (errorEl) {
+            errorEl.textContent = "é€ä¿¡ã«å¤±æ•—ã—ã¾ã—ãŸã€‚æ™‚é–“ã‚’ç½®ã„ã¦å†åº¦ãŠè©¦ã—ãã ã•ã„ã€‚";
+          }
+        });
     });
   }
 
@@ -1128,3 +1096,14 @@
     initMobileDrawer();
   }
 })();
+
+
+
+
+
+
+
+
+
+
+
