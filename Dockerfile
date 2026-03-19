@@ -2,9 +2,9 @@ FROM maven:3.9.6-eclipse-temurin-17-alpine AS build
 
 WORKDIR /app
 
-COPY .mvn/ .mvn/
-COPY mvnw pom.xml ./
-COPY src/ src/
+COPY backend/.mvn/ .mvn/
+COPY backend/mvnw backend/pom.xml ./
+COPY backend/src/ src/
 
 RUN chmod +x mvnw
 RUN ./mvnw -DskipTests clean package
