@@ -1,4 +1,4 @@
-(function () {
+﻿(function () {
   var API_BASE = "https://project-kaori-fmup.onrender.com";
   var CSRF_KEY = "adminCsrfToken";
 
@@ -102,11 +102,16 @@
 
   var reservationListEl = qs(".js-reservation-list");
   var reservationDetailEl = qs(".js-reservation-detail");
+  function setReservationDetailState(state) {
+    if (!reservationDetailEl) return;
+    reservationDetailEl.setAttribute("data-state", state);
+  }
+
 
   function renderReservationList(list) {
     if (!reservationListEl) return;
     if (!Array.isArray(list) || !list.length) {
-      reservationListEl.innerHTML = '<tr><td colspan="6" class="admin-muted">該当データなし</td></tr>';
+      reservationListEl.innerHTML = '<tr><td colspan="7" class="admin-muted">該当データなし</td></tr>';
       return;
     }
     reservationListEl.innerHTML = list.map(function (item) {
@@ -117,6 +122,7 @@
         + '<td>' + (item.planName || "") + '</td>'
         + '<td>' + (item.customerName || "") + '</td>'
         + '<td>' + (item.status || "") + '</td>'
+        + '<td><button class="admin-btn admin-btn--ghost js-reservation-detail-btn" type="button" data-id="' + item.id + '">隧ｳ邏ｰ</button></td>'
         + '</tr>';
     }).join("");
   }
@@ -126,9 +132,11 @@
     if (!item) {
       reservationDetailEl.textContent = "予約を選択してください。";
       reservationDetailEl.classList.add("admin-muted");
+      setReservationDetailState("empty");
       return;
     }
     reservationDetailEl.classList.remove("admin-muted");
+    setReservationDetailState("loaded");
     var participants = (item.participants || []).map(function (p) {
       return '<li>' + (p.participantName || "") + ' / ' + (p.participantNameKana || "") + '</li>';
     }).join("");
@@ -172,7 +180,15 @@
       var row = e.target.closest(".js-reservation-row");
       if (!row) return;
       var id = row.getAttribute("data-id");
-      fetchJson("/api/admin/reservations/" + id).then(renderReservationDetail);
+      setReservationDetailState("loading");
+      fetchJson("/api/admin/reservations/" + id)
+        .then(renderReservationDetail)
+        .catch(function () {
+          if (!reservationDetailEl) return;
+          reservationDetailEl.textContent = "隧ｳ邏ｰ縺ｮ隱ｭ縺ｿ霎ｼ縺ｿ縺ｫ螟ｱ謨励＠縺ｾ縺励◆縲・;
+          reservationDetailEl.classList.add("admin-muted");
+          setReservationDetailState("error");
+        });
     });
   }
 
@@ -346,8 +362,10 @@
   var createDateInput = createReservationForm ? qs('[name="slotDate"]', createReservationForm) : null;
   var createSlotSelect = createReservationForm ? qs('[name="planTimeSlotId"]', createReservationForm) : null;
   var createParticipantCountInput = createReservationForm ? qs('[name="participantCount"]', createReservationForm) : null;
+  var createCustomerKanaInput = createReservationForm ? qs('[name="customerNameKana"]', createReservationForm) : null;
+  var createNoteInput = createReservationForm ? qs('[name="note"]', createReservationForm) : null;
   var createSlotCache = {};
-  var createPreviewConfirmed = false;
+  var setCreatePreviewConfirmed(false);
   var createReservationEnabled = false;
 
   function getCreateErrorEl(field) {
@@ -370,6 +388,13 @@
     setCreateAlert(createSuccessEl, "");
   }
 
+  function setCreatePreviewConfirmed(value) {
+    createPreviewConfirmed = !!value;
+    if (createReservationForm) {
+      createReservationForm.setAttribute("data-confirmed", createPreviewConfirmed ? "true" : "false");
+    }
+  }
+
   function setCreateReservationEnabled(enabled) {
     createReservationEnabled = !!enabled;
     if (!createReservationForm) return;
@@ -388,7 +413,7 @@
     if (!enabled) {
       clearCreateAlerts();
       clearCreateErrors();
-      createPreviewConfirmed = false;
+      setCreatePreviewConfirmed(false);
       resetCreateSlotOptions("先に管理者ログインしてください");
       if (createSlotHelpEl) createSlotHelpEl.textContent = "ログイン後に空き枠を読み込めます。";
       if (createPreviewEl) {
@@ -495,7 +520,7 @@
     if (!createPlanSelect || !createDateInput) return Promise.resolve();
     clearCreateAlerts();
     clearCreateErrors();
-    createPreviewConfirmed = false;
+    setCreatePreviewConfirmed(false);
     updateCreateSubmitState();
 
     var planId = createPlanSelect.value;
@@ -573,10 +598,12 @@
       slotDate: createDateInput.value,
       planTimeSlotId: Number(createSlotSelect.value || 0) || null,
       customerName: qs('[name="customerName"]', createReservationForm).value.trim(),
+      customerNameKana: createCustomerKanaInput ? createCustomerKanaInput.value.trim() : "",
       email: qs('[name="email"]', createReservationForm).value.trim(),
       phone: qs('[name="phone"]', createReservationForm).value.trim(),
       participantCount: getParticipantCountValue(),
-      participants: readParticipantValues()
+      participants: readParticipantValues(),
+      note: createNoteInput ? createNoteInput.value.trim() : ""
     };
   }
 
@@ -670,12 +697,52 @@
     return Object.keys(fieldErrors).length > 0;
   }
 
+  function buildParticipantsFromCustomer(data) {
+    var total = Math.max(1, Number(data.participantCount || 1));
+    var list = [];
+    for (var i = 0; i < total; i += 1) {
+      if (i === 0) {
+        list.push({
+          participantName: data.customerName || "",
+          participantNameKana: data.customerNameKana || "",
+          ageGroup: "",
+          allergyNote: data.note || null
+        });
+      } else {
+        list.push({
+          participantName: "蜷御ｼｴ閠・ + i,
+          participantNameKana: "",
+          ageGroup: "",
+          allergyNote: null
+        });
+      }
+    }
+    return list;
+  }
+
+  function normalizeParticipants(data) {
+    var base = Array.isArray(data.participants) ? data.participants.slice(0) : [];
+    var total = Math.max(1, Number(data.participantCount || 1));
+    if (base.length !== total) {
+      base = buildParticipantsFromCustomer(data);
+    }
+    if (base[0]) {
+      base[0].participantName = base[0].participantName || data.customerName || "";
+      base[0].participantNameKana = base[0].participantNameKana || data.customerNameKana || "";
+      if (data.note && !base[0].allergyNote) {
+        base[0].allergyNote = data.note;
+      }
+    }
+    return base;
+  }
+
   function buildReservationPayload(data) {
+    var participants = normalizeParticipants(data);
     return {
       planId: data.planId,
       planTimeSlotId: data.planTimeSlotId,
       participantCount: data.participantCount,
-      participants: data.participants.map(function (participant) {
+      participants: participants.map(function (participant) {
         return {
           participantName: participant.participantName,
           participantNameKana: participant.participantNameKana,
@@ -711,7 +778,7 @@
     if (createParticipantCountInput) createParticipantCountInput.value = "1";
     clearCreateErrors();
     clearCreateAlerts();
-    createPreviewConfirmed = false;
+    setCreatePreviewConfirmed(false);
     resetCreateSlotOptions(keepPlan ? "選択中の日付で空き枠を再読み込みしてください" : "先に空き枠を読み込んでください");
     if (createSlotHelpEl) createSlotHelpEl.textContent = keepPlan ? "登録が完了しました。必要に応じて空き枠を再読み込みしてください。" : "プランと日付を選択して、空き枠を読み込んでください。";
     renderParticipantFields(1);
@@ -738,18 +805,18 @@
         resetCreateSlotOptions("参加人数変更後は空き枠を再読み込みしてください");
         if (createSlotHelpEl) createSlotHelpEl.textContent = "参加人数が変わったため、空き枠を再読み込みしてください。";
       }
-      createPreviewConfirmed = false;
+      setCreatePreviewConfirmed(false);
       updateCreateSubmitState();
     });
 
     createReservationForm.addEventListener("change", function (e) {
       if (e.target === createPlanSelect || e.target === createDateInput) {
-        createPreviewConfirmed = false;
+        setCreatePreviewConfirmed(false);
         resetCreateSlotOptions("プランまたは日付の変更後は再読み込みしてください");
         if (createSlotHelpEl) createSlotHelpEl.textContent = "プランまたは日付が変わったため、空き枠を再読み込みしてください。";
       }
       if (e.target === createSlotSelect) {
-        createPreviewConfirmed = false;
+        setCreatePreviewConfirmed(false);
       }
       updateCreateSubmitState();
     });
@@ -767,13 +834,13 @@
         var errors = validateReservationForm(data, { requireConfirm: false });
         renderCreateErrors(errors);
         if (Object.keys(errors).length) {
-          createPreviewConfirmed = false;
+          setCreatePreviewConfirmed(false);
           renderReservationPreview(null);
           setCreateAlert(createErrorEl, "入力内容を確認してから確認表示を行ってください。");
           updateCreateSubmitState();
           return;
         }
-        createPreviewConfirmed = true;
+        setCreatePreviewConfirmed(true);
         renderReservationPreview(data);
         setCreateAlert(createSuccessEl, "確認が完了しました。このまま予約を登録できます。");
         updateCreateSubmitState();
@@ -813,7 +880,7 @@
         .catch(function (err) {
           applyServerValidation(err);
           setCreateAlert(createErrorEl, escapeHtml(getSubmitErrorMessage(err)));
-          createPreviewConfirmed = false;
+          setCreatePreviewConfirmed(false);
           updateCreateSubmitState();
         });
     });
@@ -827,3 +894,4 @@
 
   loadMe().then(function (user) { if (user) refreshAll(); });
 })();
+

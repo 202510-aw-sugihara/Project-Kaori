@@ -2,7 +2,6 @@
 <html lang="ja">
   <head>
     <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>ShizuKa 管理画面</title>
     <link rel="stylesheet" href="assets/css/admin.css" />
@@ -20,7 +19,7 @@
     </header>
 
     <main class="admin-main">
-      <section class="admin-card">
+      <section class="admin-card js-login-section">
         <h2>ログイン</h2>
         <form class="admin-form js-admin-login">
           <label>
@@ -32,7 +31,7 @@
             <input type="password" name="password" autocomplete="current-password" required />
           </label>
           <button class="admin-btn" type="submit">ログイン</button>
-          <p class="admin-error js-admin-login-error"></p>
+          <p class="admin-error js-admin-login-error" role="alert" aria-live="polite"></p>
         </form>
       </section>
 
@@ -60,6 +59,7 @@
         <div class="admin-split">
           <div>
             <table class="admin-table">
+              <caption class="sr-only">予約一覧</caption>
               <thead>
                 <tr>
                   <th>ID</th>
@@ -68,16 +68,17 @@
                   <th>プラン</th>
                   <th>氏名</th>
                   <th>状態</th>
+                  <th>操作</th>
                 </tr>
               </thead>
               <tbody class="js-reservation-list">
-                <tr><td colspan="6" class="admin-muted">未読込</td></tr>
+                <tr><td colspan="7" class="admin-muted">データを読み込んでいません</td></tr>
               </tbody>
             </table>
           </div>
           <div class="admin-detail">
             <h3>予約詳細</h3>
-            <div class="js-reservation-detail admin-muted">予約を選択してください。</div>
+            <div class="js-reservation-detail admin-muted" data-state="empty">予約を選択してください。</div>
           </div>
         </div>
       </section>
@@ -86,24 +87,27 @@
         <h2>枠の開閉</h2>
         <form class="admin-form admin-form--inline js-slot-filter">
           <label>
-            <span>プランID</span>
-            <input type="number" name="planId" min="1" />
+            <span>プラン</span>
+            <select name="planId">
+              <option value="">すべて</option>
+            </select>
           </label>
           <label>
             <span>日付</span>
             <input type="date" name="slotDate" />
           </label>
           <label>
-            <span>公開</span>
+            <span>受付状態</span>
             <select name="isOpen">
               <option value="">すべて</option>
-              <option value="true">開放</option>
-              <option value="false">閉鎖</option>
+              <option value="true">受付中</option>
+              <option value="false">停止中</option>
             </select>
           </label>
           <button class="admin-btn admin-btn--ghost" type="submit">検索</button>
         </form>
         <table class="admin-table">
+          <caption class="sr-only">枠一覧</caption>
           <thead>
             <tr>
               <th>ID</th>
@@ -117,7 +121,7 @@
             </tr>
           </thead>
           <tbody class="js-slot-list">
-            <tr><td colspan="8" class="admin-muted">未読込</td></tr>
+            <tr><td colspan="8" class="admin-muted">データを読み込んでいません</td></tr>
           </tbody>
         </table>
       </section>
@@ -127,6 +131,7 @@
         <div class="admin-split">
           <div>
             <table class="admin-table">
+              <caption class="sr-only">プラン一覧</caption>
               <thead>
                 <tr>
                   <th>ID</th>
@@ -136,7 +141,7 @@
                 </tr>
               </thead>
               <tbody class="js-plan-list">
-                <tr><td colspan="4" class="admin-muted">未読込</td></tr>
+                <tr><td colspan="4" class="admin-muted">データを読み込んでいません</td></tr>
               </tbody>
             </table>
           </div>
@@ -163,17 +168,17 @@
               <input type="number" name="capacity" min="1" required />
             </label>
             <button class="admin-btn" type="submit">更新</button>
-            <p class="admin-error js-plan-error"></p>
+            <p class="admin-error js-plan-error" role="alert" aria-live="polite"></p>
           </form>
         </div>
       </section>
       <section class="admin-card">
         <h2>予約作成</h2>
         <div class="admin-split admin-split--reservation-create">
-          <form class="admin-form js-admin-create-reservation" novalidate>
+          <form class="admin-form js-admin-create-reservation" novalidate data-confirmed="false">
             <div class="admin-alert admin-alert--info js-create-login-notice">先に管理者ログインしてください。ログイン後に予約作成フォームを利用できます。</div>
-            <div class="admin-alert admin-alert--error admin-create-alert js-create-reservation-error" hidden></div>
-            <div class="admin-alert admin-alert--success admin-create-alert js-create-reservation-success" hidden></div>
+            <div class="admin-alert admin-alert--error admin-create-alert js-create-reservation-error" role="alert" aria-live="polite" hidden></div>
+            <div class="admin-alert admin-alert--success admin-create-alert js-create-reservation-success" role="status" aria-live="polite" hidden></div>
 
             <div class="admin-form-grid">
               <label>
@@ -206,19 +211,25 @@
 
               <label>
                 <span>顧客名</span>
-                <input type="text" name="customerName" maxlength="100" required />
+                <input type="text" name="customerName" maxlength="100" autocomplete="name" required />
                 <span class="admin-field-error" data-error-for="customerName"></span>
               </label>
 
               <label>
+                <span>フリガナ</span>
+                <input type="text" name="customerNameKana" maxlength="100" autocomplete="off" />
+                <span class="admin-field-error" data-error-for="customerNameKana"></span>
+              </label>
+
+              <label>
                 <span>メールアドレス</span>
-                <input type="email" name="email" maxlength="255" required />
+                <input type="email" name="email" maxlength="255" autocomplete="email" required />
                 <span class="admin-field-error" data-error-for="email"></span>
               </label>
 
               <label>
                 <span>電話番号</span>
-                <input type="tel" name="phone" maxlength="20" required />
+                <input type="tel" name="phone" maxlength="20" autocomplete="tel" inputmode="tel" placeholder="09012345678" required />
                 <span class="admin-field-error" data-error-for="phone"></span>
               </label>
 
@@ -227,16 +238,22 @@
                 <input type="number" name="participantCount" min="1" max="20" value="1" required />
                 <span class="admin-field-error" data-error-for="participantCount"></span>
               </label>
+
+              <label>
+                <span>備考</span>
+                <textarea name="note" rows="3"></textarea>
+                <span class="admin-field-error" data-error-for="note"></span>
+              </label>
             </div>
 
-            <div class="admin-participants">
-              <div class="admin-section-head">
+            <fieldset class="admin-participants">
+              <legend class="admin-section-head">
                 <h3>参加者情報</h3>
                 <p class="admin-muted">参加人数に応じて入力欄が切り替わります。</p>
-              </div>
+              </legend>
               <div class="admin-participant-list js-create-participant-list"></div>
               <span class="admin-field-error" data-error-for="participants"></span>
-            </div>
+            </fieldset>
 
             <div class="admin-form-actions">
               <button class="admin-btn admin-btn--ghost js-create-preview" type="button">確認</button>
