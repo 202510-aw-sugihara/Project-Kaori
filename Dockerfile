@@ -2,12 +2,10 @@ FROM maven:3.9.6-eclipse-temurin-17-alpine AS build
 
 WORKDIR /app
 
-COPY backend/.mvn/ .mvn/
-COPY backend/mvnw backend/pom.xml ./
+COPY backend/pom.xml ./
 COPY backend/src/ src/
 
-RUN chmod +x mvnw
-RUN ./mvnw -DskipTests clean package
+RUN mvn -DskipTests clean package
 
 FROM eclipse-temurin:17-jre-alpine
 
