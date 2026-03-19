@@ -833,6 +833,26 @@
   font-weight: 700;
 }
 
+.perfume-site .p-reservation-stop {
+  margin: 16px auto 24px;
+  padding: 16px 18px;
+  max-width: 760px;
+  background: #fff4f1;
+  border: 1px solid #e3b3a8;
+  border-radius: 8px;
+  color: #6b2b1f;
+  font-weight: 700;
+  line-height: 1.7;
+}
+
+.perfume-site .p-reservation-stop p {
+  margin: 0;
+}
+
+.perfume-site .p-reservation-stop p + p {
+  margin-top: 6px;
+}
+
 .perfume-site .p-wire-faq-group {
   margin-bottom: 26px;
 }

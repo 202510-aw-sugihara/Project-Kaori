@@ -15,6 +15,18 @@
     </header>
 
     <main class="p-app-main">
+  <div class="p-reservation-stop" hidden role="status" aria-live="polite">
+    <p>現在、システム調整のためオンライン予約を一時停止しております。</p>
+    <p>再開まで今しばらくお待ちください。</p>
+    <p>お急ぎのお客様は店舗へ直接お問い合わせください。</p>
+  </div>
+  <noscript>
+    <div class="p-reservation-stop" data-noscript="true">
+      <p>現在、システム調整のためオンライン予約を一時停止しております。</p>
+      <p>再開まで今しばらくお待ちください。</p>
+      <p>お急ぎのお客様は店舗へ直接お問い合わせください。</p>
+    </div>
+  </noscript>
       <h1>情報入力</h1>
       <section class="p-app-panel">
         <form class="p-app-form js-reserve-form" novalidate>
@@ -67,6 +79,7 @@
       <a class="p-app-next" href="reserve-confirm.html" aria-label="次へ"><span aria-hidden="true">❯</span></a>
     </nav>
   </div>
+  <script src="assets/js/ops-config.js"></script>
   <script src="assets/js/main.js"></script>
 </body>
 </html>

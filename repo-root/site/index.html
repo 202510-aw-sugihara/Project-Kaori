@@ -29,6 +29,18 @@
     </aside>
 
     <main class="p-home-main p-sub-main">
+  <div class="p-reservation-stop" hidden role="status" aria-live="polite">
+    <p>現在、システム調整のためオンライン予約を一時停止しております。</p>
+    <p>再開まで今しばらくお待ちください。</p>
+    <p>お急ぎのお客様は店舗へ直接お問い合わせください。</p>
+  </div>
+  <noscript>
+    <div class="p-reservation-stop" data-noscript="true">
+      <p>現在、システム調整のためオンライン予約を一時停止しております。</p>
+      <p>再開まで今しばらくお待ちください。</p>
+      <p>お急ぎのお客様は店舗へ直接お問い合わせください。</p>
+    </div>
+  </noscript>
       <section class="p-wire-hero p-wire-hero--slideshow" id="about" aria-label="メインビジュアル">
         <div class="p-wire-hero-slides js-hero-slideshow" aria-hidden="true">
           <div class="p-wire-hero-slide is-active" style="background-image: url('images/hero1.jpg');"></div>
@@ -236,6 +248,7 @@
     </div>
     <p class="p-home-copy">© 2026 Demo Site</p>
   </footer>
+  <script src="assets/js/ops-config.js"></script>
   <script src="assets/js/main.js"></script>
 </body>
 

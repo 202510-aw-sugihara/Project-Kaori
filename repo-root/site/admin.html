@@ -19,6 +19,22 @@
     </header>
 
     <main class="admin-main">
+    <noscript>
+      <section class="admin-card" data-noscript="true">
+        <div class="admin-alert admin-alert--info" role="status" aria-live="polite">
+          <p>現在、システム調整のためオンライン予約を一時停止しております。</p>
+          <p>再開まで今しばらくお待ちください。</p>
+          <p>お急ぎのお客様は店舗へ直接お問い合わせください。</p>
+        </div>
+      </section>
+    </noscript>
+    <section class="admin-card">
+      <div class="admin-alert admin-alert--info js-reservation-stop" role="status" aria-live="polite" hidden>
+        <p>現在、システム調整のためオンライン予約を一時停止しております。</p>
+        <p>再開まで今しばらくお待ちください。</p>
+        <p>お急ぎのお客様は店舗へ直接お問い合わせください。</p>
+      </div>
+    </section>
       <section class="admin-card js-login-section">
         <h2>ログイン</h2>
         <form class="admin-form js-admin-login">
@@ -177,13 +193,15 @@
         <div class="admin-split admin-split--reservation-create">
           <form class="admin-form js-admin-create-reservation" novalidate data-confirmed="false">
             <div class="admin-alert admin-alert--info js-create-login-notice">先に管理者ログインしてください。ログイン後に予約作成フォームを利用できます。</div>
-            <div class="admin-alert admin-alert--error admin-create-alert js-create-reservation-error" role="alert" aria-live="polite" hidden></div>
-            <div class="admin-alert admin-alert--success admin-create-alert js-create-reservation-success" role="status" aria-live="polite" hidden></div>
+            <div id="reservation-message">
+              <div class="admin-alert admin-alert--error admin-create-alert js-create-reservation-error" role="alert" aria-live="polite" hidden></div>
+              <div class="admin-alert admin-alert--success admin-create-alert js-create-reservation-success" role="status" aria-live="polite" hidden></div>
+            </div>
 
             <div class="admin-form-grid">
               <label>
                 <span>プラン</span>
-                <select name="planId" required>
+                <select id="admin-plan" name="planId" required>
                   <option value="">プランを選択</option>
                 </select>
                 <span class="admin-field-error" data-error-for="planId"></span>
@@ -191,18 +209,18 @@
 
               <label>
                 <span>日付</span>
-                <input type="date" name="slotDate" required />
+                <input type="date" id="admin-date" name="slotDate" required />
                 <span class="admin-field-error" data-error-for="slotDate"></span>
               </label>
 
               <label class="admin-form-actions admin-form-actions--compact">
                 <span>空き枠</span>
-                <button class="admin-btn admin-btn--ghost js-load-create-slots" type="button">空き枠を読み込む</button>
+                <button id="load-slots" class="admin-btn admin-btn--ghost js-load-create-slots" type="button">空き枠を読み込む</button>
               </label>
 
               <label>
                 <span>時間枠</span>
-                <select name="planTimeSlotId" required disabled>
+                <select id="admin-slot" name="planTimeSlotId" required disabled>
                   <option value="">先に空き枠を読み込んでください</option>
                 </select>
                 <span class="admin-field-help js-create-slot-help">プランと日付を選択して、空き枠を読み込んでください。</span>
@@ -211,7 +229,7 @@
 
               <label>
                 <span>顧客名</span>
-                <input type="text" name="customerName" maxlength="100" autocomplete="name" required />
+                <input type="text" id="customer-name" name="customerName" maxlength="100" autocomplete="name" required />
                 <span class="admin-field-error" data-error-for="customerName"></span>
               </label>
 
@@ -223,19 +241,19 @@
 
               <label>
                 <span>メールアドレス</span>
-                <input type="email" name="email" maxlength="255" autocomplete="email" required />
+                <input type="email" id="customer-email" name="email" maxlength="255" autocomplete="email" required />
                 <span class="admin-field-error" data-error-for="email"></span>
               </label>
 
               <label>
                 <span>電話番号</span>
-                <input type="tel" name="phone" maxlength="20" autocomplete="tel" inputmode="tel" placeholder="09012345678" required />
+                <input type="tel" id="customer-phone" name="phone" maxlength="20" autocomplete="tel" inputmode="tel" placeholder="09012345678" required />
                 <span class="admin-field-error" data-error-for="phone"></span>
               </label>
 
               <label>
                 <span>参加人数</span>
-                <input type="number" name="participantCount" min="1" max="20" value="1" required />
+                <input type="number" id="participant-count" name="participantCount" min="1" max="20" value="1" required />
                 <span class="admin-field-error" data-error-for="participantCount"></span>
               </label>
 
@@ -251,20 +269,20 @@
                 <h3>参加者情報</h3>
                 <p class="admin-muted">参加人数に応じて入力欄が切り替わります。</p>
               </legend>
-              <div class="admin-participant-list js-create-participant-list"></div>
+              <div id="participant-list" class="admin-participant-list js-create-participant-list"></div>
               <span class="admin-field-error" data-error-for="participants"></span>
             </fieldset>
 
             <div class="admin-form-actions">
-              <button class="admin-btn admin-btn--ghost js-create-preview" type="button">確認</button>
-              <button class="admin-btn js-create-submit" type="submit" disabled>予約を登録</button>
+              <button id="preview-reservation" class="admin-btn admin-btn--ghost js-create-preview" type="button">確認</button>
+              <button id="submit-reservation" class="admin-btn js-create-submit" type="submit" disabled>予約を登録</button>
               <button class="admin-btn admin-btn--ghost js-create-reset" type="reset">リセット</button>
             </div>
           </form>
 
           <aside class="admin-detail admin-preview-panel">
             <h3>入力内容の確認</h3>
-            <div class="js-create-reservation-preview admin-muted">
+            <div id="reservation-preview" class="js-create-reservation-preview admin-muted">
               フォームを入力して「確認」を押すと、登録前に内容を確認できます。
             </div>
           </aside>
@@ -272,6 +290,7 @@
       </section>
     </main>
 
+    <script src="assets/js/ops-config.js"></script>
     <script src="assets/js/admin.js"></script>
   </body>
 </html>

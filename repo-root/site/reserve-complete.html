@@ -11,6 +11,18 @@
     <p class="p-app-logo"><img src="images/logo-cropped.png" alt="SHIZUKA"></p>
 
     <main class="p-app-main p-app-complete">
+  <div class="p-reservation-stop" hidden role="status" aria-live="polite">
+    <p>現在、システム調整のためオンライン予約を一時停止しております。</p>
+    <p>再開まで今しばらくお待ちください。</p>
+    <p>お急ぎのお客様は店舗へ直接お問い合わせください。</p>
+  </div>
+  <noscript>
+    <div class="p-reservation-stop" data-noscript="true">
+      <p>現在、システム調整のためオンライン予約を一時停止しております。</p>
+      <p>再開まで今しばらくお待ちください。</p>
+      <p>お急ぎのお客様は店舗へ直接お問い合わせください。</p>
+    </div>
+  </noscript>
       <figure class="p-app-complete-hero">
         <img src="images/course2.jpg" alt="香水づくり体験のイメージ">
       </figure>
@@ -62,6 +74,7 @@
       <span class="p-app-next" aria-hidden="true">❯</span>
     </nav>
   </div>
+  <script src="assets/js/ops-config.js"></script>
   <script src="assets/js/main.js"></script>
 </body>
 </html>

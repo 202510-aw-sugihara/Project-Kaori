@@ -109,3 +109,5 @@ repo-root/
 repo-root/docs/
 
 repo-root/design/
+## 運用メモ
+- 予約停止告知は `repo-root/site/assets/js/ops-config.js` の `reservationStop` と `reservationStopMessage` で切り替えます。

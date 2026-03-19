@@ -42,6 +42,7 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf
                         .csrfTokenRepository(csrfRepo))
                 .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/").permitAll()
                         .requestMatchers("/health").permitAll()
                         .requestMatchers("/api/csrf").permitAll()
                         .requestMatchers("/api/admin/auth/**").permitAll()

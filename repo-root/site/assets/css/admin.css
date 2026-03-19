@@ -203,6 +203,14 @@ body.admin {
   line-height: 1.5;
 }
 
+.admin-alert p {
+  margin: 0;
+}
+
+.admin-alert p + p {
+  margin-top: 6px;
+}
+
 .admin-alert--error {
   border: 1px solid #e2a6a1;
   background: #fff0ee;
