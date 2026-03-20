@@ -73,3 +73,56 @@ cd repo-root/backend
 - `deleted_at` は論理削除を表し、通常の検索では除外される
 - パスワードは BCrypt で保存する
 - 公開予約では管理者メールアドレスを使用できない
+
+## Connectivity Check
+Prereq: set deployed API base URL (example: https://your-service.onrender.com)
+
+Login info (seed data)
+- Admin email: `admin@example.com`
+- Admin password: `password`
+Note: these are from `src/main/resources/data.sql` and test data. Change for production.
+
+1. Set base URL
+```powershell
+$BASE = "https://your-service.onrender.com"
+```
+
+2. Public API check (plans)
+```powershell
+curl "$BASE/api/plans"
+```
+
+3. Plan detail (choose id from response)
+```powershell
+curl "$BASE/api/plans/1"
+```
+
+4. Time slots (date is YYYY-MM-DD)
+```powershell
+curl "$BASE/api/plans/1/time-slots?date=2026-03-20"
+```
+
+5. Create reservation (CSRF required)
+```powershell
+# get CSRF cookie
+curl -c cookies.txt "$BASE/api/plans" | Out-Null
+
+# extract XSRF-TOKEN from cookie jar
+$token = (Get-Content cookies.txt | Select-String "XSRF-TOKEN").ToString().Split("`t")[-1]
+
+# create reservation
+curl -b cookies.txt -H "X-XSRF-TOKEN: $token" -H "Content-Type: application/json" `
+  -d '{"planId":1,"timeSlotId":1,"customerName":"Test User","customerEmail":"test@example.com"}' `
+  "$BASE/api/reservations"
+```
+
+6. Admin login and /me check (optional)
+```powershell
+curl -c admin_cookies.txt -H "Content-Type: application/json" `
+  -d '{"email":"admin@example.com","password":"password"}' `
+  "$BASE/api/admin/auth/login"
+
+$adminToken = (Get-Content admin_cookies.txt | Select-String "XSRF-TOKEN").ToString().Split("`t")[-1]
+
+curl -b admin_cookies.txt -H "X-XSRF-TOKEN: $adminToken" "$BASE/api/admin/auth/me"
+```
