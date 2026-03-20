@@ -2,8 +2,8 @@ FROM maven:3.9.6-eclipse-temurin-17-alpine AS build
 
 WORKDIR /app
 
-COPY backend/pom.xml ./
-COPY backend/src/ src/
+COPY repo-root/backend/pom.xml ./
+COPY repo-root/backend/src/ src/
 
 RUN mvn -DskipTests clean package
 
