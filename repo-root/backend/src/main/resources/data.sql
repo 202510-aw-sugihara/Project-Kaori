@@ -51,3 +51,4 @@ VALUES
 (1, '螻ｱ逕ｰ 闃ｱ蟄・, '繝､繝槭ム 繝上リ繧ｳ', '30莉｣', NULL, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
 (2, '菴占陸 谺｡驛・, '繧ｵ繝医え 繧ｸ繝ｭ繧ｦ', '20莉｣', '鬥呎侭繧｢繝ｬ繝ｫ繧ｮ繝ｼ縺ｪ縺・, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
 
+
