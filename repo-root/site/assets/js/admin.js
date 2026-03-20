@@ -9,7 +9,10 @@
   function fetchJson(path, options) {
     var url = path.indexOf("http") === 0 ? path : (API_BASE + path);
     var opt = options || {};
-    var headers = Object.assign({ "Content-Type": "application/json" }, opt.headers || {});
+    var headers = Object.assign({}, opt.headers || {});
+    if (opt.body && !headers["Content-Type"]) {
+      headers["Content-Type"] = "application/json";
+    }
     return fetch(url, Object.assign({ credentials: "include", headers: headers }, opt, { headers: headers }))
       .then(function (res) {
         if (!res.ok) {
