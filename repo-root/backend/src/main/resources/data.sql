@@ -1,18 +1,17 @@
--- ADMIN USER
+﻿-- ADMIN USER
 INSERT INTO users (name, email, password_hash, phone, role, created_at, updated_at)
-VALUES ('管理者', 'admin@example.com', '$2a$10$AJmLE8MK1Swf53hcADbYg.RTIqFvq9AvW6BGo2Bxr34fnzNHsczpW', '09000000000', 'admin', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
-
+VALUES ('Admin', 'admin@example.com', '$2a$10$AJmLE8MK1Swf53hcADbYg.RTIqFvq9AvW6BGo2Bxr34fnzNHsczpW', '09000000000', 'admin', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
 -- CUSTOMER USERS
 INSERT INTO users (name, email, password_hash, phone, role, created_at, updated_at)
 VALUES
-('テストユーザー1', 'user1@example.com', '$2a$10$AJmLE8MK1Swf53hcADbYg.RTIqFvq9AvW6BGo2Bxr34fnzNHsczpW', '09011111111', 'customer', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-('テストユーザー2', 'user2@example.com', '$2a$10$AJmLE8MK1Swf53hcADbYg.RTIqFvq9AvW6BGo2Bxr34fnzNHsczpW', '09022222222', 'customer', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+('繝・せ繝医Θ繝ｼ繧ｶ繝ｼ1', 'user1@example.com', '$2a$10$AJmLE8MK1Swf53hcADbYg.RTIqFvq9AvW6BGo2Bxr34fnzNHsczpW', '09011111111', 'customer', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+('繝・せ繝医Θ繝ｼ繧ｶ繝ｼ2', 'user2@example.com', '$2a$10$AJmLE8MK1Swf53hcADbYg.RTIqFvq9AvW6BGo2Bxr34fnzNHsczpW', '09022222222', 'customer', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
 
 -- PLANS
 INSERT INTO plans (name, description, duration_minutes, price, capacity, is_active, created_at, updated_at)
 VALUES
-('12種ブレンド体験', '12種類の香料から選んで香水を作成する初心者向けコース', 60, 4000, 6, TRUE, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-('20種ブレンド体験', '月末限定の20種類の香料から選べる自由度の高い人気コース', 60, 4000, 6, TRUE, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+('12遞ｮ繝悶Ξ繝ｳ繝我ｽ馴ｨ・, '12遞ｮ鬘槭・鬥呎侭縺九ｉ驕ｸ繧薙〒鬥呎ｰｴ繧剃ｽ懈・縺吶ｋ蛻晏ｿ・・髄縺代さ繝ｼ繧ｹ', 60, 4000, 6, TRUE, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+('20遞ｮ繝悶Ξ繝ｳ繝我ｽ馴ｨ・, '譛域忰髯仙ｮ壹・20遞ｮ鬘槭・鬥呎侭縺九ｉ驕ｸ縺ｹ繧玖・逕ｱ蠎ｦ縺ｮ鬮倥＞莠ｺ豌励さ繝ｼ繧ｹ', 60, 4000, 6, TRUE, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
 
 -- PLAN TIME SLOTS
 INSERT INTO plan_time_slots (plan_id, slot_date, start_time, end_time, capacity, reserved_count, is_open, created_at, updated_at)
@@ -48,6 +47,7 @@ VALUES
 -- RESERVATION PARTICIPANTS
 INSERT INTO reservation_participants (reservation_id, participant_name, participant_name_kana, age_group, allergy_note, created_at, updated_at)
 VALUES
-(1, '山田 太郎', 'ヤマダ タロウ', '30代', NULL, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-(1, '山田 花子', 'ヤマダ ハナコ', '30代', NULL, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-(2, '佐藤 次郎', 'サトウ ジロウ', '20代', '香料アレルギーなし', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+(1, '螻ｱ逕ｰ 螟ｪ驛・, '繝､繝槭ム 繧ｿ繝ｭ繧ｦ', '30莉｣', NULL, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+(1, '螻ｱ逕ｰ 闃ｱ蟄・, '繝､繝槭ム 繝上リ繧ｳ', '30莉｣', NULL, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+(2, '菴占陸 谺｡驛・, '繧ｵ繝医え 繧ｸ繝ｭ繧ｦ', '20莉｣', '鬥呎侭繧｢繝ｬ繝ｫ繧ｮ繝ｼ縺ｪ縺・, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+

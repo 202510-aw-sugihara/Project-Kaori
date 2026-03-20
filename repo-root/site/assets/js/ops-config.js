@@ -1,5 +1,5 @@
 window.__OPS__ = {
-  apiBase: "https://project-kaori-fmup.onrender.com",
+  apiBase: "https://project-kaori.onrender.com",
   reservationStop: false,
   reservationStopMessage: [
     "現在、システム調整のためオンライン予約を一時停止しております。",

@@ -1,4 +1,4 @@
-(function () {
+﻿(function () {
   var apiBaseFromOps = (window.__OPS__ && window.__OPS__.apiBase) ? String(window.__OPS__.apiBase) : "";
   var API_BASE = (apiBaseFromOps ? apiBaseFromOps.replace(/\/+$/, "") : "https://project-kaori-fmup.onrender.com");
   var CSRF_KEY = "adminCsrfToken";
@@ -41,7 +41,7 @@
 
   function formatDate(value) { return value || ""; }
   function formatTime(value) { return value ? String(value).slice(0, 5) : ""; }
-  function formatYen(value) { var num = Number(value || 0); return "¥" + num.toLocaleString("ja-JP"); }
+  function formatYen(value) { var num = Number(value || 0); return "ﾂ･" + num.toLocaleString("ja-JP"); }
 
   function escapeHtml(value) {
     return String(value == null ? "" : value)
@@ -67,7 +67,7 @@
   var loginError = qs(".js-admin-login-error");
 
   function setUser(user) {
-    if (userEl) userEl.textContent = user ? (user.name + " (" + user.email + ")") : "未ログイン";
+    if (userEl) userEl.textContent = user ? (user.name + " (" + user.email + ")") : "譛ｪ繝ｭ繧ｰ繧､繝ｳ";
     if (logoutBtn) logoutBtn.disabled = !user;
   }
 
@@ -112,7 +112,7 @@
   function renderReservationList(list) {
     if (!reservationListEl) return;
     if (!Array.isArray(list) || !list.length) {
-      reservationListEl.innerHTML = '<tr><td colspan="7" class="admin-muted">該当データなし</td></tr>';
+      reservationListEl.innerHTML = '<tr><td colspan="7" class="admin-muted">データがありません</td></tr>';
       return;
     }
     reservationListEl.innerHTML = list.map(function (item) {
@@ -123,7 +123,7 @@
         + '<td>' + (item.planName || "") + '</td>'
         + '<td>' + (item.customerName || "") + '</td>'
         + '<td>' + (item.status || "") + '</td>'
-        + '<td><button class="admin-btn admin-btn--ghost js-reservation-detail-btn" type="button" data-id="' + item.id + '">隧ｳ邏ｰ</button></td>'
+        + '<td><button class="admin-btn admin-btn--ghost js-reservation-detail-btn" type="button" data-id="' + item.id + '">詳細</button></td>'
         + '</tr>';
     }).join("");
   }
@@ -143,16 +143,16 @@
     }).join("");
     reservationDetailEl.innerHTML = ''
       + '<p><strong>ID:</strong> ' + item.id + '</p>'
-      + '<p><strong>日時:</strong> ' + formatDate(item.reservationDate) + ' ' + formatTime(item.startTime) + '</p>'
-      + '<p><strong>プラン:</strong> ' + (item.planName || "") + '</p>'
-      + '<p><strong>氏名:</strong> ' + (item.customerName || "") + '</p>'
-      + '<p><strong>連絡先:</strong> ' + (item.customerEmail || "") + ' / ' + (item.customerPhone || "") + '</p>'
-      + '<p><strong>人数:</strong> ' + (item.participantCount || 0) + '</p>'
-      + '<p><strong>金額:</strong> ' + formatYen(item.totalPrice) + '</p>'
-      + '<p><strong>状態:</strong> ' + (item.status || "") + '</p>'
-      + '<p><strong>参加者:</strong></p>'
-      + '<ul>' + (participants || '<li>なし</li>') + '</ul>'
-      + '<button class="admin-btn admin-btn--ghost js-reservation-cancel" type="button" data-id="' + item.id + '">キャンセル</button>';
+      + '<p><strong>譌･譎・</strong> ' + formatDate(item.reservationDate) + ' ' + formatTime(item.startTime) + '</p>'
+      + '<p><strong>繝励Λ繝ｳ:</strong> ' + (item.planName || "") + '</p>'
+      + '<p><strong>豌丞錐:</strong> ' + (item.customerName || "") + '</p>'
+      + '<p><strong>騾｣邨｡蜈・</strong> ' + (item.customerEmail || "") + ' / ' + (item.customerPhone || "") + '</p>'
+      + '<p><strong>莠ｺ謨ｰ:</strong> ' + (item.participantCount || 0) + '</p>'
+      + '<p><strong>驥鷹｡・</strong> ' + formatYen(item.totalPrice) + '</p>'
+      + '<p><strong>迥ｶ諷・</strong> ' + (item.status || "") + '</p>'
+      + '<p><strong>蜿ょ刈閠・</strong></p>'
+      + '<ul>' + (participants || '<li>参加者なし</li>') + '</ul>'
+      + '<button class="admin-btn admin-btn--ghost js-reservation-cancel" type="button" data-id="' + item.id + '">繧ｭ繝｣繝ｳ繧ｻ繝ｫ</button>';
   }
 
   function fetchReservations(params) {
@@ -186,7 +186,7 @@
         .then(renderReservationDetail)
         .catch(function () {
           if (!reservationDetailEl) return;
-          reservationDetailEl.textContent = "隧ｳ邏ｰ縺ｮ隱ｭ縺ｿ霎ｼ縺ｿ縺ｫ螟ｱ謨励＠縺ｾ縺励◆縲・;
+          reservationDetailEl.textContent = "予約詳細の取得に失敗しました。";
           reservationDetailEl.classList.add("admin-muted");
           setReservationDetailState("error");
         });
@@ -217,12 +217,12 @@
     if (!slotListEl) return;
     slotCache = {};
     if (!Array.isArray(list) || !list.length) {
-      slotListEl.innerHTML = '<tr><td colspan="8" class="admin-muted">該当データなし</td></tr>';
+      slotListEl.innerHTML = '<tr><td colspan="8" class="admin-muted">データがありません</td></tr>';
       return;
     }
     slotListEl.innerHTML = list.map(function (slot) {
       slotCache[slot.id] = slot;
-      var status = slot.isOpen ? "開放" : "閉鎖";
+      var status = slot.isOpen ? "公開" : "非公開";
       return '<tr>'
         + '<td>' + slot.id + '</td>'
         + '<td>' + slot.planId + '</td>'
@@ -231,7 +231,7 @@
         + '<td>' + slot.capacity + '</td>'
         + '<td>' + slot.reservedCount + '</td>'
         + '<td>' + status + '</td>'
-        + '<td><button class="admin-btn admin-btn--ghost js-slot-toggle" type="button" data-id="' + slot.id + '">' + (slot.isOpen ? "閉じる" : "開ける") + '</button></td>'
+        + '<td><button class="admin-btn admin-btn--ghost js-slot-toggle" type="button" data-id="' + slot.id + '">' + (slot.isOpen ? "停止する" : "再開する") + '</button></td>'
         + '</tr>';
     }).join("");
   }
@@ -290,7 +290,7 @@
     if (!planListEl) return;
     planCache = {};
     if (!Array.isArray(list) || !list.length) {
-      planListEl.innerHTML = '<tr><td colspan="4" class="admin-muted">該当データなし</td></tr>';
+      planListEl.innerHTML = '<tr><td colspan="4" class="admin-muted">データがありません</td></tr>';
       return;
     }
     planListEl.innerHTML = list.map(function (plan) {
@@ -298,7 +298,7 @@
       return '<tr class="js-plan-row" data-id="' + plan.id + '">'
         + '<td>' + plan.id + '</td>'
         + '<td>' + plan.name + '</td>'
-        + '<td>' + (plan.durationMinutes || 0) + '分</td>'
+        + '<td>' + (plan.durationMinutes || 0) + '蛻・/td>'
         + '<td>' + formatYen(plan.price) + '</td>'
         + '</tr>';
     }).join("");
@@ -344,7 +344,7 @@
       withCsrf({ method: "PUT", body: JSON.stringify(payload) })
         .then(function (opt) { return fetchJson("/api/admin/plans/" + id, opt); })
         .then(function () { fetchPlans(); })
-        .catch(function () { if (planError) planError.textContent = "更新に失敗しました。"; });
+        .catch(function () { if (planError) planError.textContent = "プランの更新に失敗しました。"; });
     });
   }
 
@@ -366,7 +366,7 @@
   var createCustomerKanaInput = createReservationForm ? qs('[name="customerNameKana"]', createReservationForm) : null;
   var createNoteInput = createReservationForm ? qs('[name="note"]', createReservationForm) : null;
   var createSlotCache = {};
-  var setCreatePreviewConfirmed(false);
+  var createPreviewConfirmed = false;
   var createReservationEnabled = false;
 
   function getCreateErrorEl(field) {
@@ -415,11 +415,11 @@
       clearCreateAlerts();
       clearCreateErrors();
       setCreatePreviewConfirmed(false);
-      resetCreateSlotOptions("先に管理者ログインしてください");
-      if (createSlotHelpEl) createSlotHelpEl.textContent = "ログイン後に空き枠を読み込めます。";
+      resetCreateSlotOptions("蜈医↓邂｡逅・・Ο繧ｰ繧､繝ｳ縺励※縺上□縺輔＞");
+      if (createSlotHelpEl) createSlotHelpEl.textContent = "ログイン後に枠を取得できます。";
       if (createPreviewEl) {
         createPreviewEl.classList.add("admin-muted");
-        createPreviewEl.innerHTML = "先に管理者ログインしてください。ログイン後に予約内容の確認ができます。";
+        createPreviewEl.innerHTML = "ログインしてください。ログイン後に予約プレビューが表示されます。";
       }
     } else {
       renderReservationPreview(null);
@@ -445,7 +445,7 @@
   function renderCreatePlanOptions(list) {
     if (!createPlanSelect) return;
     var selected = createPlanSelect.value;
-    var options = ['<option value="">プランを選択</option>'].concat((list || []).map(function (plan) {
+    var options = ['<option value="">繝励Λ繝ｳ繧帝∈謚・/option>'].concat((list || []).map(function (plan) {
       return '<option value="' + plan.id + '">' + escapeHtml(plan.name) + "</option>";
     }));
     createPlanSelect.innerHTML = options.join("");
@@ -469,7 +469,7 @@
   function resetCreateSlotOptions(message) {
     createSlotCache = {};
     if (!createSlotSelect) return;
-    createSlotSelect.innerHTML = '<option value="">' + escapeHtml(message || "先に空き枠を読み込んでください") + "</option>";
+    createSlotSelect.innerHTML = '<option value="">' + escapeHtml(message || "蜈医↓遨ｺ縺肴棧繧定ｪｭ縺ｿ霎ｼ繧薙〒縺上□縺輔＞") + "</option>";
     createSlotSelect.disabled = true;
   }
 
@@ -486,34 +486,34 @@
       return getSlotRemainingCapacity(slot) >= participantCount;
     });
     if (!filtered.length) {
-      resetCreateSlotOptions("選択した日付に空き枠がありません");
-      if (createSlotHelpEl) createSlotHelpEl.textContent = "利用可能な空き枠が見つかりませんでした。";
+      resetCreateSlotOptions("驕ｸ謚槭＠縺滓律莉倥↓遨ｺ縺肴棧縺後≠繧翫∪縺帙ｓ");
+      if (createSlotHelpEl) createSlotHelpEl.textContent = "条件に合う枠がありません。";
       updateCreateSubmitState();
       return;
     }
     createSlotSelect.disabled = false;
-    createSlotSelect.innerHTML = ['<option value="">時間枠を選択</option>'].concat(filtered.map(function (slot) {
+    createSlotSelect.innerHTML = ['<option value="">譎る俣譫繧帝∈謚・/option>'].concat(filtered.map(function (slot) {
       createSlotCache[slot.id] = slot;
-      return '<option value="' + slot.id + '">' + escapeHtml(formatTime(slot.startTime) + " - " + formatTime(slot.endTime) + " / 残り " + getSlotRemainingCapacity(slot)) + "</option>";
+      return '<option value="' + slot.id + '">' + escapeHtml(formatTime(slot.startTime) + " - " + formatTime(slot.endTime) + " / 谿九ｊ " + getSlotRemainingCapacity(slot)) + "</option>";
     })).join("");
     if (selected && createSlotCache[selected]) {
       createSlotSelect.value = selected;
     }
-    if (createSlotHelpEl) createSlotHelpEl.textContent = filtered.length + "件の空き枠があります。";
+    if (createSlotHelpEl) createSlotHelpEl.textContent = filtered.length + "件の枠があります。";
     updateCreateSubmitState();
   }
 
   function getSubmitErrorMessage(err) {
     var parsed = parseErrorBody(err);
-    if (err && err.status === 401) return "セッションの有効期限が切れました。再度ログインしてください。";
-    if (err && err.status === 403) return "この操作を実行する権限がありません。";
+    if (err && err.status === 401) return "セッションが切れました。再ログインしてください。";
+    if (err && err.status === 403) return "この操作は許可されていません。";
     if (parsed && parsed.message) {
       if (parsed.status === 409 && /slot/i.test(parsed.message)) {
-        return "選択した枠は現在利用できません。空き枠を再読み込みしてください。";
+        return "選択した枠は利用できません。別の枠を選択してください。";
       }
       return parsed.message;
     }
-    if (err && err.status >= 500) return "サーバーエラーが発生しました。時間をおいて再度お試しください。";
+    if (err && err.status >= 500) return "サーバーエラーが発生しました。時間をおいて再試行してください。";
     return "リクエストに失敗しました。入力内容を確認してください。";
   }
 
@@ -529,20 +529,20 @@
     if (!planId || !slotDate) {
       renderCreateErrors({
         planId: planId ? "" : "プランを選択してください。",
-        slotDate: slotDate ? "" : "日付を入力してください。"
+        slotDate: slotDate ? "" : "日付を選択してください。"
       });
-      resetCreateSlotOptions("先にプランと日付を選択してください");
-      if (createSlotHelpEl) createSlotHelpEl.textContent = "プランと日付を選択してから空き枠を読み込んでください。";
+      resetCreateSlotOptions("蜈医↓繝励Λ繝ｳ縺ｨ譌･莉倥ｒ驕ｸ謚槭＠縺ｦ縺上□縺輔＞");
+      if (createSlotHelpEl) createSlotHelpEl.textContent = "プランと日付を選択してください。";
       return Promise.resolve();
     }
 
-    setSlotLoadingState(true, "空き枠を読み込み中です...");
+    setSlotLoadingState(true, "遨ｺ縺肴棧繧定ｪｭ縺ｿ霎ｼ縺ｿ荳ｭ縺ｧ縺・..");
     return fetchJson("/api/plans/" + encodeURIComponent(planId) + "/time-slots?slotDate=" + encodeURIComponent(slotDate))
       .then(function (slots) {
         renderCreateSlotOptions(slots || []);
       })
       .catch(function (err) {
-        resetCreateSlotOptions("空き枠の読み込みに失敗しました");
+        resetCreateSlotOptions("遨ｺ縺肴棧縺ｮ隱ｭ縺ｿ霎ｼ縺ｿ縺ｫ螟ｱ謨励＠縺ｾ縺励◆");
         setCreateAlert(createErrorEl, escapeHtml(getSubmitErrorMessage(err)));
       })
       .then(function () {
@@ -571,18 +571,18 @@
       var current = existing[i] || {};
       cards.push(
         '<section class="admin-participant-card js-create-participant-card" data-index="' + i + '">'
-          + "<h4>参加者 " + (i + 1) + "</h4>"
+          + "<h4>蜿ょ刈閠・" + (i + 1) + "</h4>"
           + '<div class="admin-participant-grid">'
-            + "<label><span>氏名</span>"
+            + "<label><span>豌丞錐</span>"
             + '<input type="text" name="participantName" maxlength="100" value="' + escapeHtml(current.participantName || "") + '" required />'
             + '<span class="admin-field-error" data-error-for="participants.' + i + '.participantName"></span></label>'
-            + "<label><span>氏名かな</span>"
+            + "<label><span>豌丞錐縺九↑</span>"
             + '<input type="text" name="participantNameKana" maxlength="100" value="' + escapeHtml(current.participantNameKana || "") + '" required />'
             + '<span class="admin-field-error" data-error-for="participants.' + i + '.participantNameKana"></span></label>'
-            + "<label><span>年代</span>"
+            + "<label><span>蟷ｴ莉｣</span>"
             + '<input type="text" name="ageGroup" maxlength="50" value="' + escapeHtml(current.ageGroup || "") + '" />'
             + '<span class="admin-field-error" data-error-for="participants.' + i + '.ageGroup"></span></label>'
-            + "<label><span>アレルギー備考</span>"
+            + "<label><span>繧｢繝ｬ繝ｫ繧ｮ繝ｼ蛯呵・/span>"
             + '<input type="text" name="allergyNote" maxlength="255" value="' + escapeHtml(current.allergyNote || "") + '" />'
             + '<span class="admin-field-error" data-error-for="participants.' + i + '.allergyNote"></span></label>'
           + "</div>"
@@ -614,28 +614,28 @@
     var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
     if (!data.planId) errors.planId = "プランを選択してください。";
-    if (!data.slotDate) errors.slotDate = "日付を入力してください。";
+    if (!data.slotDate) errors.slotDate = "日付を選択してください。";
     if (!data.planTimeSlotId) errors.planTimeSlotId = "時間枠を選択してください。";
-    if (!data.customerName) errors.customerName = "顧客名を入力してください。";
+    if (!data.customerName) errors.customerName = "お客様名を入力してください。";
     if (!data.email) errors.email = "メールアドレスを入力してください。";
     else if (!emailPattern.test(data.email)) errors.email = "メールアドレスの形式が正しくありません。";
     if (!data.phone) errors.phone = "電話番号を入力してください。";
-    if (!data.participantCount || data.participantCount < 1) errors.participantCount = "参加人数は1名以上にしてください。";
+    if (!data.participantCount || data.participantCount < 1) errors.participantCount = "参加人数は1以上で入力してください。";
     if (!Array.isArray(data.participants) || data.participants.length !== data.participantCount) {
-      errors.participants = "参加人数と参加者入力欄の数が一致していません。";
+      errors.participants = "参加人数と参加者情報の数が一致しません。";
     }
 
     (data.participants || []).forEach(function (participant, index) {
       if (!participant.participantName) {
-        errors["participants." + index + ".participantName"] = "氏名を入力してください。";
+        errors["participants." + index + ".participantName"] = "参加者名を入力してください。";
       }
       if (!participant.participantNameKana) {
-        errors["participants." + index + ".participantNameKana"] = "氏名かなを入力してください。";
+        errors["participants." + index + ".participantNameKana"] = "参加者名（カナ）を入力してください。";
       }
     });
 
     if (requireConfirm && !createPreviewConfirmed) {
-      errors.participants = errors.participants || "登録前に確認を行ってください。";
+      errors.participants = errors.participants || "プレビューを実行してください。";
     }
 
     return errors;
@@ -647,17 +647,17 @@
     var slot = data && data.planTimeSlotId ? createSlotCache[data.planTimeSlotId] : null;
     if (!data) {
       createPreviewEl.classList.add("admin-muted");
-      createPreviewEl.innerHTML = "フォームを入力して「確認」を押すと、登録前に内容を確認できます。";
+      createPreviewEl.innerHTML = "必要項目を入力してプレビューを作成してください。";
       return;
     }
     createPreviewEl.classList.remove("admin-muted");
     createPreviewEl.innerHTML = ""
-      + '<p class="admin-preview-meta"><strong>プラン:</strong> ' + escapeHtml(plan ? plan.name : "") + "</p>"
-      + '<p class="admin-preview-meta"><strong>日時:</strong> ' + escapeHtml((data.slotDate || "") + (slot ? " " + formatTime(slot.startTime) + " - " + formatTime(slot.endTime) : "")) + "</p>"
-      + '<p class="admin-preview-meta"><strong>顧客名:</strong> ' + escapeHtml(data.customerName) + "</p>"
-      + '<p class="admin-preview-meta"><strong>メールアドレス:</strong> ' + escapeHtml(data.email) + "</p>"
-      + '<p class="admin-preview-meta"><strong>電話番号:</strong> ' + escapeHtml(data.phone) + "</p>"
-      + '<p class="admin-preview-meta"><strong>参加人数:</strong> ' + escapeHtml(data.participantCount) + "</p>"
+      + '<p class="admin-preview-meta"><strong>繝励Λ繝ｳ:</strong> ' + escapeHtml(plan ? plan.name : "") + "</p>"
+      + '<p class="admin-preview-meta"><strong>譌･譎・</strong> ' + escapeHtml((data.slotDate || "") + (slot ? " " + formatTime(slot.startTime) + " - " + formatTime(slot.endTime) : "")) + "</p>"
+      + '<p class="admin-preview-meta"><strong>鬘ｧ螳｢蜷・</strong> ' + escapeHtml(data.customerName) + "</p>"
+      + '<p class="admin-preview-meta"><strong>繝｡繝ｼ繝ｫ繧｢繝峨Ξ繧ｹ:</strong> ' + escapeHtml(data.email) + "</p>"
+      + '<p class="admin-preview-meta"><strong>髮ｻ隧ｱ逡ｪ蜿ｷ:</strong> ' + escapeHtml(data.phone) + "</p>"
+      + '<p class="admin-preview-meta"><strong>蜿ょ刈莠ｺ謨ｰ:</strong> ' + escapeHtml(data.participantCount) + "</p>"
       + '<ul class="admin-preview-list">' + data.participants.map(function (participant) {
         return "<li>" + escapeHtml(participant.participantName + (participant.participantNameKana ? " / " + participant.participantNameKana : "")) + "</li>";
       }).join("") + "</ul>";
@@ -669,13 +669,13 @@
     var participants = source.participants || (fallbackData ? fallbackData.participants : []) || [];
     createPreviewEl.classList.remove("admin-muted");
     createPreviewEl.innerHTML = ""
-      + '<p class="admin-preview-meta"><strong>予約ID:</strong> ' + escapeHtml(source.id || "") + "</p>"
-      + '<p class="admin-preview-meta"><strong>プラン:</strong> ' + escapeHtml(source.planName || (fallbackData && planCache[fallbackData.planId] ? planCache[fallbackData.planId].name : "")) + "</p>"
-      + '<p class="admin-preview-meta"><strong>日時:</strong> ' + escapeHtml((source.reservationDate || (fallbackData && fallbackData.slotDate) || "") + (source.startTime ? " " + formatTime(source.startTime) : "")) + "</p>"
-      + '<p class="admin-preview-meta"><strong>顧客名:</strong> ' + escapeHtml(source.customerName || (fallbackData && fallbackData.customerName) || "") + "</p>"
-      + '<p class="admin-preview-meta"><strong>メールアドレス:</strong> ' + escapeHtml(source.customerEmail || (fallbackData && fallbackData.email) || "") + "</p>"
-      + '<p class="admin-preview-meta"><strong>電話番号:</strong> ' + escapeHtml(source.customerPhone || (fallbackData && fallbackData.phone) || "") + "</p>"
-      + '<p class="admin-preview-meta"><strong>状態:</strong> ' + escapeHtml(source.status || "") + "</p>"
+      + '<p class="admin-preview-meta"><strong>莠育ｴИD:</strong> ' + escapeHtml(source.id || "") + "</p>"
+      + '<p class="admin-preview-meta"><strong>繝励Λ繝ｳ:</strong> ' + escapeHtml(source.planName || (fallbackData && planCache[fallbackData.planId] ? planCache[fallbackData.planId].name : "")) + "</p>"
+      + '<p class="admin-preview-meta"><strong>譌･譎・</strong> ' + escapeHtml((source.reservationDate || (fallbackData && fallbackData.slotDate) || "") + (source.startTime ? " " + formatTime(source.startTime) : "")) + "</p>"
+      + '<p class="admin-preview-meta"><strong>鬘ｧ螳｢蜷・</strong> ' + escapeHtml(source.customerName || (fallbackData && fallbackData.customerName) || "") + "</p>"
+      + '<p class="admin-preview-meta"><strong>繝｡繝ｼ繝ｫ繧｢繝峨Ξ繧ｹ:</strong> ' + escapeHtml(source.customerEmail || (fallbackData && fallbackData.email) || "") + "</p>"
+      + '<p class="admin-preview-meta"><strong>髮ｻ隧ｱ逡ｪ蜿ｷ:</strong> ' + escapeHtml(source.customerPhone || (fallbackData && fallbackData.phone) || "") + "</p>"
+      + '<p class="admin-preview-meta"><strong>迥ｶ諷・</strong> ' + escapeHtml(source.status || "") + "</p>"
       + '<ul class="admin-preview-list">' + participants.map(function (participant) {
         return "<li>" + escapeHtml((participant.participantName || "") + ((participant.participantNameKana || "") ? " / " + participant.participantNameKana : "")) + "</li>";
       }).join("") + "</ul>";
@@ -711,7 +711,7 @@
         });
       } else {
         list.push({
-          participantName: "蜷御ｼｴ閠・ + i,
+          participantName: "Participant " + i,
           participantNameKana: "",
           ageGroup: "",
           allergyNote: null
@@ -780,8 +780,10 @@
     clearCreateErrors();
     clearCreateAlerts();
     setCreatePreviewConfirmed(false);
-    resetCreateSlotOptions(keepPlan ? "選択中の日付で空き枠を再読み込みしてください" : "先に空き枠を読み込んでください");
-    if (createSlotHelpEl) createSlotHelpEl.textContent = keepPlan ? "登録が完了しました。必要に応じて空き枠を再読み込みしてください。" : "プランと日付を選択して、空き枠を読み込んでください。";
+    resetCreateSlotOptions(keepPlan ? "驕ｸ謚樔ｸｭ縺ｮ譌･莉倥〒遨ｺ縺肴棧繧貞・隱ｭ縺ｿ霎ｼ縺ｿ縺励※縺上□縺輔＞" : "蜈医↓遨ｺ縺肴棧繧定ｪｭ縺ｿ霎ｼ繧薙〒縺上□縺輔＞");
+    if (createSlotHelpEl) createSlotHelpEl.textContent = keepPlan
+      ? "予約内容を変更したため、枠を再取得してください。"
+      : "プランと日付を選択すると枠を取得できます。";
     renderParticipantFields(1);
     renderReservationPreview(null);
     updateCreateSubmitState();
@@ -795,7 +797,7 @@
   if (createReservationForm) {
     renderParticipantFields(getParticipantCountValue());
     renderReservationPreview(null);
-    resetCreateSlotOptions("先に空き枠を読み込んでください");
+    resetCreateSlotOptions("蜈医↓遨ｺ縺肴棧繧定ｪｭ縺ｿ霎ｼ繧薙〒縺上□縺輔＞");
     setCreateReservationEnabled(false);
     updateCreateSubmitState();
 
@@ -803,8 +805,8 @@
       clearCreateAlerts();
       if (e.target === createParticipantCountInput) {
         renderParticipantFields(getParticipantCountValue());
-        resetCreateSlotOptions("参加人数変更後は空き枠を再読み込みしてください");
-        if (createSlotHelpEl) createSlotHelpEl.textContent = "参加人数が変わったため、空き枠を再読み込みしてください。";
+        resetCreateSlotOptions("蜿ょ刈莠ｺ謨ｰ螟画峩蠕後・遨ｺ縺肴棧繧貞・隱ｭ縺ｿ霎ｼ縺ｿ縺励※縺上□縺輔＞");
+        if (createSlotHelpEl) createSlotHelpEl.textContent = "参加人数が変わったため、枠を再取得してください。";
       }
       setCreatePreviewConfirmed(false);
       updateCreateSubmitState();
@@ -813,8 +815,8 @@
     createReservationForm.addEventListener("change", function (e) {
       if (e.target === createPlanSelect || e.target === createDateInput) {
         setCreatePreviewConfirmed(false);
-        resetCreateSlotOptions("プランまたは日付の変更後は再読み込みしてください");
-        if (createSlotHelpEl) createSlotHelpEl.textContent = "プランまたは日付が変わったため、空き枠を再読み込みしてください。";
+        resetCreateSlotOptions("繝励Λ繝ｳ縺ｾ縺溘・譌･莉倥・螟画峩蠕後・蜀崎ｪｭ縺ｿ霎ｼ縺ｿ縺励※縺上□縺輔＞");
+        if (createSlotHelpEl) createSlotHelpEl.textContent = "プランまたは日付が変わったため、枠を再取得してください。";
       }
       if (e.target === createSlotSelect) {
         setCreatePreviewConfirmed(false);
@@ -837,13 +839,13 @@
         if (Object.keys(errors).length) {
           setCreatePreviewConfirmed(false);
           renderReservationPreview(null);
-          setCreateAlert(createErrorEl, "入力内容を確認してから確認表示を行ってください。");
+          setCreateAlert(createErrorEl, "必要項目を確認してプレビューを作成してください。");
           updateCreateSubmitState();
           return;
         }
         setCreatePreviewConfirmed(true);
         renderReservationPreview(data);
-        setCreateAlert(createSuccessEl, "確認が完了しました。このまま予約を登録できます。");
+        setCreateAlert(createSuccessEl, "プレビューが作成されました。続けて予約を確定できます。");
         updateCreateSubmitState();
       });
     }
@@ -861,7 +863,7 @@
       var errors = validateReservationForm(data);
       renderCreateErrors(errors);
       if (Object.keys(errors).length) {
-        setCreateAlert(createErrorEl, "入力内容を確認してから登録してください。");
+        setCreateAlert(createErrorEl, "入力内容を確認して予約を送信してください。");
         updateCreateSubmitState();
         return;
       }
@@ -869,9 +871,9 @@
       if (createSubmitBtn) createSubmitBtn.disabled = true;
       submitAdminReservation(data)
         .then(function (reservation) {
-          var summary = "予約を登録しました";
+          var summary = "莠育ｴ・ｒ逋ｻ骭ｲ縺励∪縺励◆";
           if (reservation && reservation.id) {
-            summary += "（ID: " + reservation.id + "）";
+            summary += " (ID: " + reservation.id + ")";
           }
           fetchReservations({ page: 0, size: 50 });
           resetReservationForm({ keepPlanDate: true });
@@ -897,4 +899,5 @@
   applyReservationStopNotice();
   loadMe().then(function (user) { if (user) refreshAll(); });
 })();
+
 
