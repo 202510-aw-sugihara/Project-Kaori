@@ -1,4 +1,4 @@
-﻿package com.example.shizuka.config;
+package com.example.shizuka.config;
 
 import com.example.shizuka.entity.User;
 import com.example.shizuka.mapper.UserMapper;
