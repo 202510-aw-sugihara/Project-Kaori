@@ -61,7 +61,7 @@ public class AdminAuthController {
     public AdminAuthResponse me() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication == null || !(authentication.getPrincipal() instanceof ShizukaUserDetails)) {
-            throw new RuntimeException("Not authenticated");
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Not authenticated");
         }
         User user = ((ShizukaUserDetails) authentication.getPrincipal()).getUser();
         return toResponse(user);
@@ -76,3 +76,5 @@ public class AdminAuthController {
         return resp;
     }
 }
+import org.springframework.web.server.ResponseStatusException;
+import org.springframework.http.HttpStatus;
