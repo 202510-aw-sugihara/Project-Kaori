@@ -1,4 +1,4 @@
-﻿-- ADMIN USER
+-- ADMIN USER
 INSERT INTO users (name, email, password_hash, phone, role, created_at, updated_at)
 VALUES ('Admin', 'admin@example.com', '$2a$10$AJmLE8MK1Swf53hcADbYg.RTIqFvq9AvW6BGo2Bxr34fnzNHsczpW', '09000000000', 'admin', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
 -- CUSTOMER USERS
