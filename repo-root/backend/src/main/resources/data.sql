@@ -1,17 +1,18 @@
--- ADMIN USER
+﻿-- ADMIN USER
 INSERT INTO users (name, email, password_hash, phone, role, created_at, updated_at)
 VALUES ('Admin', 'admin@example.com', '$2a$10$AJmLE8MK1Swf53hcADbYg.RTIqFvq9AvW6BGo2Bxr34fnzNHsczpW', '09000000000', 'admin', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+
 -- CUSTOMER USERS
 INSERT INTO users (name, email, password_hash, phone, role, created_at, updated_at)
 VALUES
-('繝・せ繝医Θ繝ｼ繧ｶ繝ｼ1', 'user1@example.com', '$2a$10$AJmLE8MK1Swf53hcADbYg.RTIqFvq9AvW6BGo2Bxr34fnzNHsczpW', '09011111111', 'customer', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-('繝・せ繝医Θ繝ｼ繧ｶ繝ｼ2', 'user2@example.com', '$2a$10$AJmLE8MK1Swf53hcADbYg.RTIqFvq9AvW6BGo2Bxr34fnzNHsczpW', '09022222222', 'customer', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+('User One', 'user1@example.com', '$2a$10$AJmLE8MK1Swf53hcADbYg.RTIqFvq9AvW6BGo2Bxr34fnzNHsczpW', '09011111111', 'customer', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+('User Two', 'user2@example.com', '$2a$10$AJmLE8MK1Swf53hcADbYg.RTIqFvq9AvW6BGo2Bxr34fnzNHsczpW', '09022222222', 'customer', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
 
 -- PLANS
 INSERT INTO plans (name, description, duration_minutes, price, capacity, is_active, created_at, updated_at)
 VALUES
-('12遞ｮ繝悶Ξ繝ｳ繝我ｽ馴ｨ・, '12遞ｮ鬘槭・鬥呎侭縺九ｉ驕ｸ繧薙〒鬥呎ｰｴ繧剃ｽ懈・縺吶ｋ蛻晏ｿ・・髄縺代さ繝ｼ繧ｹ', 60, 4000, 6, TRUE, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-('20遞ｮ繝悶Ξ繝ｳ繝我ｽ馴ｨ・, '譛域忰髯仙ｮ壹・20遞ｮ鬘槭・鬥呎侭縺九ｉ驕ｸ縺ｹ繧玖・逕ｱ蠎ｦ縺ｮ鬮倥＞莠ｺ豌励さ繝ｼ繧ｹ', 60, 4000, 6, TRUE, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+('12 Seat Course', 'Standard 12 seat course.', 60, 4000, 6, TRUE, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+('20 Seat Course', 'Standard 20 seat course.', 60, 4000, 6, TRUE, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
 
 -- PLAN TIME SLOTS
 INSERT INTO plan_time_slots (plan_id, slot_date, start_time, end_time, capacity, reserved_count, is_open, created_at, updated_at)
@@ -47,8 +48,6 @@ VALUES
 -- RESERVATION PARTICIPANTS
 INSERT INTO reservation_participants (reservation_id, participant_name, participant_name_kana, age_group, allergy_note, created_at, updated_at)
 VALUES
-(1, '螻ｱ逕ｰ 螟ｪ驛・, '繝､繝槭ム 繧ｿ繝ｭ繧ｦ', '30莉｣', NULL, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-(1, '螻ｱ逕ｰ 闃ｱ蟄・, '繝､繝槭ム 繝上リ繧ｳ', '30莉｣', NULL, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-(2, '菴占陸 谺｡驛・, '繧ｵ繝医え 繧ｸ繝ｭ繧ｦ', '20莉｣', '鬥呎侭繧｢繝ｬ繝ｫ繧ｮ繝ｼ縺ｪ縺・, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
-
-
+(1, 'Participant A', 'PARTICIPANT A', '30s', NULL, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+(1, 'Participant B', 'PARTICIPANT B', '30s', NULL, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+(2, 'Participant C', 'PARTICIPANT C', '20s', 'No peanuts', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
