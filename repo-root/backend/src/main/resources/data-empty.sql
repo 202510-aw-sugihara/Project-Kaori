@@ -1,1 +1,1 @@
-﻿-- Intentionally empty. Data is created programmatically on startup.
+-- Intentionally empty. Data is created programmatically on startup.
