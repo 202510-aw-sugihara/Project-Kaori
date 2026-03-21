@@ -31,7 +31,6 @@ server:
   port: ${PORT:8080}
   servlet:
     context-path: /
-spring:
   sql:
     init:
       mode: never
