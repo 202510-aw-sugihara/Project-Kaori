@@ -44,7 +44,7 @@
 
   function formatDate(value) { return value || ""; }
   function formatTime(value) { return value ? String(value).slice(0, 5) : ""; }
-  function formatYen(value) { var num = Number(value || 0); return "ﾂ･" + num.toLocaleString("ja-JP"); }
+  function formatYen(value) { var num = Number(value || 0); return "¥" + num.toLocaleString("ja-JP"); }
 
   function escapeHtml(value) {
     return String(value == null ? "" : value)
@@ -70,7 +70,7 @@
   var loginError = qs(".js-admin-login-error");
 
   function setUser(user) {
-    if (userEl) userEl.textContent = user ? (user.name + " (" + user.email + ")") : "譛ｪ繝ｭ繧ｰ繧､繝ｳ";
+    if (userEl) userEl.textContent = user ? (user.name + " (" + user.email + ")") : "未ログイン";
     if (logoutBtn) logoutBtn.disabled = !user;
   }
 
@@ -146,16 +146,16 @@
     }).join("");
     reservationDetailEl.innerHTML = ''
       + '<p><strong>ID:</strong> ' + item.id + '</p>'
-      + '<p><strong>譌･譎・</strong> ' + formatDate(item.reservationDate) + ' ' + formatTime(item.startTime) + '</p>'
-      + '<p><strong>繝励Λ繝ｳ:</strong> ' + (item.planName || "") + '</p>'
-      + '<p><strong>豌丞錐:</strong> ' + (item.customerName || "") + '</p>'
-      + '<p><strong>騾｣邨｡蜈・</strong> ' + (item.customerEmail || "") + ' / ' + (item.customerPhone || "") + '</p>'
-      + '<p><strong>莠ｺ謨ｰ:</strong> ' + (item.participantCount || 0) + '</p>'
-      + '<p><strong>驥鷹｡・</strong> ' + formatYen(item.totalPrice) + '</p>'
-      + '<p><strong>迥ｶ諷・</strong> ' + (item.status || "") + '</p>'
-      + '<p><strong>蜿ょ刈閠・</strong></p>'
+      + '<p><strong>日付</strong> ' + formatDate(item.reservationDate) + ' ' + formatTime(item.startTime) + '</p>'
+      + '<p><strong>プラン:</strong> ' + (item.planName || "") + '</p>'
+      + '<p><strong>顧客名:</strong> ' + (item.customerName || "") + '</p>'
+      + '<p><strong>連絡先</strong> ' + (item.customerEmail || "") + ' / ' + (item.customerPhone || "") + '</p>'
+      + '<p><strong>人数:</strong> ' + (item.participantCount || 0) + '</p>'
+      + '<p><strong>金額</strong> ' + formatYen(item.totalPrice) + '</p>'
+      + '<p><strong>状況</strong> ' + (item.status || "") + '</p>'
+      + '<p><strong>参加者</strong></p>'
       + '<ul>' + (participants || '<li>参加者なし</li>') + '</ul>'
-      + '<button class="admin-btn admin-btn--ghost js-reservation-cancel" type="button" data-id="' + item.id + '">繧ｭ繝｣繝ｳ繧ｻ繝ｫ</button>';
+      + '<button class="admin-btn admin-btn--ghost js-reservation-cancel" type="button" data-id="' + item.id + '">キャンセル</button>';
   }
 
   function fetchReservations(params) {
@@ -418,7 +418,7 @@
       clearCreateAlerts();
       clearCreateErrors();
       setCreatePreviewConfirmed(false);
-      resetCreateSlotOptions("蜈医↓邂｡逅・・Ο繧ｰ繧､繝ｳ縺励※縺上□縺輔＞");
+      resetCreateSlotOptions("先に管理者ログインしてください");
       if (createSlotHelpEl) createSlotHelpEl.textContent = "ログイン後に枠を取得できます。";
       if (createPreviewEl) {
         createPreviewEl.classList.add("admin-muted");
@@ -448,7 +448,7 @@
   function renderCreatePlanOptions(list) {
     if (!createPlanSelect) return;
     var selected = createPlanSelect.value;
-    var options = ['<option value="">繝励Λ繝ｳ繧帝∈謚・/option>'].concat((list || []).map(function (plan) {
+    var options = ['<option value="">プランを選択</option>'].concat((list || []).map(function (plan) {
       return '<option value="' + plan.id + '">' + escapeHtml(plan.name) + "</option>";
     }));
     createPlanSelect.innerHTML = options.join("");
@@ -472,7 +472,7 @@
   function resetCreateSlotOptions(message) {
     createSlotCache = {};
     if (!createSlotSelect) return;
-    createSlotSelect.innerHTML = '<option value="">' + escapeHtml(message || "蜈医↓遨ｺ縺肴棧繧定ｪｭ縺ｿ霎ｼ繧薙〒縺上□縺輔＞") + "</option>";
+    createSlotSelect.innerHTML = '<option value="">' + escapeHtml(message || "先に空き枠を取得してください") + "</option>";
     createSlotSelect.disabled = true;
   }
 
@@ -489,15 +489,15 @@
       return getSlotRemainingCapacity(slot) >= participantCount;
     });
     if (!filtered.length) {
-      resetCreateSlotOptions("驕ｸ謚槭＠縺滓律莉倥↓遨ｺ縺肴棧縺後≠繧翫∪縺帙ｓ");
+      resetCreateSlotOptions("選択した日付に空き枠がありません");
       if (createSlotHelpEl) createSlotHelpEl.textContent = "条件に合う枠がありません。";
       updateCreateSubmitState();
       return;
     }
     createSlotSelect.disabled = false;
-    createSlotSelect.innerHTML = ['<option value="">譎る俣譫繧帝∈謚・/option>'].concat(filtered.map(function (slot) {
+    createSlotSelect.innerHTML = ['<option value="">時間枠を選択</option>'].concat(filtered.map(function (slot) {
       createSlotCache[slot.id] = slot;
-      return '<option value="' + slot.id + '">' + escapeHtml(formatTime(slot.startTime) + " - " + formatTime(slot.endTime) + " / 谿九ｊ " + getSlotRemainingCapacity(slot)) + "</option>";
+      return '<option value="' + slot.id + '">' + escapeHtml(formatTime(slot.startTime) + " - " + formatTime(slot.endTime) + " / 残り " + getSlotRemainingCapacity(slot)) + "</option>";
     })).join("");
     if (selected && createSlotCache[selected]) {
       createSlotSelect.value = selected;
@@ -534,18 +534,18 @@
         planId: planId ? "" : "プランを選択してください。",
         slotDate: slotDate ? "" : "日付を選択してください。"
       });
-      resetCreateSlotOptions("蜈医↓繝励Λ繝ｳ縺ｨ譌･莉倥ｒ驕ｸ謚槭＠縺ｦ縺上□縺輔＞");
+      resetCreateSlotOptions("先にプランと日付を選択してください");
       if (createSlotHelpEl) createSlotHelpEl.textContent = "プランと日付を選択してください。";
       return Promise.resolve();
     }
 
-    setSlotLoadingState(true, "遨ｺ縺肴棧繧定ｪｭ縺ｿ霎ｼ縺ｿ荳ｭ縺ｧ縺・..");
+    setSlotLoadingState(true, "空き枠を読み込み中です...");
     return fetchJson("/api/plans/" + encodeURIComponent(planId) + "/time-slots?slotDate=" + encodeURIComponent(slotDate))
       .then(function (slots) {
         renderCreateSlotOptions(slots || []);
       })
       .catch(function (err) {
-        resetCreateSlotOptions("遨ｺ縺肴棧縺ｮ隱ｭ縺ｿ霎ｼ縺ｿ縺ｫ螟ｱ謨励＠縺ｾ縺励◆");
+        resetCreateSlotOptions("空き枠の読み込みに失敗しました");
         setCreateAlert(createErrorEl, escapeHtml(getSubmitErrorMessage(err)));
       })
       .then(function () {
@@ -574,18 +574,18 @@
       var current = existing[i] || {};
       cards.push(
         '<section class="admin-participant-card js-create-participant-card" data-index="' + i + '">'
-          + "<h4>蜿ょ刈閠・" + (i + 1) + "</h4>"
+          + "<h4>参加者" + (i + 1) + "</h4>"
           + '<div class="admin-participant-grid">'
-            + "<label><span>豌丞錐</span>"
+            + "<label><span>参加者名</span>"
             + '<input type="text" name="participantName" maxlength="100" value="' + escapeHtml(current.participantName || "") + '" required />'
             + '<span class="admin-field-error" data-error-for="participants.' + i + '.participantName"></span></label>'
-            + "<label><span>豌丞錐縺九↑</span>"
+            + "<label><span>参加者名（カナ）</span>"
             + '<input type="text" name="participantNameKana" maxlength="100" value="' + escapeHtml(current.participantNameKana || "") + '" required />'
             + '<span class="admin-field-error" data-error-for="participants.' + i + '.participantNameKana"></span></label>'
-            + "<label><span>蟷ｴ莉｣</span>"
+            + "<label><span>年代</span>"
             + '<input type="text" name="ageGroup" maxlength="50" value="' + escapeHtml(current.ageGroup || "") + '" />'
             + '<span class="admin-field-error" data-error-for="participants.' + i + '.ageGroup"></span></label>'
-            + "<label><span>繧｢繝ｬ繝ｫ繧ｮ繝ｼ蛯呵・/span>"
+            + "<label><span>アレルギー備考</span>"
             + '<input type="text" name="allergyNote" maxlength="255" value="' + escapeHtml(current.allergyNote || "") + '" />'
             + '<span class="admin-field-error" data-error-for="participants.' + i + '.allergyNote"></span></label>'
           + "</div>"
@@ -655,12 +655,12 @@
     }
     createPreviewEl.classList.remove("admin-muted");
     createPreviewEl.innerHTML = ""
-      + '<p class="admin-preview-meta"><strong>繝励Λ繝ｳ:</strong> ' + escapeHtml(plan ? plan.name : "") + "</p>"
-      + '<p class="admin-preview-meta"><strong>譌･譎・</strong> ' + escapeHtml((data.slotDate || "") + (slot ? " " + formatTime(slot.startTime) + " - " + formatTime(slot.endTime) : "")) + "</p>"
-      + '<p class="admin-preview-meta"><strong>鬘ｧ螳｢蜷・</strong> ' + escapeHtml(data.customerName) + "</p>"
-      + '<p class="admin-preview-meta"><strong>繝｡繝ｼ繝ｫ繧｢繝峨Ξ繧ｹ:</strong> ' + escapeHtml(data.email) + "</p>"
-      + '<p class="admin-preview-meta"><strong>髮ｻ隧ｱ逡ｪ蜿ｷ:</strong> ' + escapeHtml(data.phone) + "</p>"
-      + '<p class="admin-preview-meta"><strong>蜿ょ刈莠ｺ謨ｰ:</strong> ' + escapeHtml(data.participantCount) + "</p>"
+      + '<p class="admin-preview-meta"><strong>プラン:</strong> ' + escapeHtml(plan ? plan.name : "") + "</p>"
+      + '<p class="admin-preview-meta"><strong>日付</strong> ' + escapeHtml((data.slotDate || "") + (slot ? " " + formatTime(slot.startTime) + " - " + formatTime(slot.endTime) : "")) + "</p>"
+      + '<p class="admin-preview-meta"><strong>顧客名</strong> ' + escapeHtml(data.customerName) + "</p>"
+      + '<p class="admin-preview-meta"><strong>メールアドレス:</strong> ' + escapeHtml(data.email) + "</p>"
+      + '<p class="admin-preview-meta"><strong>電話番号:</strong> ' + escapeHtml(data.phone) + "</p>"
+      + '<p class="admin-preview-meta"><strong>参加人数:</strong> ' + escapeHtml(data.participantCount) + "</p>"
       + '<ul class="admin-preview-list">' + data.participants.map(function (participant) {
         return "<li>" + escapeHtml(participant.participantName + (participant.participantNameKana ? " / " + participant.participantNameKana : "")) + "</li>";
       }).join("") + "</ul>";
@@ -672,13 +672,13 @@
     var participants = source.participants || (fallbackData ? fallbackData.participants : []) || [];
     createPreviewEl.classList.remove("admin-muted");
     createPreviewEl.innerHTML = ""
-      + '<p class="admin-preview-meta"><strong>莠育ｴИD:</strong> ' + escapeHtml(source.id || "") + "</p>"
-      + '<p class="admin-preview-meta"><strong>繝励Λ繝ｳ:</strong> ' + escapeHtml(source.planName || (fallbackData && planCache[fallbackData.planId] ? planCache[fallbackData.planId].name : "")) + "</p>"
-      + '<p class="admin-preview-meta"><strong>譌･譎・</strong> ' + escapeHtml((source.reservationDate || (fallbackData && fallbackData.slotDate) || "") + (source.startTime ? " " + formatTime(source.startTime) : "")) + "</p>"
-      + '<p class="admin-preview-meta"><strong>鬘ｧ螳｢蜷・</strong> ' + escapeHtml(source.customerName || (fallbackData && fallbackData.customerName) || "") + "</p>"
-      + '<p class="admin-preview-meta"><strong>繝｡繝ｼ繝ｫ繧｢繝峨Ξ繧ｹ:</strong> ' + escapeHtml(source.customerEmail || (fallbackData && fallbackData.email) || "") + "</p>"
-      + '<p class="admin-preview-meta"><strong>髮ｻ隧ｱ逡ｪ蜿ｷ:</strong> ' + escapeHtml(source.customerPhone || (fallbackData && fallbackData.phone) || "") + "</p>"
-      + '<p class="admin-preview-meta"><strong>迥ｶ諷・</strong> ' + escapeHtml(source.status || "") + "</p>"
+      + '<p class="admin-preview-meta"><strong>予約ID:</strong> ' + escapeHtml(source.id || "") + "</p>"
+      + '<p class="admin-preview-meta"><strong>プラン:</strong> ' + escapeHtml(source.planName || (fallbackData && planCache[fallbackData.planId] ? planCache[fallbackData.planId].name : "")) + "</p>"
+      + '<p class="admin-preview-meta"><strong>日付</strong> ' + escapeHtml((source.reservationDate || (fallbackData && fallbackData.slotDate) || "") + (source.startTime ? " " + formatTime(source.startTime) : "")) + "</p>"
+      + '<p class="admin-preview-meta"><strong>顧客名</strong> ' + escapeHtml(source.customerName || (fallbackData && fallbackData.customerName) || "") + "</p>"
+      + '<p class="admin-preview-meta"><strong>メールアドレス:</strong> ' + escapeHtml(source.customerEmail || (fallbackData && fallbackData.email) || "") + "</p>"
+      + '<p class="admin-preview-meta"><strong>電話番号:</strong> ' + escapeHtml(source.customerPhone || (fallbackData && fallbackData.phone) || "") + "</p>"
+      + '<p class="admin-preview-meta"><strong>状況</strong> ' + escapeHtml(source.status || "") + "</p>"
       + '<ul class="admin-preview-list">' + participants.map(function (participant) {
         return "<li>" + escapeHtml((participant.participantName || "") + ((participant.participantNameKana || "") ? " / " + participant.participantNameKana : "")) + "</li>";
       }).join("") + "</ul>";
@@ -783,7 +783,9 @@
     clearCreateErrors();
     clearCreateAlerts();
     setCreatePreviewConfirmed(false);
-    resetCreateSlotOptions(keepPlan ? "驕ｸ謚樔ｸｭ縺ｮ譌･莉倥〒遨ｺ縺肴棧繧貞・隱ｭ縺ｿ霎ｼ縺ｿ縺励※縺上□縺輔＞" : "蜈医↓遨ｺ縺肴棧繧定ｪｭ縺ｿ霎ｼ繧薙〒縺上□縺輔＞");
+    resetCreateSlotOptions(keepPlan
+      ? "予約内容を変更したため、空き枠を再取得してください"
+      : "先に空き枠を取得してください");
     if (createSlotHelpEl) createSlotHelpEl.textContent = keepPlan
       ? "予約内容を変更したため、枠を再取得してください。"
       : "プランと日付を選択すると枠を取得できます。";
@@ -800,7 +802,7 @@
   if (createReservationForm) {
     renderParticipantFields(getParticipantCountValue());
     renderReservationPreview(null);
-    resetCreateSlotOptions("蜈医↓遨ｺ縺肴棧繧定ｪｭ縺ｿ霎ｼ繧薙〒縺上□縺輔＞");
+    resetCreateSlotOptions("先に空き枠を取得してください");
     setCreateReservationEnabled(false);
     updateCreateSubmitState();
 
@@ -808,7 +810,7 @@
       clearCreateAlerts();
       if (e.target === createParticipantCountInput) {
         renderParticipantFields(getParticipantCountValue());
-        resetCreateSlotOptions("蜿ょ刈莠ｺ謨ｰ螟画峩蠕後・遨ｺ縺肴棧繧貞・隱ｭ縺ｿ霎ｼ縺ｿ縺励※縺上□縺輔＞");
+        resetCreateSlotOptions("参加人数が変わったため、空き枠を再取得してください");
         if (createSlotHelpEl) createSlotHelpEl.textContent = "参加人数が変わったため、枠を再取得してください。";
       }
       setCreatePreviewConfirmed(false);
@@ -818,7 +820,7 @@
     createReservationForm.addEventListener("change", function (e) {
       if (e.target === createPlanSelect || e.target === createDateInput) {
         setCreatePreviewConfirmed(false);
-        resetCreateSlotOptions("繝励Λ繝ｳ縺ｾ縺溘・譌･莉倥・螟画峩蠕後・蜀崎ｪｭ縺ｿ霎ｼ縺ｿ縺励※縺上□縺輔＞");
+        resetCreateSlotOptions("プランまたは日付が変わったため、空き枠を再取得してください");
         if (createSlotHelpEl) createSlotHelpEl.textContent = "プランまたは日付が変わったため、枠を再取得してください。";
       }
       if (e.target === createSlotSelect) {
@@ -874,7 +876,7 @@
       if (createSubmitBtn) createSubmitBtn.disabled = true;
       submitAdminReservation(data)
         .then(function (reservation) {
-          var summary = "莠育ｴ・ｒ逋ｻ骭ｲ縺励∪縺励◆";
+          var summary = "予約を登録しました";
           if (reservation && reservation.id) {
             summary += " (ID: " + reservation.id + ")";
           }
