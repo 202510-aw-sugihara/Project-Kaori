@@ -1,4 +1,4 @@
-﻿(function () {
+(function () {
   var apiBaseFromOps = (window.__OPS__ && window.__OPS__.apiBase) ? String(window.__OPS__.apiBase) : "";
   var API_BASE = (apiBaseFromOps ? apiBaseFromOps.replace(/\/+$/, "") : "https://project-kaori-fmup.onrender.com");
   var CSRF_KEY = "adminCsrfToken";

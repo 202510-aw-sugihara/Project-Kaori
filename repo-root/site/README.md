@@ -1,4 +1,4 @@
-﻿# site
+# site
 静的サイト実装ディレクトリです。
 
 ## Admin Login
