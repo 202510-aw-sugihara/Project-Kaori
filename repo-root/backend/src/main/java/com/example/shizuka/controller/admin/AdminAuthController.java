@@ -6,6 +6,7 @@ import com.example.shizuka.entity.User;
 import com.example.shizuka.mapper.UserMapper;
 import com.example.shizuka.security.ShizukaUserDetails;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -15,6 +16,7 @@ import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
+import org.springframework.security.web.context.SecurityContextRepository;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,6 +33,7 @@ public class AdminAuthController {
 
     private final AuthenticationManager authenticationManager;
     private final UserMapper userMapper;
+    private final SecurityContextRepository securityContextRepository = new HttpSessionSecurityContextRepository();
 
     public AdminAuthController(AuthenticationManager authenticationManager, UserMapper userMapper) {
         this.authenticationManager = authenticationManager;
@@ -38,7 +41,9 @@ public class AdminAuthController {
     }
 
     @PostMapping("/login")
-    public AdminAuthResponse login(@Valid @RequestBody AdminLoginRequest request, HttpServletRequest httpRequest) {
+    public AdminAuthResponse login(@Valid @RequestBody AdminLoginRequest request,
+            HttpServletRequest httpRequest,
+            HttpServletResponse httpResponse) {
         Authentication authentication;
         try {
             authentication = authenticationManager.authenticate(
@@ -51,6 +56,7 @@ public class AdminAuthController {
         SecurityContextHolder.setContext(context);
         httpRequest.getSession(true).setAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY,
                 context);
+        securityContextRepository.saveContext(context, httpRequest, httpResponse);
 
         ShizukaUserDetails details = (ShizukaUserDetails) authentication.getPrincipal();
         User user = details.getUser();
