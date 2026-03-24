@@ -83,6 +83,11 @@
   if (loginForm) {
     loginForm.addEventListener("submit", function (e) {
       e.preventDefault();
+      console.log("[admin] login submit");
+      if (loginForm.checkValidity && !loginForm.checkValidity()) {
+        if (loginForm.reportValidity) loginForm.reportValidity();
+        return;
+      }
       if (loginError) loginError.textContent = "";
       var data = {
         email: qs('[name="email"]', loginForm).value.trim(),
@@ -301,7 +306,7 @@
       return '<tr class="js-plan-row" data-id="' + plan.id + '">'
         + '<td>' + plan.id + '</td>'
         + '<td>' + plan.name + '</td>'
-        + '<td>' + (plan.durationMinutes || 0) + '蛻・/td>'
+        + '<td>' + (plan.durationMinutes || 0) + '分</td>'
         + '<td>' + formatYen(plan.price) + '</td>'
         + '</tr>';
     }).join("");
