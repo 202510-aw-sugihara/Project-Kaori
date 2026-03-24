@@ -82,7 +82,8 @@ public class AdminAuthController {
 
         if (principal instanceof UserDetails user) {
             String email = user.getUsername();
-            User found = userMapper.findByEmail(email).orElse(null);
+            var maybeUser = userMapper.findByEmail(email);
+            User found = (maybeUser != null) ? maybeUser.orElse(null) : null;
             if (found != null) {
                 return ResponseEntity.ok(toResponse(found));
             }

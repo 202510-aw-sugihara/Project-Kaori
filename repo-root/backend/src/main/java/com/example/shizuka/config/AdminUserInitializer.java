@@ -25,7 +25,7 @@ public class AdminUserInitializer implements ApplicationRunner {
     @Override
     public void run(ApplicationArguments args) {
         var existing = userMapper.findByEmail("admin@example.com");
-        if (existing.isPresent()) {
+        if (existing != null && existing.isPresent()) {
             return;
         }
         User admin = new User();
