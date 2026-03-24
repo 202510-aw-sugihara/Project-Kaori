@@ -68,10 +68,12 @@
   var logoutBtn = qs(".js-admin-logout");
   var loginForm = qs(".js-admin-login");
   var loginError = qs(".js-admin-login-error");
+  var loginSection = qs(".js-login-section");
 
   function setUser(user) {
     if (userEl) userEl.textContent = user ? (user.name + " (" + user.email + ")") : "未ログイン";
     if (logoutBtn) logoutBtn.disabled = !user;
+    if (loginSection) loginSection.hidden = !!user;
   }
 
   function loadMe() {
@@ -83,7 +85,6 @@
   if (loginForm) {
     loginForm.addEventListener("submit", function (e) {
       e.preventDefault();
-      console.log("[admin] login submit");
       if (loginForm.checkValidity && !loginForm.checkValidity()) {
         if (loginForm.reportValidity) loginForm.reportValidity();
         return;
