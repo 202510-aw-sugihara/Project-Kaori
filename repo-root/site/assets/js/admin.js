@@ -77,8 +77,18 @@
   }
 
   function loadMe() {
-    return fetchJson("/api/admin/auth/me")
-      .then(function (user) { setUser(user); setCreateReservationEnabled(true); return user; })
+    var url = API_BASE + "/api/admin/auth/me";
+    return fetch(url, { credentials: "include" })
+      .then(function (res) {
+        if (res.status === 401) return null;
+        if (!res.ok) {
+          var err = new Error("Request failed");
+          err.status = res.status;
+          return res.text().then(function (text) { err.body = text; throw err; });
+        }
+        return res.json();
+      })
+      .then(function (user) { setUser(user); setCreateReservationEnabled(!!user); return user; })
       .catch(function () { setUser(null); setCreateReservationEnabled(false); return null; });
   }
 
