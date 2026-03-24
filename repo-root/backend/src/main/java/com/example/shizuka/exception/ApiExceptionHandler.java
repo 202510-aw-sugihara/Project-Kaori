@@ -12,6 +12,8 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.server.ResponseStatusException;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
 
 import java.time.OffsetDateTime;
 import java.util.List;
@@ -91,6 +93,22 @@ public class ApiExceptionHandler {
     protected ResponseEntity<ErrorResponse> handleIllegalArgument(IllegalArgumentException ex, WebRequest request) {
         ErrorResponse body = buildError(HttpStatus.BAD_REQUEST, ex.getMessage(), request.getDescription(false), null);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(body);
+    }
+
+    @ExceptionHandler(ResponseStatusException.class)
+    protected ResponseEntity<ErrorResponse> handleResponseStatus(ResponseStatusException ex, WebRequest request) {
+        HttpStatus status = HttpStatus.valueOf(ex.getStatusCode().value());
+        String message = ex.getReason() != null ? ex.getReason() : status.getReasonPhrase();
+        ErrorResponse body = buildError(status, message, request.getDescription(false), null);
+        return ResponseEntity.status(status).body(body);
+    }
+
+    @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
+    protected ResponseEntity<ErrorResponse> handleMethodNotSupported(HttpRequestMethodNotSupportedException ex,
+            WebRequest request) {
+        HttpStatus status = HttpStatus.METHOD_NOT_ALLOWED;
+        ErrorResponse body = buildError(status, status.getReasonPhrase(), request.getDescription(false), null);
+        return ResponseEntity.status(status).body(body);
     }
 
     @ExceptionHandler(Exception.class)
