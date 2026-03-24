@@ -13,6 +13,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 
 @RestController
 @RequestMapping("/api/admin/auth")
@@ -66,13 +68,42 @@ public class AdminAuthController {
     }
 
     @GetMapping("/me")
-    public AdminAuthResponse me() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication == null || !(authentication.getPrincipal() instanceof ShizukaUserDetails)) {
+    public ResponseEntity<?> me(Authentication authentication) {
+        if (authentication == null
+                || !authentication.isAuthenticated()
+                || "anonymousUser".equals(authentication.getPrincipal())) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Not authenticated");
         }
-        User user = ((ShizukaUserDetails) authentication.getPrincipal()).getUser();
-        return toResponse(user);
+
+        Object principal = authentication.getPrincipal();
+        if (principal instanceof ShizukaUserDetails details) {
+            return ResponseEntity.ok(toResponse(details.getUser()));
+        }
+
+        if (principal instanceof UserDetails user) {
+            String email = user.getUsername();
+            User found = userMapper.findByEmail(email).orElse(null);
+            if (found != null) {
+                return ResponseEntity.ok(toResponse(found));
+            }
+            AdminAuthResponse fallback = new AdminAuthResponse();
+            fallback.setEmail(email);
+            fallback.setName(buildFallbackName(email));
+            return ResponseEntity.ok(fallback);
+        }
+
+        throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid session");
+    }
+
+    private String buildFallbackName(String email) {
+        if (email == null || email.isBlank()) {
+            return "Admin";
+        }
+        int at = email.indexOf("@");
+        if (at <= 0) {
+            return email;
+        }
+        return email.substring(0, at);
     }
 
     private AdminAuthResponse toResponse(User user) {
