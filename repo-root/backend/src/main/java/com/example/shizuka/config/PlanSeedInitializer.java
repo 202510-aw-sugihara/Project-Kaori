@@ -1,4 +1,4 @@
-﻿package com.example.shizuka.config;
+package com.example.shizuka.config;
 
 import com.example.shizuka.entity.Plan;
 import com.example.shizuka.entity.PlanTimeSlot;
