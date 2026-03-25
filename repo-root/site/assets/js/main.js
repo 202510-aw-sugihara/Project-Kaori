@@ -5,8 +5,8 @@
   var MAX_PEOPLE = 10;
   var API_BASE = "https://project-kaori-fmup.onrender.com";
   var COURSE_PRESETS = {
-    "12blend": { id: "12blend", name: "12種ブレンド体験", label: "初心者向けコース", price: 4000, duration: "約60分" },
-    "20blend": { id: "20blend", name: "20種ブレンド体験（月末限定）", label: "月末限定コース", price: 4000, duration: "約60分" }
+    "12blend": { id: "12blend", name: "12鬯ｩ蠅難ｽｩ・ｸ繝ｻ・ｽ繝ｻ・ｮ鬩幢ｽ｢隴弱・ﾂｧ繝ｻ蜿厄ｽｨ謚ｵ・ｽ・ｹ隴趣ｽ｢繝ｻ・ｽ繝ｻ・ｳ鬩幢ｽ｢隴弱・繝ｻ郢晢ｽｻ繝ｻ・ｽ鬯ｯ・･繝ｻ・ｴ郢晢ｽｻ繝ｻ・ｨ驛｢譎｢・ｽ・ｻ, label: "鬮ｯ蜈ｷ・ｽ・ｻ髫ｴ蜿門ｾ励・・ｽ繝ｻ・ｿ驛｢譎｢・ｽ・ｻ繝ｻ縺､ﾂ驛｢譎｢・ｽ・ｻ鬯ｯ・ｮ郢晢ｽｻ繝ｻ・ｸ繝ｻ・ｺ髣比ｼ夲ｽｽ・｣驍ｵ・ｺ隲ｷ蛹・ｽｽ・ｹ隴趣ｽ｢繝ｻ・ｽ繝ｻ・ｼ鬩幢ｽ｢繝ｻ・ｧ郢晢ｽｻ繝ｻ・ｹ", price: 4000, duration: "鬯ｩ蝣ｺ・ｸ鄙ｫ繝ｻ0鬮ｯ蜈ｷ・ｽ・ｻ驛｢譎｢・ｽ・ｻ },
+    "20blend": { id: "20blend", name: "20鬯ｩ蠅難ｽｩ・ｸ繝ｻ・ｽ繝ｻ・ｮ鬩幢ｽ｢隴弱・ﾂｧ繝ｻ蜿厄ｽｨ謚ｵ・ｽ・ｹ隴趣ｽ｢繝ｻ・ｽ繝ｻ・ｳ鬩幢ｽ｢隴弱・繝ｻ郢晢ｽｻ繝ｻ・ｽ鬯ｯ・･繝ｻ・ｴ郢晢ｽｻ繝ｻ・ｨ鬯ｮ・ｮ繝ｻ・｣郢晢ｽｻ繝ｻ・ｼ髯懈瑳・ｻ逹｣ﾂ繝ｻ・ｦ鬮ｫ・ｴ陝ｷ・｢繝ｻ・ｽ繝ｻ・ｫ鬯ｯ・ｮ繝ｻ・ｯ髣皮甥驕懊・・ｽ繝ｻ・ｮ髯樊ｻゑｽｽ・ｲ郢晢ｽｻ繝ｻ・ｼ驛｢譎｢・ｽ・ｻ, label: "鬮ｫ・ｴ陝ｶ蟶ｶ・ｲ・ｺ髯滂ｽ｢繝ｻ・ｰ鬯ｯ・ｮ繝ｻ・ｯ髣皮甥驕懊・・ｽ繝ｻ・ｮ髯橸ｽ｢繝ｻ・ｹ驍ｵ・ｺ隲ｷ蛹・ｽｽ・ｹ隴趣ｽ｢繝ｻ・ｽ繝ｻ・ｼ鬩幢ｽ｢繝ｻ・ｧ郢晢ｽｻ繝ｻ・ｹ", price: 4000, duration: "鬯ｩ蝣ｺ・ｸ鄙ｫ繝ｻ0鬮ｯ蜈ｷ・ｽ・ｻ驛｢譎｢・ｽ・ｻ }
   };
 
   function getData() { try { return JSON.parse(sessionStorage.getItem(KEY) || "{}"); } catch (e) { return {}; } }
@@ -14,8 +14,8 @@
   function qs(selector, root) { return (root || document).querySelector(selector); }
   function qsa(selector, root) { return Array.prototype.slice.call((root || document).querySelectorAll(selector)); }
   function toNumber(value) { var n = Number(value); return Number.isFinite(n) ? n : 0; }
-  function formatYen(value) { return "¥" + toNumber(value).toLocaleString("ja-JP"); }
-  function formatMinutes(value) { var minutes = toNumber(value); return minutes ? ("約" + minutes + "分") : "約60分"; }
+  function formatYen(value) { return "郢晢ｽｻ郢ｧ謇假ｽｽ・ｽ繝ｻ・･" + toNumber(value).toLocaleString("ja-JP"); }
+  function formatMinutes(value) { var minutes = toNumber(value); return minutes ? ("鬯ｩ蝣ｺ・ｸ鄙ｫ繝ｻ + minutes + "鬮ｯ蜈ｷ・ｽ・ｻ驛｢譎｢・ｽ・ｻ) : "鬯ｩ蝣ｺ・ｸ鄙ｫ繝ｻ0鬮ｯ蜈ｷ・ｽ・ｻ驛｢譎｢・ｽ・ｻ; }
   function formatTime(value) { if (!value) return ""; return String(value).slice(0, 5); }
 
   function fetchJson(path, options) {
@@ -50,12 +50,49 @@
     return Number.isFinite(numeric) ? numeric : null;
   }
 
+  var planCache = [];
+  function setPlanCache(plans) { planCache = Array.isArray(plans) ? plans : []; }
+  function normalizeCourseText(value) { return String(value || "").replace(/[驛｢譎｢・ｽ・ｻ驛｢譎｢・ｽ・ｻ驛｢譎｢・ｽ・ｻ髯ｷ闌ｨ・ｽ・｢/g, function (char) { return String.fromCharCode(char.charCodeAt(0) - 0xFEE0); }).replace(/\s+/g, ""); }
+  function findPlanForPreset(presetId, plans) {
+    if (!presetId || !Array.isArray(plans) || !plans.length) return null;
+    var is20 = presetId === "20blend";
+    var is12 = presetId === "12blend";
+    if (!is20 && !is12) return null;
+    var target = null;
+    for (var i = 0; i < plans.length; i += 1) {
+      var plan = plans[i];
+      if (!plan) continue;
+      var text = normalizeCourseText((plan.name || "") + " " + (plan.description || ""));
+      if (is20) {
+        if (text.indexOf("20") !== -1 && text.indexOf("鬮ｫ・ｴ陝ｶ蟶ｶ・ｲ・ｺ髯滂ｽ｢繝ｻ・ｰ") !== -1) { target = plan; break; }
+      } else if (is12) {
+        if (text.indexOf("12") !== -1 && text.indexOf("鬮ｫ・ｴ陝ｶ蟶ｶ・ｲ・ｺ髯滂ｽ｢繝ｻ・ｰ") === -1) { target = plan; break; }
+      }
+    }
+    return target;
+  }
+  function ensurePlanId(course, plans) {
+    var planId = getPlanIdFromCourse(course);
+    if (planId) return planId;
+    var matched = findPlanForPreset(course ? course.id : null, plans || planCache);
+    if (matched && Number.isFinite(matched.id)) {
+      course.planId = matched.id;
+      var data = getData();
+      if (data && data.course && data.course.id === course.id) {
+        data.course.planId = matched.id;
+        setData(data);
+      }
+      return matched.id;
+    }
+    return null;
+  }
+
   function renderCoursesFromApi(plans) {
     var container = qs(".p-app-courses");
     if (!container || !Array.isArray(plans) || !plans.length) return false;
     var html = plans.map(function (plan) {
-      var rawName = String(plan.name || "プラン");
-      var rawLabel = plan.description || (/月末/.test(rawName) ? "月末限定コース" : "初心者向けコース");
+      var rawName = String(plan.name || "鬩幢ｽ｢隴惹ｸ橸ｽｹ・ｲ繝ｻ荳ｻ・ｸ・ｷ繝ｻ・ｹ隴趣ｽ｢繝ｻ・ｽ繝ｻ・ｳ");
+      var rawLabel = plan.description || (/鬮ｫ・ｴ陝ｶ蟶ｶ・ｲ・ｺ髯滂ｽ｢繝ｻ・ｰ/.test(rawName) ? "鬮ｫ・ｴ陝ｶ蟶ｶ・ｲ・ｺ髯滂ｽ｢繝ｻ・ｰ鬯ｯ・ｮ繝ｻ・ｯ髣皮甥驕懊・・ｽ繝ｻ・ｮ髯橸ｽ｢繝ｻ・ｹ驍ｵ・ｺ隲ｷ蛹・ｽｽ・ｹ隴趣ｽ｢繝ｻ・ｽ繝ｻ・ｼ鬩幢ｽ｢繝ｻ・ｧ郢晢ｽｻ繝ｻ・ｹ" : "鬮ｯ蜈ｷ・ｽ・ｻ髫ｴ蜿門ｾ励・・ｽ繝ｻ・ｿ驛｢譎｢・ｽ・ｻ繝ｻ縺､ﾂ驛｢譎｢・ｽ・ｻ鬯ｯ・ｮ郢晢ｽｻ繝ｻ・ｸ繝ｻ・ｺ髣比ｼ夲ｽｽ・｣驍ｵ・ｺ隲ｷ蛹・ｽｽ・ｹ隴趣ｽ｢繝ｻ・ｽ繝ｻ・ｼ鬩幢ｽ｢繝ｻ・ｧ郢晢ｽｻ繝ｻ・ｹ");
       var name = escapeHtml(rawName);
       var label = escapeHtml(rawLabel);
       var price = formatYen(plan.price);
@@ -64,9 +101,9 @@
         + '<article class="p-app-course">'
         + '<h2>' + name + '</h2>'
         + '<dl>'
-        + '<div><dt>コース</dt><dd>' + label + '</dd></div>'
-        + '<div><dt>所要時間</dt><dd>' + duration + '</dd></div>'
-        + '<div><dt>料金</dt><dd>' + price + '</dd></div>'
+        + '<div><dt>鬩幢ｽ｢繝ｻ・ｧ郢晢ｽｻ繝ｻ・ｳ鬩幢ｽ｢隴趣ｽ｢繝ｻ・ｽ繝ｻ・ｼ鬩幢ｽ｢繝ｻ・ｧ郢晢ｽｻ繝ｻ・ｹ</dt><dd>' + label + '</dd></div>'
+        + '<div><dt>鬮ｫ・ｰ郢晢ｽｻ・つ鬯ｮ・ｫ髯ｬ諛域｡ｶ髯ｷ繝ｻ・ｽ・ｾ鬯ｯ・ｮ繝ｻ・｢驛｢譎｢・ｽ・ｻ/dt><dd>' + duration + '</dd></div>'
+        + '<div><dt>鬮ｫ・ｴ遶乗凵蜍驕ｶ蛹・ｽｽ・｡</dt><dd>' + price + '</dd></div>'
         + '</dl>'
         + '<p class="p-app-button-row">'
         + '<button class="p-app-btn p-app-btn--muted js-course-select" type="button"'
@@ -75,7 +112,7 @@
         + ' data-course-name="' + name + '"'
         + ' data-course-label="' + label + '"'
         + ' data-course-price="' + escapeHtml(String(plan.price || 0)) + '"'
-        + ' data-course-duration="' + duration + '">日程を選択する</button>'
+        + ' data-course-duration="' + duration + '">鬮ｫ・ｴ鬲・ｼ夲ｽｽ・ｽ繝ｻ・･鬯ｩ蠅難ｽｨ雋ｻ・ｽ・ｹ隴趣ｽ｢繝ｻ・ｽ陝ｶ譎｢・ｽ・ｩ陋ｹ繝ｻ・ｽ・ｽ繝ｻ・ｸ鬮ｫ・ｰ陞｢・ｽ繝ｻ・ｧ繝ｻ・ｭ髫ｨ蛟･繝ｻ繝ｻ・ｹ繝ｻ・ｧ驛｢譎｢・ｽ・ｻ/button>'
         + '</p>'
         + '</article>';
     }).join("");
@@ -85,6 +122,7 @@
 
   function loadCourses() {
     return fetchJson("/api/plans").then(function (plans) {
+      setPlanCache(plans);
       if (renderCoursesFromApi(plans)) {
         qsa(".js-course-select").forEach(function (button) {
           button.addEventListener("click", function () {
@@ -119,7 +157,7 @@
   function normalizeDate(date) { return new Date(date.getFullYear(), date.getMonth(), date.getDate(), 12, 0, 0, 0); }
   function addMonths(date, months) { var base = normalizeDate(date); var year = base.getFullYear(); var month = base.getMonth(); var day = base.getDate(); var targetMonth = month + months; var targetYear = year + Math.floor(targetMonth / 12); targetMonth = ((targetMonth % 12) + 12) % 12; var lastDay = new Date(targetYear, targetMonth + 1, 0).getDate(); return new Date(targetYear, targetMonth, Math.min(day, lastDay), 12, 0, 0, 0); }
   function startOfMonth(date) { return new Date(date.getFullYear(), date.getMonth(), 1, 12, 0, 0, 0); }
-  function formatDisplayDate(value) { var date = value instanceof Date ? normalizeDate(value) : parseDateKey(value); if (!date) return "未選択"; var weekdays = ["日", "月", "火", "水", "木", "金", "土"]; return date.getFullYear() + "年" + (date.getMonth() + 1) + "月" + date.getDate() + "日（" + weekdays[date.getDay()] + "）"; }
+  function formatDisplayDate(value) { var date = value instanceof Date ? normalizeDate(value) : parseDateKey(value); if (!date) return "鬮ｫ・ｴ陝ｷ・｢繝ｻ・ｽ繝ｻ・ｪ鬯ｯ・ｩ陋ｹ繝ｻ・ｽ・ｽ繝ｻ・ｸ鬮ｫ・ｰ陞｢・ｹ郢晢ｽｻ; var weekdays = ["鬮ｫ・ｴ鬲・ｼ夲ｽｽ・ｽ繝ｻ・･", "鬮ｫ・ｴ陝ｶ蜷ｶ繝ｻ, "鬮ｴ髮｣・ｽ・｣郢晢ｽｻ繝ｻ・ｫ", "鬮ｮ譛ｱ・ｯ莨夲ｽｽ・ｽ繝ｻ・ｴ", "鬮ｫ・ｴ陝ｷ・｢繝ｻ・ｽ繝ｻ・ｨ", "鬯ｯ・ｩ繝ｻ・･驛｢譎｢・ｽ・ｻ, "鬮ｯ諛ｶ・ｽ・ｨ驛｢譎｢・ｽ・ｻ]; return date.getFullYear() + "鬮ｯ譎｢・ｽ・ｷ郢晢ｽｻ繝ｻ・ｴ" + (date.getMonth() + 1) + "鬮ｫ・ｴ陝ｶ蜷ｶ繝ｻ + date.getDate() + "鬮ｫ・ｴ鬲・ｼ夲ｽｽ・ｽ繝ｻ・･驛｢譎｢・ｽ・ｻ驛｢譎｢・ｽ・ｻ + weekdays[date.getDay()] + "驛｢譎｢・ｽ・ｻ驛｢譎｢・ｽ・ｻ; }
 
   function getNthWeekdayOfMonth(year, monthIndex, weekday, nth) { var first = new Date(year, monthIndex, 1, 12, 0, 0, 0); var offset = (7 + weekday - first.getDay()) % 7; return new Date(year, monthIndex, 1 + offset + (nth - 1) * 7, 12, 0, 0, 0); }
   function getVernalEquinoxDay(year) { return Math.floor(20.8431 + 0.242194 * (year - 1980) - Math.floor((year - 1980) / 4)); }
@@ -176,7 +214,7 @@
   function isJapaneseHoliday(date) { return !!getJapaneseHolidaySet(date.getFullYear())[toDateKey(date)]; }
   function escapeHtml(value) { return String(value).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#39;"); }
   function toKatakana(value) { return String(value || "").replace(/[\u3041-\u3096]/g, function (char) { return String.fromCharCode(char.charCodeAt(0) + 0x60); }).replace(/\s+/g, " ").trim(); }
-  function normalizePhone(value) { return String(value || "").replace(/[０-９]/g, function (char) { return String.fromCharCode(char.charCodeAt(0) - 0xFEE0); }).replace(/[‐－ー―−]/g, "-").trim(); }
+  function normalizePhone(value) { return String(value || "").replace(/[驛｢譎｢・ｽ・ｻ驛｢譎｢・ｽ・ｻ驛｢譎｢・ｽ・ｻ髯ｷ闌ｨ・ｽ・｢/g, function (char) { return String.fromCharCode(char.charCodeAt(0) - 0xFEE0); }).replace(/[鬩包ｽｯ繝ｻ・ｶ髫ｰ・ｦ繝ｻ・ｰ郢晢ｽｻ繝ｻ・ｼ鬯ｮ・ｦ繝ｻ・ｪ驛｢譎｢・ｽ・ｻ鬩包ｽｯ繝ｻ・ｶ鬮ｯ・ｬ隲帷ｿｫ繝ｻ]/g, "-").trim(); }
   function isKanaOnly(value) { return /^[\u3041-\u3096\u30A1-\u30FA\u30FC\s]+$/.test(String(value || "").trim()); }
   function buildParticipants(user, count) {
     var total = Math.max(1, toNumber(count));
@@ -185,7 +223,7 @@
       if (i === 0) {
         list.push({ participantName: user.name, participantNameKana: user.kana, ageGroup: "", allergyNote: user.note || "" });
       } else {
-        list.push({ participantName: "同伴者" + i, participantNameKana: "", ageGroup: "", allergyNote: "" });
+        list.push({ participantName: "鬮ｯ・ｷ繝ｻ・ｷ髯溷桁・ｽ・｡郢晢ｽｻ繝ｻ・ｼ郢晢ｽｻ繝ｻ・ｴ鬯ｮ・｢繝ｻ・ｰ驛｢譎｢・ｽ・ｻ + i, participantNameKana: "", ageGroup: "", allergyNote: "" });
       }
     }
     return list;
@@ -229,7 +267,7 @@
   var courseText = qs(".js-chosen-course");
   if (courseText) {
     var courseData = getData().course;
-    courseText.textContent = courseData ? courseData.name : "未選択";
+    courseText.textContent = courseData ? courseData.name : "鬮ｫ・ｴ陝ｷ・｢繝ｻ・ｽ繝ｻ・ｪ鬯ｯ・ｩ陋ｹ繝ｻ・ｽ・ｽ繝ｻ・ｸ鬮ｫ・ｰ陞｢・ｹ郢晢ｽｻ;
   }
 
   var slotDate = qs(".js-slot-date");
@@ -273,9 +311,8 @@
       if (!course) return false;
       if (course.id === "20blend") return true;
       if (course.id === "12blend") return false;
-      var name = String(course.name || "");
-      var label = String(course.label || "");
-      return /20/.test(name) && /月末/.test(name + label);
+      var text = normalizeCourseText((course.name || "") + " " + (course.label || ""));
+      return text.indexOf("20") !== -1 && text.indexOf("鬮ｫ・ｴ陝ｶ蟶ｶ・ｲ・ｺ髯滂ｽ｢繝ｻ・ｰ") !== -1;
     }
 
     function isSelectableDate(date) {
@@ -308,9 +345,9 @@
       data.slot.remaining = null;
       data.slot.capacity = null;
       setData(data);
-      if (selectedTimeText) selectedTimeText.textContent = "未選択";
+      if (selectedTimeText) selectedTimeText.textContent = "鬮ｫ・ｴ陝ｷ・｢繝ｻ・ｽ繝ｻ・ｪ鬯ｯ・ｩ陋ｹ繝ｻ・ｽ・ｽ繝ｻ・ｸ鬮ｫ・ｰ陞｢・ｹ郢晢ｽｻ;
       if (key) loadTimeSlots(key);
-      if (selectedDateText) selectedDateText.textContent = date ? formatDisplayDate(date) : "未選択";
+      if (selectedDateText) selectedDateText.textContent = date ? formatDisplayDate(date) : "鬮ｫ・ｴ陝ｷ・｢繝ｻ・ｽ繝ｻ・ｪ鬯ｯ・ｩ陋ｹ繝ｻ・ｽ・ｽ繝ｻ・ｸ鬮ｫ・ｰ陞｢・ｹ郢晢ｽｻ;
     }
 
     var selectedDate = parseDateKey(slotData.date);
@@ -318,7 +355,7 @@
       selectedDate = getFirstSelectableDate();
     }
     setSelectedDate(selectedDate);
-    if (selectedTimeText) selectedTimeText.textContent = slotData.time || "未選択";
+    if (selectedTimeText) selectedTimeText.textContent = slotData.time || "鬮ｫ・ｴ陝ｷ・｢繝ｻ・ｽ繝ｻ・ｪ鬯ｯ・ｩ陋ｹ繝ｻ・ｽ・ｽ繝ｻ・ｸ鬮ｫ・ｰ陞｢・ｹ郢晢ｽｻ;
 
     var displayMonth = selectedDate ? startOfMonth(selectedDate) : selectableStartMonth;
 
@@ -327,9 +364,9 @@
       var monthStart = startOfMonth(monthDate);
       var firstWeekday = monthStart.getDay();
       var lastDay = new Date(monthStart.getFullYear(), monthStart.getMonth() + 1, 0).getDate();
-      var weekdays = ["日", "月", "火", "水", "木", "金", "土"];
+      var weekdays = ["鬮ｫ・ｴ鬲・ｼ夲ｽｽ・ｽ繝ｻ・･", "鬮ｫ・ｴ陝ｶ蜷ｶ繝ｻ, "鬮ｴ髮｣・ｽ・｣郢晢ｽｻ繝ｻ・ｫ", "鬮ｮ譛ｱ・ｯ莨夲ｽｽ・ｽ繝ｻ・ｴ", "鬮ｫ・ｴ陝ｷ・｢繝ｻ・ｽ繝ｻ・ｨ", "鬯ｯ・ｩ繝ｻ・･驛｢譎｢・ｽ・ｻ, "鬮ｯ諛ｶ・ｽ・ｨ驛｢譎｢・ｽ・ｻ];
       var cells = [];
-      calendarTitle.textContent = monthStart.getFullYear() + "年" + (monthStart.getMonth() + 1) + "月";
+      calendarTitle.textContent = monthStart.getFullYear() + "鬮ｯ譎｢・ｽ・ｷ郢晢ｽｻ繝ｻ・ｴ" + (monthStart.getMonth() + 1) + "鬮ｫ・ｴ陝ｶ蜷ｶ繝ｻ;
       weekdays.forEach(function (label, index) {
         var extraClass = index === 0 ? " is-sunday" : index === 6 ? " is-saturday" : "";
         cells.push('<strong class="p-app-calendar-weekday' + extraClass + '">' + label + '</strong>');
@@ -402,13 +439,13 @@
     function renderTimeSlots(slots) {
       if (!timeContainer) return;
       if (!Array.isArray(slots) || !slots.length) {
-        timeContainer.innerHTML = '<p class="p-app-note">本日の空き枠がありません。別の日付を選択してください。</p>';
+        timeContainer.innerHTML = '<p class="p-app-note">鬮ｫ・ｴ陝ｷ・｢繝ｻ・ｽ繝ｻ・ｬ鬮ｫ・ｴ鬲・ｼ夲ｽｽ・ｽ繝ｻ・･鬩搾ｽｵ繝ｻ・ｺ郢晢ｽｻ繝ｻ・ｮ鬯ｩ蛹・ｽｽ・ｨ郢晢ｽｻ繝ｻ・ｺ鬩搾ｽｵ繝ｻ・ｺ鬮｢・ｧ繝ｻ・ｴ髫ｴ・ｽ繝ｻ・ｧ鬩搾ｽｵ繝ｻ・ｺ髯溷供・ｨ・ｯ隴鯉ｽｺ鬩幢ｽ｢繝ｻ・ｧ鬩怜遜・ｽ・ｫ驕ｶ謫ｾ・ｽ・ｪ鬩搾ｽｵ繝ｻ・ｺ髯晢ｽｶ陷ｻ・ｻ繝ｻ・ｽ鬪ｰ蜈ｷ・ｽ・ｸ繝ｻ・ｲ驛｢・ｧ郢晢ｽｻ髢ｧ・ｩ鬩搾ｽｵ繝ｻ・ｺ郢晢ｽｻ繝ｻ・ｮ鬮ｫ・ｴ鬲・ｼ夲ｽｽ・ｽ繝ｻ・･鬮｣逧ｮ逕･・つ繝ｻ・･郢晢ｽｻ陝ｶ譎｢・ｽ・ｩ陋ｹ繝ｻ・ｽ・ｽ繝ｻ・ｸ鬮ｫ・ｰ陞｢・ｽ繝ｻ・ｧ繝ｻ・ｭ郢晢ｽｻ繝ｻ・ｰ鬩搾ｽｵ繝ｻ・ｺ郢晢ｽｻ繝ｻ・ｦ鬩搾ｽｵ繝ｻ・ｺ髣包ｽｳ陝ｯ・ｩ陷ｻ・ｳ鬩搾ｽｵ繝ｻ・ｺ鬮ｴ驛・ｽｲ・ｻ繝ｻ・ｼ隶捺慣・ｽ・ｸ繝ｻ・ｲ驛｢譎｢・ｽ・ｻ/p>';
         return;
       }
       var buttons = slots.map(function (slot) {
         var timeLabel = formatTime(slot.startTime);
         var status = getSlotStatus(slot);
-        var symbol = status === "full" ? "×" : status === "few" ? "△" : "○";
+        var symbol = status === "full" ? "郢晢ｽｻ郢晢ｽｻ郢晢ｽｻ : status === "few" ? "鬮ｫ・ｨ郢晢ｽｻ繝ｻ・ｽ繝ｻ・ｳ" : "鬮ｫ・ｨ繝ｻ・ｳ驛｢譎｢・ｽ・ｻ;
         var remaining = toNumber(slot.capacity) - toNumber(slot.reservedCount);
         var disabled = status === "full";
         return '<button class="js-slot-select" type="button"'
@@ -429,19 +466,68 @@
         });
       }
     }
-
     function loadTimeSlots(dateKey) {
-      var planId = getPlanIdFromCourse(selectedCourse);
-      if (!planId || !dateKey) return;
-      if (timeContainer) {
-        timeContainer.innerHTML = '<p class="p-app-note">読み込み中です…</p>';
+      if (!dateKey) return;
+      function showSlotLoading() {
+        if (timeContainer) {
+          timeContainer.innerHTML = '<p class="p-app-note">隱ｭ縺ｿ霎ｼ縺ｿ荳ｭ縺ｧ縺・..</p>';
+        }
       }
-      fetchJson("/api/plans/" + planId + "/time-slots?slotDate=" + encodeURIComponent(dateKey))
-        .then(function (slots) { renderTimeSlots(slots || []); })
-        .catch(function () {
-          if (timeContainer) {
-            timeContainer.innerHTML = '<p class="p-app-note">時間枠の取得に失敗しました。再度お試しください。</p>';
-          }
+      function showSlotError() {
+        if (timeContainer) {
+          timeContainer.innerHTML = '<p class="p-app-note">譎る俣譫縺ｮ蜿門ｾ励↓螟ｱ謨励＠縺ｾ縺励◆縲ょ・蠎ｦ縺願ｩｦ縺励￥縺縺輔＞縲・/p>';
+        }
+      }
+      function fetchSlots(planId) {
+        showSlotLoading();
+        fetchJson("/api/plans/" + planId + "/time-slots?slotDate=" + encodeURIComponent(dateKey))
+          .then(function (slots) { renderTimeSlots(slots || []); })
+          .catch(function () { showSlotError(); });
+      }
+
+      var planId = ensurePlanId(selectedCourse);
+      if (planId) {
+        fetchSlots(planId);
+        return;
+      }
+
+      fetchJson("/api/plans")
+        .then(function (plans) {
+          setPlanCache(plans);
+          planId = ensurePlanId(selectedCourse, plans);
+          if (!planId) return;
+          fetchSlots(planId);
+        })
+        .catch(function () { showSlotError(); });
+    }
+      }
+      function showSlotError() {
+        if (timeContainer) {
+          timeContainer.innerHTML = '髯樊ｺｽ蛻､霎溘・Error 驍ｵ・ｺ繝ｻ・ｯ鬮ｫ・ｱ繝ｻ・ｭ驍ｵ・ｺ繝ｻ・ｿ髯ｷ・ｿ隰費ｽｶ繝ｻ鬘俶ｰ｣郢ｧ閾･闊樣し・ｺ繝ｻ・ｾ驍ｵ・ｺ雋・･繝ｻ髯橸ｽｳ陞｢・ｽ霎溷､ゑｽｸ・ｺ繝ｻ・ｧ驍ｵ・ｺ郢ｧ繝ｻ・ｽ迢暦ｽｸ・ｺ雋・∞・ｽ竏ｫ・ｸ・ｲ遶擾ｽｽ繝ｻ・ｸ鬯・､ｧ・ｶ讙趣ｽｸ・ｺ鬮ｦ・ｪ邵ｲ蝣､・ｸ・ｺ鬮ｦ・ｪ遶擾ｽｪ驍ｵ・ｺ陝ｶ蜻ｻ・ｽ骰具ｽｸ・ｲ郢晢ｽｻ驍ｵ・ｺ髦ｮ蜷ｶ繝ｻ驛｢・ｧ繝ｻ・ｷ驛｢・ｧ繝ｻ・ｹ驛｢譏ｴ繝ｻ・主､・ｸ・ｺ繝ｻ・ｧ驍ｵ・ｺ繝ｻ・ｯ驛｢・ｧ繝ｻ・ｹ驛｢・ｧ繝ｻ・ｯ驛｢譎｢・ｽ・ｪ驛｢譎丞ｹｲ郢晢ｽｨ驍ｵ・ｺ繝ｻ・ｮ髯橸ｽｳ雋・ｽｯ繝ｻ・｡陟募ｨｯﾂ・ｲ髴取ｻゑｽｽ・｡髯ｷ莨夲ｽｽ・ｹ驍ｵ・ｺ繝ｻ・ｫ驍ｵ・ｺ繝ｻ・ｪ驍ｵ・ｺ繝ｻ・｣驍ｵ・ｺ繝ｻ・ｦ驍ｵ・ｺ郢晢ｽｻ繝ｻ迢暦ｽｸ・ｺ雋・∞・ｽ竏ｫ・ｸ・ｲ遶丞｣ｹﾎｨ驛｢・ｧ繝ｻ・｡驛｢・ｧ繝ｻ・､驛｢譎｢・ｽ・ｫ C:\Users\academia\Documents\WindowsPowerShell\Microsoft.PowerShell_profile.ps1 驛｢・ｧ陞ｳ螟ｲ・ｽ・ｪ繝ｻ・ｭ驍ｵ・ｺ繝ｻ・ｿ鬮ｴ雜｣・ｽ・ｼ驛｢・ｧ・つ驍ｵ・ｺ髦ｮ蜷ｮ繝ｻ驍ｵ・ｺ陟募ｾ個蝣､・ｸ・ｺ鬮ｦ・ｪ遶擾ｽｪ驍ｵ・ｺ陝ｶ蜻ｻ・ｽ骰具ｽｸ・ｲ郢ｧ螂・ｽｽ・ｩ繝ｻ・ｳ鬩肴得・ｽ・ｰ驍ｵ・ｺ繝ｻ・ｫ驍ｵ・ｺ繝ｻ・､驍ｵ・ｺ郢晢ｽｻ遯ｶ・ｻ驍ｵ・ｺ繝ｻ・ｯ驍ｵ・ｲ遶丞仰陟輔・out_Execution_Policies驍ｵ・ｲ郢晢ｽｻhttps://go.microsoft.com/fwlink/?LinkID=135170) 驛｢・ｧ髮区ｨ貞ｴ滄恷・｣繝ｻ・ｧ驍ｵ・ｺ陷会ｽｱ遯ｶ・ｻ驍ｵ・ｺ闕ｳ蟯ｩ蜻ｳ驍ｵ・ｺ髴郁ｲｻ・ｼ讓抵ｽｸ・ｲ郢晢ｽｻ;
+        }
+      }
+      function fetchSlots(planId) {
+        showSlotLoading();
+        fetchJson("/api/plans/" + planId + "/time-slots?slotDate=" + encodeURIComponent(dateKey))
+          .then(function (slots) { renderTimeSlots(slots || []); })
+          .catch(function () { showSlotError(); });
+      }
+
+      var planId = ensurePlanId(selectedCourse);
+      if (planId) {
+        fetchSlots(planId);
+        return;
+      }
+
+      fetchJson("/api/plans")
+        .then(function (plans) {
+          setPlanCache(plans);
+          planId = ensurePlanId(selectedCourse, plans);
+          if (!planId) return;
+          fetchSlots(planId);
+        })
+        .catch(function () { showSlotError(); });
+    }
         });
     }
 
@@ -461,8 +547,8 @@
         data.slot.remaining = Number(button.getAttribute("data-remaining"));
         data.slot.capacity = Number(button.getAttribute("data-capacity"));
         setData(data);
-        if (selectedTimeText) selectedTimeText.textContent = data.slot.time || "未選択";
-        if (selectedDateText) selectedDateText.textContent = slotDate.value ? formatDisplayDate(slotDate.value) : "未選択";
+        if (selectedTimeText) selectedTimeText.textContent = data.slot.time || "鬮ｫ・ｴ陝ｷ・｢繝ｻ・ｽ繝ｻ・ｪ鬯ｯ・ｩ陋ｹ繝ｻ・ｽ・ｽ繝ｻ・ｸ鬮ｫ・ｰ陞｢・ｹ郢晢ｽｻ;
+        if (selectedDateText) selectedDateText.textContent = slotDate.value ? formatDisplayDate(slotDate.value) : "鬮ｫ・ｴ陝ｷ・｢繝ｻ・ｽ繝ｻ・ｪ鬯ｯ・ｩ陋ｹ繝ｻ・ｽ・ｽ繝ｻ・ｸ鬮ｫ・ｰ陞｢・ｹ郢晢ｽｻ;
       });
     }
 
@@ -473,8 +559,8 @@
   if (toPeople) {
     toPeople.addEventListener("click", function () {
       var data = getData();
-      if (!data.course) { alert("先にコースを選択してください。"); window.location.href = "reserve-select-course.html"; return; }
-      if (!data.slot || !data.slot.date || !data.slot.time || !data.slot.id || data.slot.status === "full") { alert("日程と時間を選択してください。"); return; }
+      if (!data.course) { alert("鬮ｯ・ｷ闔・･霑ｴ・ｾ驕ｶ莨∬ｱｪ繝ｻ・ｹ繝ｻ・ｧ郢晢ｽｻ繝ｻ・ｳ鬩幢ｽ｢隴趣ｽ｢繝ｻ・ｽ繝ｻ・ｼ鬩幢ｽ｢繝ｻ・ｧ郢晢ｽｻ繝ｻ・ｹ鬩幢ｽ｢繝ｻ・ｧ髯晢ｽｶ隴擾ｽｶ郢晢ｽｻ鬮ｫ・ｰ陞｢・ｽ繝ｻ・ｧ繝ｻ・ｭ郢晢ｽｻ繝ｻ・ｰ鬩搾ｽｵ繝ｻ・ｺ郢晢ｽｻ繝ｻ・ｦ鬩搾ｽｵ繝ｻ・ｺ髣包ｽｳ陝ｯ・ｩ陷ｻ・ｳ鬩搾ｽｵ繝ｻ・ｺ鬮ｴ驛・ｽｲ・ｻ繝ｻ・ｼ隶捺慣・ｽ・ｸ繝ｻ・ｲ驛｢譎｢・ｽ・ｻ); window.location.href = "reserve-select-course.html"; return; }
+      if (!data.slot || !data.slot.date || !data.slot.time || !data.slot.id || data.slot.status === "full") { alert("鬮ｫ・ｴ鬲・ｼ夲ｽｽ・ｽ繝ｻ・･鬯ｩ蠅難ｽｨ雋ｻ・ｽ・ｹ隴擾ｽｶ郢晢ｽｻ鬮ｫ・ｴ陟托ｽｱ繝ｻ邇門ｰ・・・｣鬩幢ｽ｢繝ｻ・ｧ髯晢ｽｶ隴擾ｽｶ郢晢ｽｻ鬮ｫ・ｰ陞｢・ｽ繝ｻ・ｧ繝ｻ・ｭ郢晢ｽｻ繝ｻ・ｰ鬩搾ｽｵ繝ｻ・ｺ郢晢ｽｻ繝ｻ・ｦ鬩搾ｽｵ繝ｻ・ｺ髣包ｽｳ陝ｯ・ｩ陷ｻ・ｳ鬩搾ｽｵ繝ｻ・ｺ鬮ｴ驛・ｽｲ・ｻ繝ｻ・ｼ隶捺慣・ｽ・ｸ繝ｻ・ｲ驛｢譎｢・ｽ・ｻ); return; }
       window.location.href = "reserve.html";
     });
   }
@@ -500,9 +586,9 @@
       var unit = d.course ? toNumber(d.course.price) : 4000;
       var total = unit * people;
       peopleCount.textContent = String(people);
-      if (remainEl) { if (Number.isFinite(slotRemaining)) { remainEl.textContent = "空き" + Math.max(0, slotRemaining - people) + "枠"; } else { remainEl.textContent = "空き" + Math.max(0, MAX_PEOPLE - people) + "枠"; } }
+      if (remainEl) { if (Number.isFinite(slotRemaining)) { remainEl.textContent = "鬯ｩ蛹・ｽｽ・ｨ郢晢ｽｻ繝ｻ・ｺ鬩搾ｽｵ繝ｻ・ｺ驛｢譎｢・ｽ・ｻ + Math.max(0, slotRemaining - people) + "鬮ｫ・ｴ繝ｻ・ｫ郢晢ｽｻ繝ｻ・ｰ"; } else { remainEl.textContent = "鬯ｩ蛹・ｽｽ・ｨ郢晢ｽｻ繝ｻ・ｺ鬩搾ｽｵ繝ｻ・ｺ驛｢譎｢・ｽ・ｻ + Math.max(0, MAX_PEOPLE - people) + "鬮ｫ・ｴ繝ｻ・ｫ郢晢ｽｻ繝ｻ・ｰ"; } }
       if (unitEl) unitEl.textContent = formatYen(unit);
-      if (calcEl) calcEl.textContent = formatYen(unit) + " × " + people;
+      if (calcEl) calcEl.textContent = formatYen(unit) + " 郢晢ｽｻ郢晢ｽｻ郢晢ｽｻ" + people;
       if (totalEl) totalEl.textContent = formatYen(total);
       d.people = people; setData(d);
     }
@@ -517,8 +603,8 @@
   if (toForm) {
     toForm.addEventListener("click", function () {
       var data = getData();
-      if (!data.course || !data.slot || !data.slot.date || !data.slot.time || !data.slot.id) { alert("コースと日程を先に選択してください。"); window.location.href = "reserve-select-course.html"; return; }
-      if (!data.people) { alert("人数を選択してください。"); return; }
+      if (!data.course || !data.slot || !data.slot.date || !data.slot.time || !data.slot.id) { alert("鬩幢ｽ｢繝ｻ・ｧ郢晢ｽｻ繝ｻ・ｳ鬩幢ｽ｢隴趣ｽ｢繝ｻ・ｽ繝ｻ・ｼ鬩幢ｽ｢繝ｻ・ｧ郢晢ｽｻ繝ｻ・ｹ鬩搾ｽｵ繝ｻ・ｺ郢晢ｽｻ繝ｻ・ｨ鬮ｫ・ｴ鬲・ｼ夲ｽｽ・ｽ繝ｻ・･鬯ｩ蠅難ｽｨ雋ｻ・ｽ・ｹ隴趣ｽ｢繝ｻ・ｽ陞ｳ螢ｽﾂ・ｦ髯具ｽｹ繝ｻ・ｻ驕ｶ莨・ｽｦ・ｴ繝ｻ・ｩ陋ｹ繝ｻ・ｽ・ｽ繝ｻ・ｸ鬮ｫ・ｰ陞｢・ｽ繝ｻ・ｧ繝ｻ・ｭ郢晢ｽｻ繝ｻ・ｰ鬩搾ｽｵ繝ｻ・ｺ郢晢ｽｻ繝ｻ・ｦ鬩搾ｽｵ繝ｻ・ｺ髣包ｽｳ陝ｯ・ｩ陷ｻ・ｳ鬩搾ｽｵ繝ｻ・ｺ鬮ｴ驛・ｽｲ・ｻ繝ｻ・ｼ隶捺慣・ｽ・ｸ繝ｻ・ｲ驛｢譎｢・ｽ・ｻ); window.location.href = "reserve-select-course.html"; return; }
+      if (!data.people) { alert("鬮｣雋ｻ・｣・ｰ郢晢ｽｻ繝ｻ・ｺ鬮ｫ・ｰ繝ｻ・ｨ郢晢ｽｻ繝ｻ・ｰ鬩幢ｽ｢繝ｻ・ｧ髯晢ｽｶ隴擾ｽｶ郢晢ｽｻ鬮ｫ・ｰ陞｢・ｽ繝ｻ・ｧ繝ｻ・ｭ郢晢ｽｻ繝ｻ・ｰ鬩搾ｽｵ繝ｻ・ｺ郢晢ｽｻ繝ｻ・ｦ鬩搾ｽｵ繝ｻ・ｺ髣包ｽｳ陝ｯ・ｩ陷ｻ・ｳ鬩搾ｽｵ繝ｻ・ｺ鬮ｴ驛・ｽｲ・ｻ繝ｻ・ｼ隶捺慣・ｽ・ｸ繝ｻ・ｲ驛｢譎｢・ｽ・ｻ); return; }
       window.location.href = "reserve-form.html";
     });
   }
@@ -532,25 +618,30 @@
     var fPeople = qs(".js-form-people");
     var fCalc = qs(".js-form-calc");
     var fTotal = qs(".js-form-total");
-    var nameField = qs('[name="name"]', form);
-    var kanaField = qs('[name="kana"]', form);
-    var unitPrice = dataForForm.course ? toNumber(dataForForm.course.price) : 4000;
-    var totalPrice = unitPrice * toNumber(dataForForm.people);
-    if (fCourse) fCourse.textContent = dataForForm.course.name;
-    if (fDate) fDate.textContent = formatDisplayDate(dataForForm.slot.date) + " " + dataForForm.slot.time;
-    if (fPeople) fPeople.textContent = String(dataForForm.people) + "名";
-    if (fCalc) fCalc.textContent = formatYen(unitPrice) + " × " + dataForForm.people;
-    if (fTotal) fTotal.textContent = formatYen(totalPrice);
-    if (dataForForm.user) { Object.keys(dataForForm.user).forEach(function (key) { var field = qs('[name="' + key + '"]', form); if (field) field.value = dataForForm.user[key] || ""; }); }
-    if (kanaField) { kanaField.value = toKatakana(kanaField.value); }
-    var kanaEditedManually = !!(kanaField && kanaField.value);
-    function normalizeNameForKana(value) { return String(value || "").replace(/[\s\u3000]+/g, "").trim(); }
-    function syncKanaFromName() { if (!nameField || !kanaField || kanaEditedManually) return; var nameValue = normalizeNameForKana(nameField.value); if (!nameValue) return; kanaField.value = toKatakana(nameValue); }
-    if (kanaField) {
-      var kanaComposing = false;
-      kanaField.addEventListener("compositionstart", function () { kanaComposing = true; });
-      kanaField.addEventListener("input", function (event) { if (kanaComposing || (event && event.isComposing)) return; var caret = kanaField.selectionStart; kanaField.value = toKatakana(kanaField.value); kanaEditedManually = kanaField.value.trim().length > 0; if (typeof caret === "number") { kanaField.setSelectionRange(caret, caret); } });
-      kanaField.addEventListener("compositionend", function () { kanaComposing = false; kanaField.value = toKatakana(kanaField.value); kanaEditedManually = kanaField.value.trim().length > 0; });
+    var nameField = qs(';
+        }
+      }
+      function fetchSlots(planId) {
+        showSlotLoading();
+        fetchJson("/api/plans/" + planId + "/time-slots?slotDate=" + encodeURIComponent(dateKey))
+          .then(function (slots) { renderTimeSlots(slots || []); })
+          .catch(function () { showSlotError(); });
+      }
+
+      var planId = ensurePlanId(selectedCourse);
+      if (planId) {
+        fetchSlots(planId);
+        return;
+      }
+
+      fetchJson("/api/plans")
+        .then(function (plans) {
+          setPlanCache(plans);
+          planId = ensurePlanId(selectedCourse, plans);
+          if (!planId) return;
+          fetchSlots(planId);
+        })
+        .catch(function () { showSlotError(); });
     }
     if (nameField) { nameField.addEventListener("input", syncKanaFromName); nameField.addEventListener("compositionend", syncKanaFromName); nameField.addEventListener("blur", syncKanaFromName); }
     form.addEventListener("submit", function (e) {
@@ -559,10 +650,10 @@
       var firstInvalid = null;
       function setError(name, message) { var input = qs('[name="' + name + '"]', form); var error = qs('[data-error="' + name + '"]', form); if (input) input.classList.toggle("is-error", !!message); if (error) error.textContent = message || ""; if (message) { ok = false; if (!firstInvalid && input) firstInvalid = input; } }
       var user = { name: qs('[name="name"]', form).value.trim(), kana: toKatakana(qs('[name="kana"]', form).value.trim()), email: qs('[name="email"]', form).value.trim(), phone: normalizePhone(qs('[name="phone"]', form).value), note: qs('[name="note"]', form).value.trim() };
-      setError("name", user.name ? "" : "お名前を入力してください。");
-      setError("kana", user.kana ? "" : "フリガナを入力してください。");
-      setError("email", /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(user.email) ? "" : "メールアドレスの形式が正しくありません。");
-      setError("phone", /^[0-9\\-]{10,13}$/.test(user.phone) ? "" : "電話番号は10〜13桁の数字またはハイフンで入力してください。");
+      setError("name", user.name ? "" : "鬩搾ｽｵ繝ｻ・ｺ鬯ｮ・ｮ郢晢ｽｻ陋滂ｽｹ鬮ｯ・ｷ魄・ｽｹ闔繧・・陞ｳ螢ｽﾂ・ｦ郢晢ｽｻ繝ｻ・･鬮ｯ・ｷ霑壼遜・ｽ・ｸ陷ｻ・ｻ繝ｻ・ｼ繝ｻ・ｰ鬩搾ｽｵ繝ｻ・ｺ郢晢ｽｻ繝ｻ・ｦ鬩搾ｽｵ繝ｻ・ｺ髣包ｽｳ陝ｯ・ｩ陷ｻ・ｳ鬩搾ｽｵ繝ｻ・ｺ鬮ｴ驛・ｽｲ・ｻ繝ｻ・ｼ隶捺慣・ｽ・ｸ繝ｻ・ｲ驛｢譎｢・ｽ・ｻ);
+      setError("kana", user.kana ? "" : "鬩幢ｽ｢隴弱・・ｽ・ｼ鬩･繝ｻ繽阪・・ｹ繝ｻ・ｧ郢晢ｽｻ繝ｻ・ｬ鬩幢ｽ｢隴惹ｼ夲ｽｽ・ｿ繝ｻ・ｫ郢晢ｽｻ陞ｳ螢ｽﾂ・ｦ郢晢ｽｻ繝ｻ・･鬮ｯ・ｷ霑壼遜・ｽ・ｸ陷ｻ・ｻ繝ｻ・ｼ繝ｻ・ｰ鬩搾ｽｵ繝ｻ・ｺ郢晢ｽｻ繝ｻ・ｦ鬩搾ｽｵ繝ｻ・ｺ髣包ｽｳ陝ｯ・ｩ陷ｻ・ｳ鬩搾ｽｵ繝ｻ・ｺ鬮ｴ驛・ｽｲ・ｻ繝ｻ・ｼ隶捺慣・ｽ・ｸ繝ｻ・ｲ驛｢譎｢・ｽ・ｻ);
+      setError("email", /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(user.email) ? "" : "鬩幢ｽ｢隴趣ｽ｢繝ｻ・ｽ繝ｻ・｡鬩幢ｽ｢隴趣ｽ｢繝ｻ・ｽ繝ｻ・ｼ鬩幢ｽ｢隴趣ｽ｢繝ｻ・ｽ繝ｻ・ｫ鬩幢ｽ｢繝ｻ・ｧ郢晢ｽｻ繝ｻ・｢鬩幢ｽ｢隴取得・ｽ・ｳ繝ｻ・ｨ繝ｻ蜿厄ｽｨ謚ｵ・ｽ・ｹ繝ｻ・ｧ郢晢ｽｻ繝ｻ・ｹ鬩搾ｽｵ繝ｻ・ｺ郢晢ｽｻ繝ｻ・ｮ鬮ｯ貅ｷ遘√・・ｽ繝ｻ・｢鬮ｯ貅ｷ蠎翫・・ｸ陝ｯ・ｩ・つ繝ｻ・ｲ鬮ｮ蠑ｱ繝ｻ繝ｻ・ｽ繝ｻ・｣鬩搾ｽｵ繝ｻ・ｺ髯ｷ莨夲ｽｽ・ｱ郢晢ｽｻ繝ｻ・･鬩搾ｽｵ繝ｻ・ｺ驛｢・ｧ郢晢ｽｻ繝ｻ・ｽ鬯倩ｲｻ・ｽ・ｸ繝ｻ・ｺ郢晢ｽｻ繝ｻ・ｾ鬩搾ｽｵ繝ｻ・ｺ髯晢ｽｶ陷ｻ・ｻ繝ｻ・ｽ鬪ｰ蜈ｷ・ｽ・ｸ繝ｻ・ｲ驛｢譎｢・ｽ・ｻ);
+      setError("phone", /^[0-9\\-]{10,13}$/.test(user.phone) ? "" : "鬯ｯ・ｮ繝ｻ・ｮ郢晢ｽｻ繝ｻ・ｻ鬯ｮ・ｫ繝ｻ・ｧ郢晢ｽｻ繝ｻ・ｱ鬯ｨ・ｾ繝ｻ・｡郢晢ｽｻ繝ｻ・ｪ鬮ｯ・ｷ繝ｻ・ｿ郢晢ｽｻ繝ｻ・ｷ鬩搾ｽｵ繝ｻ・ｺ郢晢ｽｻ繝ｻ・ｯ10鬩搾ｽｵ繝ｻ・ｲ驛｢譎｢・ｽ・ｻ3鬮ｫ・ｴ繝ｻ・ｯ驕ｶ荳橸ｽ｣・ｹ郢晢ｽｻ鬮ｫ・ｰ繝ｻ・ｨ郢晢ｽｻ繝ｻ・ｰ鬮ｯ譏ｴ繝ｻ陝ｷ・ｲ驕ｶ謫ｾ・ｽ・ｪ鬩搾ｽｵ繝ｻ・ｺ髮九・ﾂ・･郢晢ｽｻ鬩幢ｽ｢隴乗・・ｽ・ｸ驗呻ｽｫ遶包ｽｧ鬩幢ｽ｢隴弱・・ｽ・ｼ鬩･繝ｻ・ｽ・ｦ鬩搾ｽｵ繝ｻ・ｺ郢晢ｽｻ繝ｻ・ｧ鬮ｯ・ｷ髣鯉ｽｨ繝ｻ・ｽ繝ｻ・･鬮ｯ・ｷ霑壼遜・ｽ・ｸ陷ｻ・ｻ繝ｻ・ｼ繝ｻ・ｰ鬩搾ｽｵ繝ｻ・ｺ郢晢ｽｻ繝ｻ・ｦ鬩搾ｽｵ繝ｻ・ｺ髣包ｽｳ陝ｯ・ｩ陷ｻ・ｳ鬩搾ｽｵ繝ｻ・ｺ鬮ｴ驛・ｽｲ・ｻ繝ｻ・ｼ隶捺慣・ｽ・ｸ繝ｻ・ｲ驛｢譎｢・ｽ・ｻ);
       if (!ok) { if (firstInvalid && typeof firstInvalid.focus === "function") { firstInvalid.focus(); } return; }
       var data = getData(); data.user = user; setData(data); window.location.href = "reserve-confirm.html";
     });
@@ -572,18 +663,18 @@
   if (summaryBlock) {
     var s = getData();
     if (!s.course || !s.slot || !s.people || !s.user) {
-      summaryBlock.innerHTML = "<p>予約情報が不足しています。</p>";
+      summaryBlock.innerHTML = "<p>鬮｣雋ｻ・｣・ｰ鬮｢・ｧ繝ｻ・ｲ郢晢ｽｻ繝ｻ・ｴ驛｢譎｢・ｽ・ｻ驛｢譎｢・ｽ・･鬮ｯ諛ｶ・ｽ・｣郢晢ｽｻ繝ｻ・ｱ鬩搾ｽｵ繝ｻ・ｺ髯溷桁・ｽ・｡郢晢ｽｻ繝ｻ・ｸ髯晢｣ｰ髮懶ｽ｣繝ｻ・ｽ繝ｻ・ｶ郢晢ｽｻ繝ｻ・ｳ鬩搾ｽｵ繝ｻ・ｺ髯ｷ莨夲ｽｽ・ｱ驕ｯ・ｶ繝ｻ・ｻ鬩搾ｽｵ繝ｻ・ｺ驛｢譎｢・ｽ・ｻ驕ｶ謫ｾ・ｽ・ｪ鬩搾ｽｵ繝ｻ・ｺ髯ｷ・ｷ繝ｻ・ｶ繝ｻ縺､ﾂ驛｢譎｢・ｽ・ｻ/p>";
     } else {
       var unit = toNumber(s.course.price);
       var total = unit * toNumber(s.people);
       qs(".js-summary-course").textContent = s.course.name;
       qs(".js-summary-datetime").textContent = formatDisplayDate(s.slot.date) + " " + s.slot.time;
-      qs(".js-summary-people").textContent = s.people + "名様";
-      qs(".js-summary-name").textContent = s.user.name + "（" + s.user.kana + "）";
+      qs(".js-summary-people").textContent = s.people + "鬮ｯ・ｷ繝ｻ・ｷ鬮｢・ｧ繝ｻ・ｴ郢晢ｽｻ繝ｻ・ｧ驛｢譎｢・ｽ・ｻ;
+      qs(".js-summary-name").textContent = s.user.name + "驛｢譎｢・ｽ・ｻ驛｢譎｢・ｽ・ｻ + s.user.kana + "驛｢譎｢・ｽ・ｻ驛｢譎｢・ｽ・ｻ;
       qs(".js-summary-email").textContent = s.user.email;
       qs(".js-summary-phone").textContent = s.user.phone;
-      qs(".js-summary-note").textContent = s.user.note || "なし";
-      qs(".js-summary-calc").textContent = formatYen(unit) + " × " + s.people;
+      qs(".js-summary-note").textContent = s.user.note || "鬩搾ｽｵ繝ｻ・ｺ郢晢ｽｻ繝ｻ・ｪ鬩搾ｽｵ繝ｻ・ｺ驛｢譎｢・ｽ・ｻ;
+      qs(".js-summary-calc").textContent = formatYen(unit) + " 郢晢ｽｻ郢晢ｽｻ郢晢ｽｻ" + s.people;
       qs(".js-summary-total").textContent = formatYen(total);
     }
   }
@@ -592,15 +683,15 @@
   if (confirmBtn) {
     confirmBtn.addEventListener("click", function () {
       var data = getData();
-      if (!data.course || !data.slot || !data.people || !data.user) { alert("予約情報が不足しています。最初から入力してください。"); window.location.href = "reserve-select-course.html"; return; }
-      var planId = getPlanIdFromCourse(data.course);
-      if (!planId || !data.slot.id) { alert("日程と時間を選択してください。"); window.location.href = "reserve-select-slot.html"; return; }
+      if (!data.course || !data.slot || !data.people || !data.user) { alert("鬮｣雋ｻ・｣・ｰ鬮｢・ｧ繝ｻ・ｲ郢晢ｽｻ繝ｻ・ｴ驛｢譎｢・ｽ・ｻ驛｢譎｢・ｽ・･鬮ｯ諛ｶ・ｽ・｣郢晢ｽｻ繝ｻ・ｱ鬩搾ｽｵ繝ｻ・ｺ髯溷桁・ｽ・｡郢晢ｽｻ繝ｻ・ｸ髯晢｣ｰ髮懶ｽ｣繝ｻ・ｽ繝ｻ・ｶ郢晢ｽｻ繝ｻ・ｳ鬩搾ｽｵ繝ｻ・ｺ髯ｷ莨夲ｽｽ・ｱ驕ｯ・ｶ繝ｻ・ｻ鬩搾ｽｵ繝ｻ・ｺ驛｢譎｢・ｽ・ｻ驕ｶ謫ｾ・ｽ・ｪ鬩搾ｽｵ繝ｻ・ｺ髯ｷ・ｷ繝ｻ・ｶ繝ｻ縺､ﾂ驛｢・ｧ陜捺ｷ楪陷ｻ・ｵ陝謌奇ｽｭ謫ｾ・ｽ・ｴ繝ｻ繧托ｽｽ・ｰ鬩幢ｽ｢繝ｻ・ｧ髴大｣ｼ逕溽ｹ晢ｽｻ鬮ｯ・ｷ霑壼遜・ｽ・ｸ陷ｻ・ｻ繝ｻ・ｼ繝ｻ・ｰ鬩搾ｽｵ繝ｻ・ｺ郢晢ｽｻ繝ｻ・ｦ鬩搾ｽｵ繝ｻ・ｺ髣包ｽｳ陝ｯ・ｩ陷ｻ・ｳ鬩搾ｽｵ繝ｻ・ｺ鬮ｴ驛・ｽｲ・ｻ繝ｻ・ｼ隶捺慣・ｽ・ｸ繝ｻ・ｲ驛｢譎｢・ｽ・ｻ); window.location.href = "reserve-select-course.html"; return; }
+      var planId = ensurePlanId(data.course);
+      if (!planId || !data.slot.id) { alert("鬮ｫ・ｴ鬲・ｼ夲ｽｽ・ｽ繝ｻ・･鬯ｩ蠅難ｽｨ雋ｻ・ｽ・ｹ隴擾ｽｶ郢晢ｽｻ鬮ｫ・ｴ陟托ｽｱ繝ｻ邇門ｰ・・・｣鬩幢ｽ｢繝ｻ・ｧ髯晢ｽｶ隴擾ｽｶ郢晢ｽｻ鬮ｫ・ｰ陞｢・ｽ繝ｻ・ｧ繝ｻ・ｭ郢晢ｽｻ繝ｻ・ｰ鬩搾ｽｵ繝ｻ・ｺ郢晢ｽｻ繝ｻ・ｦ鬩搾ｽｵ繝ｻ・ｺ髣包ｽｳ陝ｯ・ｩ陷ｻ・ｳ鬩搾ｽｵ繝ｻ・ｺ鬮ｴ驛・ｽｲ・ｻ繝ｻ・ｼ隶捺慣・ｽ・ｸ繝ｻ・ｲ驛｢譎｢・ｽ・ｻ); window.location.href = "reserve-select-slot.html"; return; }
       var errorEl = qs(".js-confirm-error");
       if (!errorEl) { errorEl = document.createElement("p"); errorEl.className = "p-form__error js-confirm-error"; confirmBtn.parentNode.insertBefore(errorEl, confirmBtn.nextSibling); }
       errorEl.textContent = "";
       var originalText = confirmBtn.textContent;
       confirmBtn.disabled = true;
-      confirmBtn.textContent = "送信中...";
+      confirmBtn.textContent = "鬯ｯ・ｨ繝ｻ・ｾ驕ｶ謫ｾ・ｽ・ｽ郢晢ｽｻ繝ｻ・ｿ郢晢ｽｻ繝ｻ・｡鬮｣蛹・ｽｽ・ｳ郢晢ｽｻ繝ｻ・ｭ...";
       var payload = { planId: planId, planTimeSlotId: data.slot.id, participantCount: data.people, participants: buildParticipants(data.user, data.people), customerName: data.user.name, email: data.user.email, phone: data.user.phone };
       getCsrfToken()
         .then(function (csrf) {
@@ -618,9 +709,9 @@
           confirmBtn.textContent = originalText;
           if (errorEl) {
             if (err && (err.status === 403 || err.status === 401)) {
-              errorEl.textContent = "セキュリティ確認に失敗しました。再読み込みして再度お試しください。";
+              errorEl.textContent = "鬩幢ｽ｢繝ｻ・ｧ郢晢ｽｻ繝ｻ・ｻ鬩幢ｽ｢繝ｻ・ｧ郢晢ｽｻ繝ｻ・ｭ鬩幢ｽ｢隴趣ｽ｢繝ｻ・ｽ繝ｻ・･鬩幢ｽ｢隴趣ｽ｢繝ｻ・ｽ繝ｻ・ｪ鬩幢ｽ｢隴擾ｽｴ郢晢ｽｻ驍ｵ・ｺ郢晢ｽｻ繝ｻ・｡郢晢ｽｻ繝ｻ・ｺ鬯ｮ・ｫ繝ｻ・ｱ鬯ｮ・ｦ繝ｻ・ｪ驕ｶ鬆托ｽ･・｢隴ｽ譁舌・繝ｻ・ｱ鬮ｫ・ｰ繝ｻ・ｨ髯ｷ莨夲ｽｽ・ｱ郢晢ｽｻ繝ｻ・ｰ鬩搾ｽｵ繝ｻ・ｺ郢晢ｽｻ繝ｻ・ｾ鬩搾ｽｵ繝ｻ・ｺ髯ｷ莨夲ｽｽ・ｱ髫ｨ・ｳ郢晢ｽｻ繝ｻ・ｸ繝ｻ・ｲ驛｢・ｧ郢晢ｽｻ郢晢ｽｻ鬯ｮ・ｫ繝ｻ・ｱ郢晢ｽｻ繝ｻ・ｭ鬩搾ｽｵ繝ｻ・ｺ郢晢ｽｻ繝ｻ・ｿ鬯ｮ・ｴ髮懶ｽ｣繝ｻ・ｽ繝ｻ・ｼ鬩搾ｽｵ繝ｻ・ｺ郢晢ｽｻ繝ｻ・ｿ鬩搾ｽｵ繝ｻ・ｺ髯ｷ莨夲ｽｽ・ｱ驕ｯ・ｶ繝ｻ・ｻ鬮ｯ・ｷ・つ髫ｶ荳ｻ・･繝ｻ・ｽ・ｽ繝ｻ・ｺ郢晢ｽｻ繝ｻ・ｦ鬩搾ｽｵ繝ｻ・ｺ鬯ｯ莨懌・繝ｻ・ｽ繝ｻ・ｩ郢晢ｽｻ繝ｻ・ｦ鬩搾ｽｵ繝ｻ・ｺ髯ｷ莨夲ｽｽ・ｱ郢晢ｽｻ繝ｻ・･鬩搾ｽｵ繝ｻ・ｺ郢晢ｽｻ繝ｻ・ｰ鬩搾ｽｵ繝ｻ・ｺ鬮ｴ驛・ｽｲ・ｻ繝ｻ・ｼ隶捺慣・ｽ・ｸ繝ｻ・ｲ驛｢譎｢・ｽ・ｻ;
             } else {
-              errorEl.textContent = "送信に失敗しました。時間を置いて再度お試しください。";
+              errorEl.textContent = "鬯ｯ・ｨ繝ｻ・ｾ驕ｶ謫ｾ・ｽ・ｽ郢晢ｽｻ繝ｻ・ｿ郢晢ｽｻ繝ｻ・｡鬩搾ｽｵ繝ｻ・ｺ郢晢ｽｻ繝ｻ・ｫ鬮ｯ讓奇ｽｻ繧托ｽｽ・ｽ繝ｻ・ｱ鬮ｫ・ｰ繝ｻ・ｨ髯ｷ莨夲ｽｽ・ｱ郢晢ｽｻ繝ｻ・ｰ鬩搾ｽｵ繝ｻ・ｺ郢晢ｽｻ繝ｻ・ｾ鬩搾ｽｵ繝ｻ・ｺ髯ｷ莨夲ｽｽ・ｱ髫ｨ・ｳ郢晢ｽｻ繝ｻ・ｸ繝ｻ・ｲ驛｢・ｧ闔・･郢晢ｽｻ鬯ｯ・ｮ繝ｻ・｢鬮ｦ・ｮ陷ｻ・ｻ繝ｻ・ｽ陝ｶ譌δ郢晢ｽｻ繝ｻ・ｮ鬩搾ｽｵ繝ｻ・ｺ驛｢譎｢・ｽ・ｻ驕ｯ・ｶ繝ｻ・ｻ鬮ｯ・ｷ・つ髫ｶ荳ｻ・･繝ｻ・ｽ・ｽ繝ｻ・ｺ郢晢ｽｻ繝ｻ・ｦ鬩搾ｽｵ繝ｻ・ｺ鬯ｯ莨懌・繝ｻ・ｽ繝ｻ・ｩ郢晢ｽｻ繝ｻ・ｦ鬩搾ｽｵ繝ｻ・ｺ髯ｷ莨夲ｽｽ・ｱ郢晢ｽｻ繝ｻ・･鬩搾ｽｵ繝ｻ・ｺ郢晢ｽｻ繝ｻ・ｰ鬩搾ｽｵ繝ｻ・ｺ鬮ｴ驛・ｽｲ・ｻ繝ｻ・ｼ隶捺慣・ｽ・ｸ繝ｻ・ｲ驛｢譎｢・ｽ・ｻ;
             }
           }
         });
@@ -630,17 +721,17 @@
   var complete = qs(".js-complete-summary");
   if (complete) {
     var raw = sessionStorage.getItem(FINAL_KEY);
-    if (!raw) { complete.innerHTML = "<p>予約情報が見つかりませんでした。<a href=\"reserve-select-course.html\">予約画面へ戻る</a></p>"; return; }
+    if (!raw) { complete.innerHTML = "<p>鬮｣雋ｻ・｣・ｰ鬮｢・ｧ繝ｻ・ｲ郢晢ｽｻ繝ｻ・ｴ驛｢譎｢・ｽ・ｻ驛｢譎｢・ｽ・･鬮ｯ諛ｶ・ｽ・｣郢晢ｽｻ繝ｻ・ｱ鬩搾ｽｵ繝ｻ・ｺ髴托ｽｹ陞滂ｽｲ繝ｻ・ｽ繝ｻ・ｦ髣包ｽｵ隴擾ｽｶ陷ｻ・ｽ鬩搾ｽｵ繝ｻ・ｺ髣包ｽｵ隴趣ｽ｢繝ｻ・ｽ鬯倩ｲｻ・ｽ・ｸ繝ｻ・ｺ郢晢ｽｻ繝ｻ・ｾ鬩搾ｽｵ繝ｻ・ｺ髯晢ｽｶ陷ｻ・ｻ繝ｻ・ｽ鬪ｰ蜈ｷ・ｽ・ｸ繝ｻ・ｺ郢晢ｽｻ繝ｻ・ｧ鬩搾ｽｵ繝ｻ・ｺ髯ｷ莨夲ｽｽ・ｱ髫ｨ・ｳ郢晢ｽｻ繝ｻ・ｸ繝ｻ・ｲ驛｢譎｢・ｽ・ｻa href=\"reserve-select-course.html\">鬮｣雋ｻ・｣・ｰ鬮｢・ｧ繝ｻ・ｲ郢晢ｽｻ繝ｻ・ｴ驛｢譎｢・ｽ・ｻ髯具ｽｻ繝ｻ・､鬯ｯ・ｮ繝ｻ・ｱ郢晢ｽｻ繝ｻ・｢鬩搾ｽｵ繝ｻ・ｺ郢晢ｽｻ繝ｻ・ｸ鬮ｫ・ｰ鬲・ｼ夲ｽｽ・ｽ繝ｻ・ｻ鬩幢ｽ｢繝ｻ・ｧ驛｢譎｢・ｽ・ｻ/a></p>"; return; }
     var finalData = JSON.parse(raw);
     var finalUnit = finalData.course ? toNumber(finalData.course.price) : 4000;
     var finalTotal = finalUnit * toNumber(finalData.people || 1);
     qs(".js-complete-datetime").textContent = formatDisplayDate(finalData.slot.date) + " " + finalData.slot.time;
     qs(".js-complete-course").textContent = finalData.course.name;
-    qs(".js-complete-people").textContent = (finalData.people || 1) + "名様";
+    qs(".js-complete-people").textContent = (finalData.people || 1) + "鬮ｯ・ｷ繝ｻ・ｷ鬮｢・ｧ繝ｻ・ｴ郢晢ｽｻ繝ｻ・ｧ驛｢譎｢・ｽ・ｻ;
     qs(".js-complete-total").textContent = formatYen(finalTotal);
     if (finalData.apiResponse && finalData.apiResponse.id) {
       var box = qs(".js-complete-summary");
-      if (box && !qs(".js-complete-id", box)) { var p = document.createElement("p"); p.className = "js-complete-id"; p.textContent = "予約番号: " + finalData.apiResponse.id; box.appendChild(p); }
+      if (box && !qs(".js-complete-id", box)) { var p = document.createElement("p"); p.className = "js-complete-id"; p.textContent = "鬮｣雋ｻ・｣・ｰ鬮｢・ｧ繝ｻ・ｲ郢晢ｽｻ繝ｻ・ｴ驛｢譎｢・ｽ・ｻ髯具ｽｻ郢晢ｽｻ隲｢・ｾ郢晢ｽｻ繝ｻ・ｷ: " + finalData.apiResponse.id; box.appendChild(p); }
     }
   }
 
@@ -648,7 +739,7 @@
   function normalizeReserveLinks() { qsa('.p-home-side-cta, .c-button[href], .p-wire-map-link[href]').forEach(function (link) { if (link.classList.contains("js-direct-course")) return; var href = link.getAttribute("href"); if (!href || href.indexOf("http") === 0 || href.charAt(0) === "#" || href.indexOf("mailto:") === 0 || href.indexOf("tel:") === 0) return; if (/^reserve(?:-[\\w-]+)?\\.html(?:#.*)?$/i.test(href)) { link.setAttribute("href", "reserve-select-course.html"); } }); }
   function disableCourseParentLink() { qsa(".p-home-sidebar .p-home-side-parent > a").forEach(function (link) { link.setAttribute("aria-disabled", "true"); link.setAttribute("tabindex", "-1"); link.addEventListener("click", function (e) { e.preventDefault(); }); }); }
   function initHeroSlideshow() { var root = qs(".js-hero-slideshow"); if (!root) return; var slides = qsa(".p-wire-hero-slide", root); if (slides.length < 2) return; var index = slides.findIndex(function (slide) { return slide.classList.contains("is-active"); }); if (index < 0) index = 0; function show(nextIndex) { slides.forEach(function (slide, i) { slide.classList.toggle("is-active", i === nextIndex); }); index = nextIndex; } show(index); window.setInterval(function () { show((index + 1) % slides.length); }, 5000); }
-  function initMobileDrawer() { var sidebar = qs(".p-home-sidebar"); if (!sidebar) return; if (qs(".p-home-drawer-toggle")) return; var desktopMedia = window.matchMedia("(min-width: 1101px)"); var toggle = document.createElement("button"); toggle.type = "button"; toggle.className = "p-home-drawer-toggle"; toggle.setAttribute("aria-label", "メニューを開く"); toggle.setAttribute("aria-expanded", "false"); toggle.innerHTML = '<span aria-hidden="true">☰</span>'; var close = document.createElement("button"); close.type = "button"; close.className = "p-home-drawer-close"; close.setAttribute("aria-label", "メニューを閉じる"); close.innerHTML = '<span aria-hidden="true">×</span>'; var backdrop = document.createElement("button"); backdrop.type = "button"; backdrop.className = "p-home-drawer-backdrop"; backdrop.setAttribute("aria-label", "メニューを閉じる"); backdrop.hidden = true; sidebar.insertBefore(close, sidebar.firstChild); document.body.appendChild(toggle); document.body.appendChild(backdrop); function setOpen(open) { if (desktopMedia.matches) open = false; sidebar.classList.toggle("is-open", open); document.body.classList.toggle("is-drawer-open", open); toggle.setAttribute("aria-expanded", open ? "true" : "false"); backdrop.hidden = !open; document.body.style.overflow = open ? "hidden" : ""; } toggle.addEventListener("click", function () { setOpen(!sidebar.classList.contains("is-open")); }); close.addEventListener("click", function () { setOpen(false); }); backdrop.addEventListener("click", function () { setOpen(false); }); document.addEventListener("keydown", function (e) { if (e.key === "Escape" && sidebar.classList.contains("is-open")) { setOpen(false); } }); qsa("a[href]", sidebar).forEach(function (link) { if (link.closest(".p-home-side-parent")) return; link.addEventListener("click", function () { setOpen(false); }); }); window.addEventListener("resize", function () { if (desktopMedia.matches) { setOpen(false); } }); }
+  function initMobileDrawer() { var sidebar = qs(".p-home-sidebar"); if (!sidebar) return; if (qs(".p-home-drawer-toggle")) return; var desktopMedia = window.matchMedia("(min-width: 1101px)"); var toggle = document.createElement("button"); toggle.type = "button"; toggle.className = "p-home-drawer-toggle"; toggle.setAttribute("aria-label", "鬩幢ｽ｢隴趣ｽ｢繝ｻ・ｽ繝ｻ・｡鬩幢ｽ｢隴乗・・ｽ・ｹ隴∵ｺｽ・､・ｼ繝ｻ・ｹ隴趣ｽ｢繝ｻ・ｽ繝ｻ・ｼ鬩幢ｽ｢繝ｻ・ｧ髯晢ｽｶ隴取得・ｽ・ｹ隲ｷ蛹・ｽｽ・ｸ繝ｻ・ｺ驛｢譎｢・ｽ・ｻ); toggle.setAttribute("aria-expanded", "false"); toggle.innerHTML = '<span aria-hidden="true">鬮ｫ・ｨ陋帙・・ｽ・ｽ繝ｻ・ｰ</span>'; var close = document.createElement("button"); close.type = "button"; close.className = "p-home-drawer-close"; close.setAttribute("aria-label", "鬩幢ｽ｢隴趣ｽ｢繝ｻ・ｽ繝ｻ・｡鬩幢ｽ｢隴乗・・ｽ・ｹ隴∵ｺｽ・､・ｼ繝ｻ・ｹ隴趣ｽ｢繝ｻ・ｽ繝ｻ・ｼ鬩幢ｽ｢繝ｻ・ｧ髯晢ｽｶ隴主沁蛹暮ｩ搾ｽｵ繝ｻ・ｺ髯区ｻゑｽｽ・･郢晢ｽｻ郢晢ｽｻ); close.innerHTML = '<span aria-hidden="true">郢晢ｽｻ郢晢ｽｻ郢晢ｽｻ/span>'; var backdrop = document.createElement("button"); backdrop.type = "button"; backdrop.className = "p-home-drawer-backdrop"; backdrop.setAttribute("aria-label", "鬩幢ｽ｢隴趣ｽ｢繝ｻ・ｽ繝ｻ・｡鬩幢ｽ｢隴乗・・ｽ・ｹ隴∵ｺｽ・､・ｼ繝ｻ・ｹ隴趣ｽ｢繝ｻ・ｽ繝ｻ・ｼ鬩幢ｽ｢繝ｻ・ｧ髯晢ｽｶ隴主沁蛹暮ｩ搾ｽｵ繝ｻ・ｺ髯区ｻゑｽｽ・･郢晢ｽｻ郢晢ｽｻ); backdrop.hidden = true; sidebar.insertBefore(close, sidebar.firstChild); document.body.appendChild(toggle); document.body.appendChild(backdrop); function setOpen(open) { if (desktopMedia.matches) open = false; sidebar.classList.toggle("is-open", open); document.body.classList.toggle("is-drawer-open", open); toggle.setAttribute("aria-expanded", open ? "true" : "false"); backdrop.hidden = !open; document.body.style.overflow = open ? "hidden" : ""; } toggle.addEventListener("click", function () { setOpen(!sidebar.classList.contains("is-open")); }); close.addEventListener("click", function () { setOpen(false); }); backdrop.addEventListener("click", function () { setOpen(false); }); document.addEventListener("keydown", function (e) { if (e.key === "Escape" && sidebar.classList.contains("is-open")) { setOpen(false); } }); qsa("a[href]", sidebar).forEach(function (link) { if (link.closest(".p-home-side-parent")) return; link.addEventListener("click", function () { setOpen(false); }); }); window.addEventListener("resize", function () { if (desktopMedia.matches) { setOpen(false); } }); }
     function applyReservationStopNotice() { var config = window.__OPS__ || {}; var enabled = config.reservationStop === true; var message = config.reservationStopMessage; var lines = Array.isArray(message) ? message : (message ? [String(message)] : null); qsa(".p-reservation-stop").forEach(function (el) { el.hidden = !enabled; if (!enabled || !lines || !lines.length) return; while (el.firstChild) { el.removeChild(el.firstChild); } lines.forEach(function (line) { var p = document.createElement("p"); p.textContent = line; el.appendChild(p); }); }); }
   applyReservationStopNotice();
   if (isPublicPage()) { normalizeReserveLinks(); disableCourseParentLink(); initHeroSlideshow(); initMobileDrawer(); }
