@@ -1,4 +1,4 @@
-﻿package com.kaori.reservation.config;
+package com.kaori.reservation.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

@@ -544,7 +544,8 @@
     if (dataForForm.user) { Object.keys(dataForForm.user).forEach(function (key) { var field = qs('[name="' + key + '"]', form); if (field) field.value = dataForForm.user[key] || ""; }); }
     if (kanaField) { kanaField.value = toKatakana(kanaField.value); }
     var kanaEditedManually = !!(kanaField && kanaField.value);
-    function syncKanaFromName() { if (!nameField || !kanaField || kanaEditedManually) return; var nameValue = nameField.value.trim(); if (!nameValue || !isKanaOnly(nameValue)) return; kanaField.value = toKatakana(nameValue); }
+    function normalizeNameForKana(value) { return String(value || "").replace(/[\s\u3000]+/g, "").trim(); }
+    function syncKanaFromName() { if (!nameField || !kanaField || kanaEditedManually) return; var nameValue = normalizeNameForKana(nameField.value); if (!nameValue) return; kanaField.value = toKatakana(nameValue); }
     if (kanaField) {
       var kanaComposing = false;
       kanaField.addEventListener("compositionstart", function () { kanaComposing = true; });
