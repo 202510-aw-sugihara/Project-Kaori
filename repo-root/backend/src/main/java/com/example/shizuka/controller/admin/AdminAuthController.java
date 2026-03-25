@@ -9,13 +9,15 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.security.web.context.SecurityContextRepository;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -31,13 +33,20 @@ import org.springframework.http.ResponseEntity;
 @RequestMapping("/api/admin/auth")
 public class AdminAuthController {
 
+    private static final Logger logger = LoggerFactory.getLogger(AdminAuthController.class);
+
     private final AuthenticationManager authenticationManager;
     private final UserMapper userMapper;
-    private final SecurityContextRepository securityContextRepository = new HttpSessionSecurityContextRepository();
+    private final SecurityContextRepository securityContextRepository;
 
-    public AdminAuthController(AuthenticationManager authenticationManager, UserMapper userMapper) {
+    public AdminAuthController(
+            AuthenticationManager authenticationManager,
+            UserMapper userMapper,
+            SecurityContextRepository securityContextRepository
+    ) {
         this.authenticationManager = authenticationManager;
         this.userMapper = userMapper;
+        this.securityContextRepository = securityContextRepository;
     }
 
     @PostMapping("/login")
@@ -54,8 +63,6 @@ public class AdminAuthController {
         SecurityContext context = SecurityContextHolder.createEmptyContext();
         context.setAuthentication(authentication);
         SecurityContextHolder.setContext(context);
-        httpRequest.getSession(true).setAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY,
-                context);
         securityContextRepository.saveContext(context, httpRequest, httpResponse);
 
         ShizukaUserDetails details = (ShizukaUserDetails) authentication.getPrincipal();
@@ -75,9 +82,16 @@ public class AdminAuthController {
 
     @GetMapping("/me")
     public ResponseEntity<?> me(Authentication authentication) {
+        boolean anonymous = authentication == null
+                || authentication instanceof AnonymousAuthenticationToken
+                || "anonymousUser".equals(authentication.getPrincipal());
+        logger.info("Auth debug: class={}, principal={}, anonymous={}",
+                authentication == null ? "null" : authentication.getClass().getName(),
+                authentication == null ? "null" : String.valueOf(authentication.getPrincipal()),
+                anonymous);
         if (authentication == null
                 || !authentication.isAuthenticated()
-                || "anonymousUser".equals(authentication.getPrincipal())) {
+                || anonymous) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Not authenticated");
         }
 

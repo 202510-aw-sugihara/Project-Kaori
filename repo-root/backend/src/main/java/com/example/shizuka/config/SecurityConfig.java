@@ -9,10 +9,14 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
+import org.springframework.security.web.context.SecurityContextRepository;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -42,6 +46,14 @@ public class SecurityConfig {
                 .cors(cors -> {})
                 .csrf(csrf -> csrf
                         .csrfTokenRepository(csrfRepo))
+                .securityContext(security -> security
+                        .securityContextRepository(securityContextRepository())
+                        .requireExplicitSave(false)
+                )
+                .sessionManagement(session -> session
+                        .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
+                        .sessionFixation(sessionFixation -> sessionFixation.migrateSession())
+                )
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                         .requestMatchers("/").permitAll()
@@ -55,18 +67,25 @@ public class SecurityConfig {
                         .anyRequest().authenticated())
                 .formLogin().disable()
                 .httpBasic().disable()
-                .exceptionHandling()
-                .authenticationEntryPoint(restAuthenticationEntryPoint)
-                .accessDeniedHandler(restAccessDeniedHandler)
-                .and()
-                .sessionManagement()
-                .sessionFixation().migrateSession()
-                .and()
+                .exceptionHandling(exceptions -> exceptions
+                        .defaultAuthenticationEntryPointFor(
+                                restAuthenticationEntryPoint,
+                                new AntPathRequestMatcher("/api/**")
+                        )
+                        .accessDeniedHandler(restAccessDeniedHandler)
+                )
                 .authenticationProvider(authenticationProvider());
 
         http.headers().frameOptions().disable();
 
         return http.build();
+    }
+
+    @Bean
+    public SecurityContextRepository securityContextRepository() {
+        var repository = new HttpSessionSecurityContextRepository();
+        repository.setDisableUrlRewriting(true);
+        return repository;
     }
 
     @Bean

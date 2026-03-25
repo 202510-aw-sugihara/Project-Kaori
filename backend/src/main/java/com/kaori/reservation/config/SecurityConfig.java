@@ -42,7 +42,10 @@ public class SecurityConfig {
             AuthenticationEntryPoint apiAuthenticationEntryPoint
     ) throws Exception {
         http
-                .securityContext(security -> security.securityContextRepository(securityContextRepository))
+                .securityContext(security -> security
+                        .securityContextRepository(securityContextRepository)
+                        .requireExplicitSave(false)
+                )
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED))
                 .exceptionHandling(exceptions -> exceptions
                         .defaultAuthenticationEntryPointFor(
