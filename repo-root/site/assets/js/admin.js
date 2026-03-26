@@ -44,7 +44,7 @@
 
   function formatDate(value) { return value || ""; }
   function formatTime(value) { return value ? String(value).slice(0, 5) : ""; }
-  function formatYen(value) { var num = Number(value || 0); return "¥" + num.toLocaleString("ja-JP"); }
+  function formatYen(value) { var num = Number(value || 0); return num.toLocaleString("ja-JP") + "円"; }
 
   function escapeHtml(value) {
     return String(value == null ? "" : value)
