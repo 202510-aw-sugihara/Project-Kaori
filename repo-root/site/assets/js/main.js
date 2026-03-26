@@ -101,7 +101,7 @@
 
   function getCourseFromElement(element) {
     var courseId = element.getAttribute("data-course-id");
-    var planIdAttr = element.getAttribute("data-plan-id");
+    var planIdAttr = element.dataset.planId || element.getAttribute("data-plan-id");
     var planId = planIdAttr ? Number(planIdAttr) : null;
     return {
       id: courseId,
@@ -264,29 +264,11 @@
       return normalizeDate(date) >= bookingStart && normalizeDate(date) <= bookingEnd;
     }
 
-    function isMonthEndDate(date) {
-      var lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0, 12, 0, 0, 0).getDate();
-      return date.getDate() >= lastDay - 6;
-    }
-
-    function isMonthEndCourse(course) {
-      if (!course) return false;
-      if (course.id === "20blend") return true;
-      if (course.id === "12blend") return false;
-      var name = String(course.name || "");
-      var label = String(course.label || "");
-      return /20/.test(name) && /月末/.test(name + label);
-    }
-
     function isSelectableDate(date) {
+      if (!isWithinWindow(date)) return false;
       var day = date.getDay();
       var isWeekendOrHoliday = day === 0 || day === 6 || isJapaneseHoliday(date);
-      if (!isWithinWindow(date)) return false;
-      if (!isWeekendOrHoliday) return false;
-      if (!selectedCourse) return true;
-      if (isMonthEndCourse(selectedCourse)) return isMonthEndDate(date);
-      if (selectedCourse.id === "12blend") return !isMonthEndDate(date);
-      return true;
+      return isWeekendOrHoliday;
     }
 
     function getFirstSelectableDate() {
@@ -456,7 +438,8 @@
         data.slot = data.slot || {};
         data.slot.date = slotDate.value;
         data.slot.time = button.getAttribute("data-time");
-        data.slot.id = Number(button.getAttribute("data-slot-id"));
+        var slotIdAttr = button.getAttribute("data-slot-id");
+        data.slot.id = slotIdAttr ? Number(slotIdAttr) : null;
         data.slot.status = button.getAttribute("data-status");
         data.slot.remaining = Number(button.getAttribute("data-remaining"));
         data.slot.capacity = Number(button.getAttribute("data-capacity"));
@@ -474,7 +457,9 @@
     toPeople.addEventListener("click", function () {
       var data = getData();
       if (!data.course) { alert("先にコースを選択してください。"); window.location.href = "reserve-select-course.html"; return; }
-      if (!data.slot || !data.slot.date || !data.slot.time || !data.slot.id || data.slot.status === "full") { alert("日程と時間を選択してください。"); return; }
+      if (!data.slot || !data.slot.date || !data.slot.time) { alert("日程と時間を選択してください。"); return; }
+      if (data.slot.id == null) { alert("予約枠の取得に失敗しました。ページを再読み込みしてください。"); return; }
+      if (data.slot.status === "full") { alert("日程と時間を選択してください。"); return; }
       window.location.href = "reserve.html";
     });
   }
