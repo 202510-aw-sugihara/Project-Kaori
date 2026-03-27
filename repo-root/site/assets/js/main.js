@@ -340,7 +340,11 @@
         if (date.getDay() === 6) classes.push("is-saturday");
         if (isJapaneseHoliday(date)) classes.push("is-holiday");
         if (selectedDate && key === toDateKey(selectedDate)) classes.push("is-selected");
-        if (isSelectableDate(date)) {
+        var planId = getPlanIdFromCourse(selectedCourse);
+        var cacheKey = String(planId) + ":" + key;
+        var cachedEmpty = !!(slotCache && slotCache[cacheKey] && slotCache[cacheKey].length === 0);
+        if (cachedEmpty) classes.push("is-disabled");
+        if (isSelectableDate(date) && !cachedEmpty) {
           cells.push('<button class="js-date-pick ' + classes.join(" ") + '" type="button" data-date="' + key + '">' + day + '</button>');
         } else {
           cells.push('<span class="' + classes.join(" ") + '">' + day + '</span>');
