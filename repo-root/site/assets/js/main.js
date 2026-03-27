@@ -235,6 +235,7 @@
   var slotDate = qs(".js-slot-date");
   var selectedDateText = qs(".js-selected-date");
   var selectedTimeText = qs(".js-selected-time");
+  var slotFetchStatus = "idle";
 
   if (slotDate) {
     var reservationData = getData();
@@ -254,6 +255,16 @@
     var calendarPrev = qs(".js-calendar-prev");
     var calendarNext = qs(".js-calendar-next");
     var timeContainer = qs(".p-app-time");
+    var nextButton = qs(".js-to-people");
+    function setNextEnabled(enabled) {
+      if (!nextButton) return;
+      nextButton.disabled = !enabled;
+      nextButton.setAttribute("aria-disabled", enabled ? "false" : "true");
+    }
+    if (timeContainer) {
+      timeContainer.innerHTML = "";
+    }
+    setNextEnabled(false);
     var today = normalizeDate(new Date());
     var selectableStartMonth = startOfMonth(today);
     var selectableEndMonth = startOfMonth(addMonths(today, 2));
@@ -384,14 +395,27 @@
     function renderTimeSlots(slots) {
       if (!timeContainer) return;
       if (!Array.isArray(slots) || !slots.length) {
-        timeContainer.innerHTML = '<p class="p-app-note">本日の空き枠がありません。別の日付を選択してください。</p>';
+        slotFetchStatus = "empty";
+        timeContainer.innerHTML = '<p class="p-app-note">この日は予約枠がありません。</p>';
+        setNextEnabled(false);
         return;
       }
+      slotFetchStatus = "ok";
       var buttons = slots.map(function (slot) {
         var timeLabel = formatTime(slot.startTime);
-        var status = getSlotStatus(slot);
+        if (timeLabel) timeLabel = timeLabel + "〜";
+        var capacity = toNumber(slot.capacity);
+        var reserved = toNumber(slot.reservedCount);
+        var remaining = capacity - reserved;
+        var status = "available";
+        if (slot.isOpen === false) {
+          status = "full";
+        } else if (remaining <= 0) {
+          status = "full";
+        } else if (remaining <= 2) {
+          status = "few";
+        }
         var symbol = status === "full" ? "×" : status === "few" ? "△" : "○";
-        var remaining = toNumber(slot.capacity) - toNumber(slot.reservedCount);
         var disabled = status === "full";
         return '<button class="js-slot-select" type="button"'
           + ' data-slot-id="' + escapeHtml(String(slot.id)) + '"'
@@ -403,27 +427,34 @@
           + '>' + symbol + ' ' + escapeHtml(timeLabel) + '</button>';
       }).join("");
       timeContainer.innerHTML = buttons;
-      if (slotData.time) {
+      var matchedStatus = null;
+      if (slotData && slotData.id) {
         qsa(".js-slot-select", timeContainer).forEach(function (btn) {
-          if (btn.getAttribute("data-time") === slotData.time) {
+          if (btn.getAttribute("data-slot-id") === String(slotData.id)) {
             btn.classList.add("is-selected");
+            matchedStatus = btn.getAttribute("data-status");
           }
         });
       }
+      setNextEnabled(!!matchedStatus && matchedStatus !== "full");
     }
 
     function loadTimeSlots(dateKey) {
       var planId = getPlanIdFromCourse(selectedCourse);
       if (!planId || !dateKey) return;
+      slotFetchStatus = "loading";
       if (timeContainer) {
-        timeContainer.innerHTML = '<p class="p-app-note">読み込み中です…</p>';
+        timeContainer.innerHTML = '<p class="p-app-note">読み込み中...</p>';
       }
+      setNextEnabled(false);
       fetchJson("/api/plans/" + planId + "/time-slots?slotDate=" + encodeURIComponent(dateKey))
         .then(function (slots) { renderTimeSlots(slots || []); })
         .catch(function () {
+          slotFetchStatus = "error";
           if (timeContainer) {
-            timeContainer.innerHTML = '<p class="p-app-note">時間枠の取得に失敗しました。再度お試しください。</p>';
+            timeContainer.innerHTML = '<p class="p-app-note">予約枠の取得に失敗しました。ページを再読み込みしてください。</p>';
           }
+          setNextEnabled(false);
         });
     }
 
@@ -444,6 +475,7 @@
         data.slot.remaining = Number(button.getAttribute("data-remaining"));
         data.slot.capacity = Number(button.getAttribute("data-capacity"));
         setData(data);
+        setNextEnabled(!!data.slot.id && data.slot.status !== "full");
         if (selectedTimeText) selectedTimeText.textContent = data.slot.time || "未選択";
         if (selectedDateText) selectedDateText.textContent = slotDate.value ? formatDisplayDate(slotDate.value) : "未選択";
       });
@@ -457,6 +489,8 @@
     toPeople.addEventListener("click", function () {
       var data = getData();
       if (!data.course) { alert("先にコースを選択してください。"); window.location.href = "reserve-select-course.html"; return; }
+      if (slotFetchStatus === "empty") { alert("この日は予約枠がありません。"); return; }
+      if (slotFetchStatus === "error") { alert("予約枠の取得に失敗しました。ページを再読み込みしてください。"); return; }
       if (!data.slot || !data.slot.date || !data.slot.time) { alert("日程と時間を選択してください。"); return; }
       if (data.slot.id == null) { alert("予約枠の取得に失敗しました。ページを再読み込みしてください。"); return; }
       if (data.slot.status === "full") { alert("日程と時間を選択してください。"); return; }
