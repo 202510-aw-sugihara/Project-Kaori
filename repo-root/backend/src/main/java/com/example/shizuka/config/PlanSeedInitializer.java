@@ -162,15 +162,22 @@ public class PlanSeedInitializer implements ApplicationRunner {
         int inserted = 0;
         for (LocalDate date = today; !date.isAfter(endDate); date = date.plusDays(1)) {
             boolean isHoliday = isWeekendOrHoliday(date);
+            boolean isLastWeekend = isLastWeekendOfMonth(date);
             if (!isHoliday) {
                 continue;
             }
 
-            if (plan12 != null) {
-                inserted += insertSlotsForDate(plan12, date, startTimes);
-            }
-            if (plan20 != null && isMonthEndDate(date)) {
+            if (plan20 != null) {
+                if (!isLastWeekend) {
+                    continue;
+                }
                 inserted += insertSlotsForDate(plan20, date, startTimes);
+            }
+            if (plan12 != null) {
+                if (isLastWeekend) {
+                    continue;
+                }
+                inserted += insertSlotsForDate(plan12, date, startTimes);
             }
         }
 
@@ -222,6 +229,29 @@ public class PlanSeedInitializer implements ApplicationRunner {
     private boolean isMonthEndDate(LocalDate date) {
         int lastDay = date.lengthOfMonth();
         return date.getDayOfMonth() >= (lastDay - 6);
+    }
+
+    private boolean isLastWeekendOfMonth(LocalDate date) {
+        if (!(date.getDayOfWeek() == java.time.DayOfWeek.SATURDAY ||
+                date.getDayOfWeek() == java.time.DayOfWeek.SUNDAY)) {
+            return false;
+        }
+
+        LocalDate lastDay = date.withDayOfMonth(date.lengthOfMonth());
+        LocalDate cursor = lastDay;
+
+        while (cursor.getMonth() == date.getMonth()) {
+            if (cursor.getDayOfWeek() == java.time.DayOfWeek.SATURDAY ||
+                    cursor.getDayOfWeek() == java.time.DayOfWeek.SUNDAY) {
+                if (cursor.equals(date)) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+            cursor = cursor.minusDays(1);
+        }
+        return false;
     }
 
     private boolean isJapaneseHoliday(LocalDate date) {
