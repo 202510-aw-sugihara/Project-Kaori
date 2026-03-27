@@ -4,6 +4,7 @@
   var CSRF_KEY = "perfumeReservationCsrf";
   var MAX_PEOPLE = 10;
   var API_BASE = "https://project-kaori-fmup.onrender.com";
+  var DEBUG = false;
   var COURSE_PRESETS = {
     "12blend": { id: "12blend", name: "12種ブレンド体験", label: "初心者向けコース", price: 4000, duration: "約60分" },
     "20blend": { id: "20blend", name: "20種ブレンド体験（月末限定）", label: "月末限定コース", price: 4000, duration: "約60分" }
@@ -236,6 +237,7 @@
   var selectedDateText = qs(".js-selected-date");
   var selectedTimeText = qs(".js-selected-time");
   var slotFetchStatus = "idle";
+  var slotCache = {};
 
   if (slotDate) {
     var reservationData = getData();
@@ -295,12 +297,13 @@
       var data = getData();
       data.slot = data.slot || {};
       data.slot.date = key;
-      data.slot.time = "";
+      data.slot.time = null;
       data.slot.id = null;
-      data.slot.status = "";
+      data.slot.status = null;
       data.slot.remaining = null;
       data.slot.capacity = null;
       setData(data);
+      slotData = data.slot;
       if (selectedTimeText) selectedTimeText.textContent = "未選択";
       if (key) loadTimeSlots(key);
       if (selectedDateText) selectedDateText.textContent = date ? formatDisplayDate(date) : "未選択";
@@ -408,17 +411,19 @@
         var reserved = toNumber(slot.reservedCount);
         var remaining = capacity - reserved;
         var status = "available";
-        if (slot.isOpen === false) {
+        if (slot.isOpen === false || remaining <= 0) {
           status = "full";
-        } else if (remaining <= 0) {
-          status = "full";
-        } else if (remaining <= 2) {
+        } else if (remaining <= 3) {
           status = "few";
         }
         var symbol = status === "full" ? "×" : status === "few" ? "△" : "○";
         var disabled = status === "full";
+        var slotIdValue = Number(slot.id);
+        if (!Number.isInteger(slotIdValue) || slotIdValue <= 0) {
+          disabled = true;
+        }
         return '<button class="js-slot-select" type="button"'
-          + ' data-slot-id="' + escapeHtml(String(slot.id)) + '"'
+          + ' data-slot-id="' + escapeHtml(String(slotIdValue)) + '"'
           + ' data-time="' + escapeHtml(timeLabel) + '"'
           + ' data-status="' + status + '"'
           + ' data-remaining="' + escapeHtml(String(remaining)) + '"'
@@ -442,17 +447,24 @@
     function loadTimeSlots(dateKey) {
       var planId = getPlanIdFromCourse(selectedCourse);
       if (!planId || !dateKey) return;
+      var cacheKey = String(planId) + ":" + dateKey;
       slotFetchStatus = "loading";
       if (timeContainer) {
         timeContainer.innerHTML = '<p class="p-app-note">読み込み中...</p>';
       }
       setNextEnabled(false);
       fetchJson("/api/plans/" + planId + "/time-slots?slotDate=" + encodeURIComponent(dateKey))
-        .then(function (slots) { renderTimeSlots(slots || []); })
+        .then(function (slots) {
+          var list = slots || [];
+          if (!list.length) {
+            slotCache[cacheKey] = [];
+          }
+          renderTimeSlots(list);
+        })
         .catch(function () {
           slotFetchStatus = "error";
           if (timeContainer) {
-            timeContainer.innerHTML = '<p class="p-app-note">予約枠の取得に失敗しました。ページを再読み込みしてください。</p>';
+            timeContainer.innerHTML = '<p class="p-app-note">予約枠の取得に失敗しました。時間をおいて再度お試しください。</p>';
           }
           setNextEnabled(false);
         });
@@ -470,7 +482,9 @@
         data.slot.date = slotDate.value;
         data.slot.time = button.getAttribute("data-time");
         var slotIdAttr = button.getAttribute("data-slot-id");
-        data.slot.id = slotIdAttr ? Number(slotIdAttr) : null;
+        var slotId = slotIdAttr ? Number(slotIdAttr) : NaN;
+        if (!Number.isInteger(slotId) || slotId <= 0) return;
+        data.slot.id = slotId;
         data.slot.status = button.getAttribute("data-status");
         data.slot.remaining = Number(button.getAttribute("data-remaining"));
         data.slot.capacity = Number(button.getAttribute("data-capacity"));
@@ -492,8 +506,8 @@
       if (slotFetchStatus === "empty") { alert("この日は予約枠がありません。"); return; }
       if (slotFetchStatus === "error") { alert("予約枠の取得に失敗しました。ページを再読み込みしてください。"); return; }
       if (!data.slot || !data.slot.date || !data.slot.time) { alert("日程と時間を選択してください。"); return; }
-      if (data.slot.id == null) { alert("予約枠の取得に失敗しました。ページを再読み込みしてください。"); return; }
-      if (data.slot.status === "full") { alert("日程と時間を選択してください。"); return; }
+      var slotId = Number(data.slot.id);
+      if (!Number.isInteger(slotId) || slotId <= 0 || data.slot.status === "full") { alert("予約枠の取得に失敗しました。ページを再読み込みしてください。"); return; }
       window.location.href = "reserve.html";
     });
   }
