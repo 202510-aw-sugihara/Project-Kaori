@@ -157,25 +157,26 @@ public class PlanSeedInitializer implements ApplicationRunner {
 
         int inserted = 0;
         for (LocalDate date = today; !date.isAfter(endDate); date = date.plusDays(1)) {
-    boolean isHoliday = isWeekendOrHoliday(date);
-    boolean isLastWeekend = isLastWeekendOfMonth(date);
+            boolean isHoliday = isWeekendOrHoliday(date);
+            boolean isLastWeekend = isLastWeekendOfMonth(date);
 
-    if (!isHoliday) {
-        continue;
-    }
+            if (!isHoliday) {
+                continue;
+            }
 
-    if (plan20 != null && isLastWeekend) {
-        inserted += insertSlotsForDate(plan20, date, startTimes);
-    }
+            if (plan20 != null && isLastWeekend) {
+                inserted += insertSlotsForDate(plan20, date, startTimes);
+            }
 
-    if (plan12 != null && !isLastWeekend) {
-        inserted += insertSlotsForDate(plan12, date, startTimes);
-    }
-}
+            if (plan12 != null && !isLastWeekend) {
+                inserted += insertSlotsForDate(plan12, date, startTimes);
+            }
+        }
 
         if (inserted > 0) {
             log.info("Seeded {} plan time slots for verification.", inserted);
         }
+    }
 
     private int insertSlotsForDate(Plan plan, LocalDate date, List<LocalTime> startTimes) {
         int added = 0;
