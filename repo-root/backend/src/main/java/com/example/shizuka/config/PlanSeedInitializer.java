@@ -163,19 +163,13 @@ public class PlanSeedInitializer implements ApplicationRunner {
                 continue;
             }
 
-            if (plan20 != null) {
-                if (!isLastWeekend) {
-                    continue;
-                }
-                inserted += insertSlotsForDate(plan20, date, startTimes);
-            }
-            if (plan12 != null) {
-                if (isLastWeekend) {
-                    continue;
-                }
-                inserted += insertSlotsForDate(plan12, date, startTimes);
-            }
-        }
+            if (plan20 != null && isLastWeekend) {
+    inserted += insertSlotsForDate(plan20, date, startTimes);
+}
+
+if (plan12 != null && !isLastWeekend) {
+    inserted += insertSlotsForDate(plan12, date, startTimes);
+}
 
         if (inserted > 0) {
             log.info("Seeded {} plan time slots for verification.", inserted);
@@ -205,7 +199,11 @@ public class PlanSeedInitializer implements ApplicationRunner {
     }
 
     private boolean slotExists(Long planId, LocalDate date, LocalTime startTime) {
-        return false; // ★ 強制的に全スロット再生成
+        if (planId == null) {
+            return true;
+        }
+        var existing = planTimeSlotMapper.findByPlanAndSlot(planId, date, startTime);
+        return existing != null && existing.isPresent();
     }
 
     private boolean isWeekendOrHoliday(LocalDate date) {
