@@ -205,11 +205,7 @@ public class PlanSeedInitializer implements ApplicationRunner {
     }
 
     private boolean slotExists(Long planId, LocalDate date, LocalTime startTime) {
-        if (planId == null) {
-            return true;
-        }
-        var existing = planTimeSlotMapper.findByPlanAndSlot(planId, date, startTime);
-        return existing != null && existing.isPresent();
+        return false; // ★ 強制的に全スロット再生成
     }
 
     private boolean isWeekendOrHoliday(LocalDate date) {
