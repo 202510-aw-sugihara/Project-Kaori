@@ -26,13 +26,11 @@ public class PlanSeedInitializer implements ApplicationRunner {
     private static final Logger log = LoggerFactory.getLogger(PlanSeedInitializer.class);
     private static final List<String> REQUIRED_PLAN_NAMES = List.of(
             "12種類のブレンド体験 基本コース",
-            "20種類のブレンド体験 月末限定"
-    );
+            "20種類のブレンド体験 月末限定");
     private static final List<String> TEMP_PLAN_NAMES = List.of(
             "アロマブレンド体験（60分）",
             "スペシャルブレンド体験（90分）",
-            "プレミアムブレンド体験（120分）"
-    );
+            "プレミアムブレンド体験（120分）");
 
     private final PlanMapper planMapper;
     private final PlanTimeSlotMapper planTimeSlotMapper;
@@ -97,6 +95,7 @@ public class PlanSeedInitializer implements ApplicationRunner {
         }
         return false;
     }
+
     private void seedPlans(Set<String> existingRequired) {
         List<Plan> seeded = new ArrayList<>();
 
@@ -106,8 +105,7 @@ public class PlanSeedInitializer implements ApplicationRunner {
                     "12種類の香りから4種類を選んで作る、いちばんスタンダードなコースです。はじめての方にも参加しやすく、迷ったらまずこちらがおすすめです。",
                     60,
                     4000,
-                    10
-            ));
+                    10));
         }
         if (!existingRequired.contains(REQUIRED_PLAN_NAMES.get(1))) {
             seeded.add(insertPlan(
@@ -115,8 +113,7 @@ public class PlanSeedInitializer implements ApplicationRunner {
                     "20種類の香りから4種類を選べる、月末限定の特別コースです。より多くの香りを試しながら、自分らしい奥行きのあるブレンドを楽しめます。",
                     60,
                     4000,
-                    10
-            ));
+                    10));
         }
 
         if (!seeded.isEmpty()) {
@@ -156,8 +153,7 @@ public class PlanSeedInitializer implements ApplicationRunner {
         List<LocalTime> startTimes = List.of(
                 LocalTime.of(11, 0),
                 LocalTime.of(13, 0),
-                LocalTime.of(15, 0)
-        );
+                LocalTime.of(15, 0));
 
         int inserted = 0;
         for (LocalDate date = today; !date.isAfter(endDate); date = date.plusDays(1)) {
@@ -240,18 +236,28 @@ public class PlanSeedInitializer implements ApplicationRunner {
         LocalDate lastDay = date.withDayOfMonth(date.lengthOfMonth());
         LocalDate cursor = lastDay;
 
+        LocalDate lastWeekendAnchor = null;
+
         while (cursor.getMonth() == date.getMonth()) {
             if (cursor.getDayOfWeek() == java.time.DayOfWeek.SATURDAY ||
                     cursor.getDayOfWeek() == java.time.DayOfWeek.SUNDAY) {
-                if (cursor.equals(date)) {
-                    return true;
-                } else {
-                    return false;
-                }
+                lastWeekendAnchor = cursor;
+                break;
             }
             cursor = cursor.minusDays(1);
         }
-        return false;
+
+        if (lastWeekendAnchor == null) {
+            return false;
+        }
+
+        if (lastWeekendAnchor.getDayOfWeek() == java.time.DayOfWeek.SUNDAY) {
+            return date.equals(lastWeekendAnchor) ||
+                    date.equals(lastWeekendAnchor.minusDays(1));
+        } else {
+            return date.equals(lastWeekendAnchor) ||
+                    date.equals(lastWeekendAnchor.plusDays(1));
+        }
     }
 
     private boolean isJapaneseHoliday(LocalDate date) {
@@ -323,7 +329,8 @@ public class PlanSeedInitializer implements ApplicationRunner {
                 }
                 LocalDate prev = date.minusDays(1);
                 LocalDate next = date.plusDays(1);
-                if (holidays.contains(prev) && holidays.contains(next) && date.getDayOfWeek() != java.time.DayOfWeek.SUNDAY) {
+                if (holidays.contains(prev) && holidays.contains(next)
+                        && date.getDayOfWeek() != java.time.DayOfWeek.SUNDAY) {
                     holidays.add(date);
                 }
             }
@@ -347,4 +354,3 @@ public class PlanSeedInitializer implements ApplicationRunner {
 
     private final Map<Integer, Set<LocalDate>> holidayCache = new HashMap<>();
 }
-
