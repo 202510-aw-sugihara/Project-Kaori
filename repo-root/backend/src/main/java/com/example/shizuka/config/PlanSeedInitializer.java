@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -148,8 +149,8 @@ public class PlanSeedInitializer implements ApplicationRunner {
             return;
         }
 
-        LocalDate today = LocalDate.now();
-        LocalDate endDate = today.withDayOfMonth(1).plusMonths(2).minusDays(1);
+        LocalDate today = LocalDate.now(ZoneId.of("Asia/Tokyo"));
+        LocalDate endDate = today.withDayOfMonth(1).plusMonths(3).minusDays(1);
         List<LocalTime> startTimes = List.of(
                 LocalTime.of(11, 0),
                 LocalTime.of(13, 0),
