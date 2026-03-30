@@ -3,6 +3,7 @@ package com.example.shizuka.dto.request;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
 import java.util.List;
@@ -25,6 +26,10 @@ public class ReservationCreateRequest {
 
     @NotNull
     @Size(max = 100)
+    @Pattern(
+        regexp = "^[\\u30A0-\\u30FF\\u30FC\\u30FB\\s]+$",
+        message = "Customer name must be full-width Katakana."
+    )
     private String customerName;
 
     @NotNull

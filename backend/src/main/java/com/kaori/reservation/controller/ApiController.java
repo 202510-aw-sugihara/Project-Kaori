@@ -7,6 +7,7 @@ import com.kaori.reservation.mapper.SlotMapper;
 import com.kaori.reservation.model.Course;
 import com.kaori.reservation.model.Slot;
 import com.kaori.reservation.service.ReservationService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +18,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@RestController
+// @RestController
 @RequestMapping("/api")
 public class ApiController {
 
@@ -36,7 +37,7 @@ public class ApiController {
     }
 
     @PostMapping("/reservations")
-    public ResponseEntity<?> createReservation(@RequestBody ReservationRequest request) {
+    public ResponseEntity<?> createReservation(@Valid @RequestBody ReservationRequest request) {
         try {
             if (request.getCourseId() == null || request.getSlotId() == null || request.getName() == null ||
                     request.getEmail() == null || request.getPeople() == null) {

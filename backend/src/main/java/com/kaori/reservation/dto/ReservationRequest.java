@@ -1,8 +1,14 @@
 package com.kaori.reservation.dto;
 
+import jakarta.validation.constraints.Pattern;
+
 public class ReservationRequest {
     private Long courseId;
     private Long slotId;
+    @Pattern(
+        regexp = "^[\\u30A0-\\u30FF\\u30FC\\u30FB\\s]+$",
+        message = "Name must be full-width Katakana."
+    )
     private String name;
     private String email;
     private String phone;
