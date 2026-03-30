@@ -45,6 +45,7 @@ public class SecurityConfig {
         http
                 .cors(cors -> {})
                 .csrf(csrf -> csrf
+                        .ignoringRequestMatchers("/api/reservations/**")
                         .csrfTokenRepository(csrfRepo))
                 .securityContext(security -> security
                         .securityContextRepository(securityContextRepository())
