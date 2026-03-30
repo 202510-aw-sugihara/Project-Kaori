@@ -37,7 +37,7 @@
 
   function getCsrfToken() {
     var cached = sessionStorage.getItem(CSRF_KEY);
-    if (cached) { try { return Promise.resolve(JSON.parse(cached)); } catch (e) {} }
+    if (cached) { try { return Promise.resolve(JSON.parse(cached)); } catch (e) { } }
     return fetchJson("/api/csrf").then(function (data) {
       sessionStorage.setItem(CSRF_KEY, JSON.stringify(data));
       return data;
@@ -245,7 +245,7 @@
     try {
       var courseQuery = new URLSearchParams(window.location.search).get("course");
       courseFromQuery = courseQuery ? getCoursePreset(courseQuery) : null;
-    } catch (e) {}
+    } catch (e) { }
     if (courseFromQuery) {
       reservationData.course = courseFromQuery;
       setData(reservationData);
@@ -568,35 +568,29 @@
     var fDate = qs(".js-form-date");
     var fPeople = qs(".js-form-people");
     var fCalc = qs(".js-form-calc");
-    var fTotal = qs(".js-form-total");
-    var nameField = qs('[name="name"]', form);
-    var kanaField = qs('[name="kana"]', form);
+    var fTotal = qs(".js-form-total");    var nameField = qs('\[name="name"\]', form);
     var unitPrice = dataForForm.course ? toNumber(dataForForm.course.price) : 4000;
     var totalPrice = unitPrice * toNumber(dataForForm.people);
     if (fCourse) fCourse.textContent = dataForForm.course.name;
     if (fDate) fDate.textContent = formatDisplayDate(dataForForm.slot.date) + " " + dataForForm.slot.time;
-    if (fPeople) fPeople.textContent = String(dataForForm.people) + "名";
-    if (fCalc) fCalc.textContent = formatYen(unitPrice) + " × " + dataForForm.people;
+    if (fPeople) fPeople.textContent = String(dataForForm.people) + "人";
+    if (fCalc) fCalc.textContent = formatYen(unitPrice) + " ×" + dataForForm.people;
     if (fTotal) fTotal.textContent = formatYen(totalPrice);
     if (dataForForm.user) { Object.keys(dataForForm.user).forEach(function (key) { var field = qs('[name="' + key + '"]', form); if (field) field.value = dataForForm.user[key] || ""; }); }
-    if (kanaField) { kanaField.value = toKatakana(kanaField.value); }
-    var kanaEditedManually = !!(kanaField && kanaField.value);
-    function syncKanaFromName() { if (!nameField || !kanaField || kanaEditedManually) return; var nameValue = nameField.value.trim(); if (!nameValue || !isKanaOnly(nameValue)) return; kanaField.value = toKatakana(nameValue); }
-    if (kanaField) {
-      var kanaComposing = false;
-      kanaField.addEventListener("compositionstart", function () { kanaComposing = true; });
-      kanaField.addEventListener("input", function (event) { if (kanaComposing || (event && event.isComposing)) return; var caret = kanaField.selectionStart; kanaField.value = toKatakana(kanaField.value); kanaEditedManually = kanaField.value.trim().length > 0; if (typeof caret === "number") { kanaField.setSelectionRange(caret, caret); } });
-      kanaField.addEventListener("compositionend", function () { kanaComposing = false; kanaField.value = toKatakana(kanaField.value); kanaEditedManually = kanaField.value.trim().length > 0; });
-    }
-    if (nameField) { nameField.addEventListener("input", syncKanaFromName); nameField.addEventListener("compositionend", syncKanaFromName); nameField.addEventListener("blur", syncKanaFromName); }
     form.addEventListener("submit", function (e) {
       e.preventDefault();
       var ok = true;
       var firstInvalid = null;
       function setError(name, message) { var input = qs('[name="' + name + '"]', form); var error = qs('[data-error="' + name + '"]', form); if (input) input.classList.toggle("is-error", !!message); if (error) error.textContent = message || ""; if (message) { ok = false; if (!firstInvalid && input) firstInvalid = input; } }
-      var user = { name: qs('[name="name"]', form).value.trim(), kana: toKatakana(qs('[name="kana"]', form).value.trim()), email: qs('[name="email"]', form).value.trim(), phone: normalizePhone(qs('[name="phone"]', form).value), note: qs('[name="note"]', form).value.trim() };
-      setError("name", user.name ? "" : "お名前を入力してください。");
-      setError("kana", user.kana ? "" : "フリガナを入力してください。");
+      var user = { name: qs('[name="name"]', form).value.trim(), email: qs('[name="email"]', form).value.trim(), phone: normalizePhone(qs('[name="phone"]', form).value), note: qs('[name="note"]', form).value.trim() };
+      var katakanaPattern = /^[\\u30A0-\\u30FFー\\s]+$/;
+      if (!user.name) {
+        setError("name", "お名前を入力してください。");
+      } else if (!katakanaPattern.test(user.name)) {
+        setError("name", "全角カタカナで入力してください。");
+      } else {
+        setError("name", "");
+      }
       setError("email", /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(user.email) ? "" : "メールアドレスの形式が正しくありません。");
       setError("phone", /^[0-9\\-]{10,13}$/.test(user.phone) ? "" : "電話番号は10〜13桁の数字またはハイフンで入力してください。");
       if (!ok) { if (firstInvalid && typeof firstInvalid.focus === "function") { firstInvalid.focus(); } return; }

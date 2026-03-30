@@ -31,15 +31,10 @@
       <section class="p-app-panel">
         <form class="p-app-form js-reserve-form" novalidate>
           <div class="p-form__group">
-            <label class="p-form__label" for="name">お名前</label>
+            <label class="p-form__label" for="name">お名前（カタカナ）</label>
             <input class="p-form__input" id="name" name="name" type="text" autocomplete="name">
+            <p class="p-app-inline-note">※全角カタカナでご入力ください（例：アシカガ タカウジ）</p>
             <p class="p-form__error" data-error="name"></p>
-          </div>
-
-          <div class="p-form__group">
-            <label class="p-form__label" for="kana">フリガナ</label>
-            <input class="p-form__input" id="kana" name="kana" type="text" autocomplete="off">
-            <p class="p-form__error" data-error="kana"></p>
           </div>
 
           <div class="p-form__group">
@@ -52,6 +47,46 @@
             <label class="p-form__label" for="phone">電話番号 <span class="p-app-inline-note">※ハイフンは入れずに入力してください。</span></label>
             <input class="p-form__input" id="phone" name="phone" type="tel" autocomplete="tel">
             <p class="p-form__error" data-error="phone"></p>
+          </div>
+
+          <div class="p-form__group">
+            <p class="p-form__label">香りの方向性（任意） <span class="p-form__label-sub">Preferred scent direction (optional)</span></p>
+            <div class="p-form__radio-cards" role="radiogroup" aria-label="香りの方向性（任意）">
+              <label class="p-form__radio-card">
+                <input class="p-form__radio" type="radio" name="scentDirection" value="natural">
+                <span class="p-form__radio-content">
+                  <span class="p-form__radio-title">🌿 Natural &amp; Relaxing</span>
+                  <span class="p-form__radio-desc">森やハーブのような落ち着いた香り</span>
+                </span>
+              </label>
+              <label class="p-form__radio-card">
+                <input class="p-form__radio" type="radio" name="scentDirection" value="floral">
+                <span class="p-form__radio-content">
+                  <span class="p-form__radio-title">🌸 Floral &amp; Romantic</span>
+                  <span class="p-form__radio-desc">花のように華やかで優しい印象</span>
+                </span>
+              </label>
+              <label class="p-form__radio-card">
+                <input class="p-form__radio" type="radio" name="scentDirection" value="fresh">
+                <span class="p-form__radio-content">
+                  <span class="p-form__radio-title">🍋 Fresh &amp; Clean</span>
+                  <span class="p-form__radio-desc">爽やかで透明感のある軽やかな香り</span>
+                </span>
+              </label>
+              <label class="p-form__radio-card">
+                <input class="p-form__radio" type="radio" name="scentDirection" value="elegant">
+                <span class="p-form__radio-content">
+                  <span class="p-form__radio-title">🌙 Deep &amp; Elegant</span>
+                  <span class="p-form__radio-desc">落ち着きと奥行きのある大人の香り</span>
+                </span>
+              </label>
+            </div>
+            <p class="p-app-inline-note">※当日変更可能です。You can change this on the day.</p>
+          </div>
+
+          <div class="p-form__group">
+            <label class="p-form__label" for="scentNote">その他イメージがあればご記入ください（任意） <span class="p-form__label-sub">Additional notes (optional)</span></label>
+            <textarea class="p-form__textarea" id="scentNote" name="scentNote" rows="3"></textarea>
           </div>
 
           <div class="p-form__group">
