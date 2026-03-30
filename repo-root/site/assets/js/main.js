@@ -176,7 +176,6 @@
   }
   function isJapaneseHoliday(date) { return !!getJapaneseHolidaySet(date.getFullYear())[toDateKey(date)]; }
   function escapeHtml(value) { return String(value).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#39;"); }
-  function toKatakana(value) { return String(value || "").replace(/[\u3041-\u3096]/g, function (char) { return String.fromCharCode(char.charCodeAt(0) + 0x60); }).replace(/\s+/g, " ").trim(); }
   function normalizePhone(value) { return String(value || "").replace(/[０-９]/g, function (char) { return String.fromCharCode(char.charCodeAt(0) - 0xFEE0); }).replace(/[‐－ー―−]/g, "-").trim(); }
   function isKanaOnly(value) { return /^[\u3041-\u3096\u30A1-\u30FA\u30FC\s]+$/.test(String(value || "").trim()); }
   function buildParticipants(user, count) {
@@ -568,13 +567,14 @@
     var fDate = qs(".js-form-date");
     var fPeople = qs(".js-form-people");
     var fCalc = qs(".js-form-calc");
-    var fTotal = qs(".js-form-total");    var nameField = qs('\[name="name"\]', form);
+    var fTotal = qs(".js-form-total");
+    var nameField = qs('[name="name"]', form);
     var unitPrice = dataForForm.course ? toNumber(dataForForm.course.price) : 4000;
     var totalPrice = unitPrice * toNumber(dataForForm.people);
     if (fCourse) fCourse.textContent = dataForForm.course.name;
     if (fDate) fDate.textContent = formatDisplayDate(dataForForm.slot.date) + " " + dataForForm.slot.time;
-    if (fPeople) fPeople.textContent = String(dataForForm.people) + "人";
-    if (fCalc) fCalc.textContent = formatYen(unitPrice) + " ×" + dataForForm.people;
+    if (fPeople) fPeople.textContent = String(dataForForm.people) + "\u4EBA";
+    if (fCalc) fCalc.textContent = formatYen(unitPrice) + " \u00D7" + dataForForm.people;
     if (fTotal) fTotal.textContent = formatYen(totalPrice);
     if (dataForForm.user) { Object.keys(dataForForm.user).forEach(function (key) { var field = qs('[name="' + key + '"]', form); if (field) field.value = dataForForm.user[key] || ""; }); }
     form.addEventListener("submit", function (e) {
@@ -583,7 +583,7 @@
       var firstInvalid = null;
       function setError(name, message) { var input = qs('[name="' + name + '"]', form); var error = qs('[data-error="' + name + '"]', form); if (input) input.classList.toggle("is-error", !!message); if (error) error.textContent = message || ""; if (message) { ok = false; if (!firstInvalid && input) firstInvalid = input; } }
       var user = { name: qs('[name="name"]', form).value.trim(), email: qs('[name="email"]', form).value.trim(), phone: normalizePhone(qs('[name="phone"]', form).value), note: qs('[name="note"]', form).value.trim() };
-      var katakanaPattern = /^[\\u30A0-\\u30FFー\\s]+$/;
+      var katakanaPattern = /^[\u30A0-\u30FF\u30FC\s]+$/;
       if (!user.name) {
         setError("name", "お名前を入力してください。");
       } else if (!katakanaPattern.test(user.name)) {
@@ -609,7 +609,7 @@
       qs(".js-summary-course").textContent = s.course.name;
       qs(".js-summary-datetime").textContent = formatDisplayDate(s.slot.date) + " " + s.slot.time;
       qs(".js-summary-people").textContent = s.people + "名様";
-      qs(".js-summary-name").textContent = s.user.name + "（" + s.user.kana + "）";
+      qs(".js-summary-name").textContent = s.user.name;
       qs(".js-summary-email").textContent = s.user.email;
       qs(".js-summary-phone").textContent = s.user.phone;
       qs(".js-summary-note").textContent = s.user.note || "なし";
