@@ -331,6 +331,8 @@ public class ReservationService {
             response.setCustomerName(user.getName());
             response.setCustomerEmail(user.getEmail());
             response.setCustomerPhone(user.getPhone());
+        } else {
+            response.setCustomerName("");
         }
         response.setPlanId(reservation.getPlanId());
         if (plan != null) {
