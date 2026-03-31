@@ -190,10 +190,6 @@
     var base = Array.isArray(formParticipants) ? formParticipants.slice(0) : [];
     var total = Math.max(1, toNumber(participantCount));
 
-    console.log("people raw:", participantCount, typeof participantCount);
-    console.log("base before:", base.length, base);
-    console.log("total:", total);
-
     if (base.length < total) {
       for (var i = base.length; i < total; i += 1) {
         base.push({ name: customerName, age: 30 });
