@@ -27,7 +27,7 @@ public class ReservationCreateRequest {
     @NotNull
     @Size(max = 100)
     @Pattern(
-        regexp = "^[\\u30A0-\\u30FF\\u30FC\\u30FB\\s]+$",
+        regexp = "^[\\u30A0-\\u30FF\\u30FC\\u30FB\\u3000\\s]+$",
         message = "Customer name must be full-width Katakana."
     )
     private String customerName;
