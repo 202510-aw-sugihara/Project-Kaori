@@ -178,17 +178,30 @@
   function escapeHtml(value) { return String(value).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#39;"); }
   function normalizePhone(value) { return String(value || "").replace(/[０-９]/g, function (char) { return String.fromCharCode(char.charCodeAt(0) - 0xFEE0); }).replace(/[‐－ー―−]/g, "-").trim(); }
   function isKanaOnly(value) { return /^[\u3041-\u3096\u30A1-\u30FA\u30FC\s]+$/.test(String(value || "").trim()); }
-  function buildParticipants(user, count) {
-    var total = Math.max(1, toNumber(count));
-    var list = [];
-    for (var i = 0; i < total; i += 1) {
-      if (i === 0) {
-        list.push({ participantName: user.name, participantNameKana: user.kana, ageGroup: "", allergyNote: user.note || "" });
-      } else {
-        list.push({ participantName: "同伴者" + i, participantNameKana: "", ageGroup: "", allergyNote: "" });
+  function convertAgeToGroup(age) {
+    if (age < 20) return "10代";
+    if (age < 30) return "20代";
+    if (age < 40) return "30代";
+    if (age < 50) return "40代";
+    return "50代以上";
+  }
+
+  function buildParticipants(formParticipants, participantCount, customerName) {
+    var base = Array.isArray(formParticipants) ? formParticipants.slice(0) : [];
+    if (!base.length) {
+      var total = Math.max(1, toNumber(participantCount));
+      for (var i = 0; i < total; i += 1) {
+        base.push({ name: customerName, age: 30 });
       }
     }
-    return list;
+    return base.map(function (p) {
+      return {
+        participantName: p.name,
+        participantNameKana: p.name,
+        ageGroup: convertAgeToGroup(p.age),
+        allergyNote: ""
+      };
+    });
   }
 
   qsa('.js-smooth[href^="#"]').forEach(function (link) {
@@ -631,7 +644,7 @@
       var originalText = confirmBtn.textContent;
       confirmBtn.disabled = true;
       confirmBtn.textContent = "送信中...";
-      var payload = { planId: planId, planTimeSlotId: data.slot.id, participantCount: data.people, participants: buildParticipants(data.user, data.people), customerName: data.user.name, email: data.user.email, phone: data.user.phone };
+      var payload = { planId: planId, planTimeSlotId: data.slot.id, participantCount: data.people, participants: buildParticipants(data.participants || [], data.people, data.user.name), customerName: data.user.name, email: data.user.email, phone: data.user.phone };
       getCsrfToken()
         .then(function (csrf) {
           var headers = {}; headers[csrf.headerName || "X-XSRF-TOKEN"] = csrf.token;
