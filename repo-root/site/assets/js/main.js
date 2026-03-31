@@ -188,9 +188,9 @@
 
   function buildParticipants(formParticipants, participantCount, customerName) {
     var base = Array.isArray(formParticipants) ? formParticipants.slice(0) : [];
-    if (!base.length) {
+    if (base.length < participantCount) {
       var total = Math.max(1, toNumber(participantCount));
-      for (var i = 0; i < total; i += 1) {
+      for (var i = base.length; i < total; i += 1) {
         base.push({ name: customerName, age: 30 });
       }
     }
