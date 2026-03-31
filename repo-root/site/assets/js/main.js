@@ -188,8 +188,11 @@
 
   function buildParticipants(formParticipants, participantCount, customerName) {
     var base = Array.isArray(formParticipants) ? formParticipants.slice(0) : [];
-    if (base.length < participantCount) {
-      var total = Math.max(1, toNumber(participantCount));
+    var total = Math.max(1, toNumber(participantCount));
+    console.log("people raw:", data.people, typeof data.people);
+    console.log("raw participants:", data.participants);
+    console.log("built participants:", buildParticipants(data.participants, data.people, data.user.name));
+    if (base.length < total) {
       for (var i = base.length; i < total; i += 1) {
         base.push({ name: customerName, age: 30 });
       }
@@ -644,7 +647,10 @@
       var originalText = confirmBtn.textContent;
       confirmBtn.disabled = true;
       confirmBtn.textContent = "送信中...";
-      var payload = { planId: planId, planTimeSlotId: data.slot.id, participantCount: data.people, participants: buildParticipants(data.participants || [], data.people, data.user.name), customerName: data.user.name, email: data.user.email, phone: data.user.phone };
+      console.log("people", data.people);
+      console.log("raw participants", data.participants);
+      console.log("built participants", buildParticipants(data.participants, data.people, data.user.name));
+      var payload = { planId: planId, planTimeSlotId: data.slot.id, participantCount: data.people, participants: buildParticipants(data.participants, data.people, data.user.name), customerName: data.user.name, email: data.user.email, phone: data.user.phone };
       getCsrfToken()
         .then(function (csrf) {
           var headers = {}; headers[csrf.headerName || "X-XSRF-TOKEN"] = csrf.token;
