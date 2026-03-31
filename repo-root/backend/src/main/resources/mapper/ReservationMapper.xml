@@ -27,32 +27,28 @@
   </select>
 
   <select id="search" resultMap="ReservationMap">
-  SELECT r.*
-  FROM reservations r
-  INNER JOIN users u ON u.id = r.user_id AND u.deleted_at IS NULL
-  WHERE r.deleted_at IS NULL
+    SELECT r.*
+    FROM reservations r
+    LEFT JOIN users u ON u.id = r.user_id AND u.deleted_at IS NULL
+    WHERE r.deleted_at IS NULL
+    <if test="status != null and status != ''">
+      AND r.status = #{status}
+    </if>
+    <if test="reservationDate != null and reservationDate != ''">
+      AND r.reservation_date = #{reservationDate}
+    </if>
+    <if test="customerName != null and customerName != ''">
+      AND u.name LIKE CONCAT('%', #{customerName}, '%')
+    </if>
+    ORDER BY r.reservation_date, r.start_time
+    <if test="limit != null">
+      LIMIT #{limit}
+    </if>
+    <if test="offset != null">
+      OFFSET #{offset}
+    </if>
+  </select>
 
-  <if test="status != null and status != ''">
-    AND r.status = #{status}
-  </if>
-
-  <if test="reservationDate != null and reservationDate != ''">
-    AND r.reservation_date = #{reservationDate}
-  </if>
-
-  <if test="customerName != null and customerName != ''">
-    AND u.name LIKE CONCAT('%', #{customerName}, '%')
-  </if>
-
-  ORDER BY r.reservation_date, r.start_time
-
-  <if test="limit != null">
-    LIMIT #{limit}
-  </if>
-  <if test="offset != null">
-    OFFSET #{offset}
-  </if>
-</select>
   <insert id="insert" useGeneratedKeys="true" keyProperty="id">
     INSERT INTO reservations
       (user_id, plan_id, plan_time_slot_id, reservation_date, start_time, status, participant_count, total_price, created_at, updated_at)
