@@ -34,7 +34,7 @@
     <if test="status != null and status != ''">
   AND r.status = #{status}
 </if>
-<if test="reservationDate != null and reservationDate != ''">
+<if test="reservationDate != null">
   AND r.reservation_date = #{reservationDate}
 </if>
 <if test="customerName != null and customerName != ''">
