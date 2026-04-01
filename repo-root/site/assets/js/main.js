@@ -3,7 +3,7 @@
   var FINAL_KEY = "perfumeReservationFinal";
   var CSRF_KEY = "perfumeReservationCsrf";
   var MAX_PEOPLE = 10;
-  var API_BASE = "https://project-kaori-fmup.onrender.com";
+  var API_BASE = "https://project-kaori.onrender.com";
   var DEBUG = false;
   var COURSE_PRESETS = {
     "12blend": { id: "12blend", name: "12種ブレンド体験", label: "初心者向けコース", price: 4000, duration: "約60分" },
