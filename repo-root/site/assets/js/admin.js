@@ -171,7 +171,10 @@
       + '<p><strong>状況</strong> ' + (item.status || "") + '</p>'
       + '<p><strong>参加者</strong></p>'
       + '<ul>' + (participants || '<li>参加者なし</li>') + '</ul>'
-      + '<button class="admin-btn admin-btn--ghost js-reservation-cancel" type="button" data-id="' + item.id + '">キャンセル</button>';
+      + '<div class="admin-form-actions">'
+      + '<button class="admin-btn admin-btn--ghost js-reservation-status" type="button" data-id="' + item.id + '" data-status="CONFIRMED"' + (item.status === "CONFIRMED" || item.status === "CANCELLED" ? " disabled" : "") + '>Confirm</button>'
+      + '<button class="admin-btn admin-btn--ghost js-reservation-status" type="button" data-id="' + item.id + '" data-status="CANCELLED"' + (item.status === "CANCELLED" ? " disabled" : "") + '>Cancel</button>'
+      + '</div>';
   }
 
   function fetchReservations(params) {
@@ -214,17 +217,18 @@
 
   if (reservationDetailEl) {
     reservationDetailEl.addEventListener("click", function (e) {
-      var btn = e.target.closest(".js-reservation-cancel");
+      var btn = e.target.closest(".js-reservation-status");
       if (!btn) return;
       var id = btn.getAttribute("data-id");
       if (!id) return;
-      withCsrf({ method: "PATCH" })
-        .then(function (opt) { return fetchJson("/api/admin/reservations/" + id + "/cancel", opt); })
+      var status = btn.getAttribute("data-status");
+      withCsrf({ method: "PATCH", body: JSON.stringify({ status: status }) })
+        .then(function (opt) { return fetchJson("/api/admin/reservations/" + id + "/status", opt); })
         .then(function (item) {
           renderReservationDetail(item);
           fetchReservations({ page: 0, size: 50 });
         })
-        .catch(function () { alert("キャンセルに失敗しました。"); });
+        .catch(function () { alert("ステータス更新に失敗しました。"); });
     });
   }
 

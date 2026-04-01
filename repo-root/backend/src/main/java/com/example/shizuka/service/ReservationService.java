@@ -21,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -64,7 +65,10 @@ public class ReservationService {
 
     public List<ReservationResponse> searchReservations(String status, java.time.LocalDate reservationDate,
             String customerName, Integer limit, Integer offset) {
-        List<Reservation> reservations = reservationMapper.search(status, reservationDate, customerName, limit, offset);
+        String normalizedStatus = normalizeQueryParam(status);
+        String normalizedCustomerName = normalizeQueryParam(customerName);
+        List<Reservation> reservations = reservationMapper.search(
+                normalizedStatus, reservationDate, normalizedCustomerName, limit, offset);
         return reservations.stream().map(res -> {
             User user = userMapper.findById(res.getUserId()).orElse(null);
             Plan plan = planMapper.findById(res.getPlanId()).orElse(null);
@@ -289,6 +293,30 @@ public class ReservationService {
         return mapToResponse(reservation, user, plan, participants);
     }
 
+    @Transactional
+    public ReservationResponse updateReservationStatus(Long id, String status) {
+        String normalized = normalizeStatus(status);
+        if (normalized == null) {
+            throw new BusinessRuleViolationException("Status is required");
+        }
+        if (STATUS_CANCELLED.equals(normalized)) {
+            return cancelReservation(id);
+        }
+        if (!STATUS_CONFIRMED.equals(normalized) && !STATUS_PENDING.equals(normalized)) {
+            throw new BusinessRuleViolationException("Invalid status");
+        }
+
+        Reservation reservation = reservationMapper.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Reservation not found"));
+        reservation.setStatus(normalized);
+        reservationMapper.update(reservation);
+
+        User user = userMapper.findById(reservation.getUserId()).orElse(null);
+        Plan plan = planMapper.findById(reservation.getPlanId()).orElse(null);
+        List<ReservationParticipant> participants = participantMapper.findByReservationId(reservation.getId());
+        return mapToResponse(reservation, user, plan, participants);
+    }
+
     private void insertParticipants(Long reservationId,
             List<com.example.shizuka.dto.request.ParticipantRequest> participants) {
         List<ReservationParticipant> entities = participants.stream().map(p -> {
@@ -333,6 +361,8 @@ public class ReservationService {
             response.setCustomerPhone(user.getPhone());
         } else {
             response.setCustomerName("");
+            response.setCustomerEmail("");
+            response.setCustomerPhone("");
         }
         response.setPlanId(reservation.getPlanId());
         if (plan != null) {
@@ -344,7 +374,8 @@ public class ReservationService {
         response.setStatus(reservation.getStatus());
         response.setParticipantCount(reservation.getParticipantCount());
         response.setTotalPrice(reservation.getTotalPrice());
-        response.setParticipants(participants.stream().map(this::mapParticipant).collect(Collectors.toList()));
+        List<ReservationParticipant> safeParticipants = participants == null ? Collections.emptyList() : participants;
+        response.setParticipants(safeParticipants.stream().map(this::mapParticipant).collect(Collectors.toList()));
         return response;
     }
 
@@ -356,5 +387,24 @@ public class ReservationService {
         response.setAgeGroup(participant.getAgeGroup());
         response.setAllergyNote(participant.getAllergyNote());
         return response;
+    }
+
+    private String normalizeQueryParam(String value) {
+        if (value == null) {
+            return null;
+        }
+        String trimmed = value.trim();
+        return trimmed.isEmpty() ? null : trimmed;
+    }
+
+    private String normalizeStatus(String value) {
+        if (value == null) {
+            return null;
+        }
+        String trimmed = value.trim();
+        if (trimmed.isEmpty()) {
+            return null;
+        }
+        return trimmed.toLowerCase();
     }
 }

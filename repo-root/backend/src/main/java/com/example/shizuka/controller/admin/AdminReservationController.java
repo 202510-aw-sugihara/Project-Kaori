@@ -50,4 +50,22 @@ public class AdminReservationController {
     public ReservationResponse cancel(@PathVariable Long id) {
         return reservationService.cancelReservation(id);
     }
+
+    @PatchMapping("/{id}/status")
+    public ReservationResponse updateStatus(@PathVariable Long id, @RequestBody StatusUpdateRequest request) {
+        String status = request != null ? request.getStatus() : null;
+        return reservationService.updateReservationStatus(id, status);
+    }
+
+    public static class StatusUpdateRequest {
+        private String status;
+
+        public String getStatus() {
+            return status;
+        }
+
+        public void setStatus(String status) {
+            this.status = status;
+        }
+    }
 }
