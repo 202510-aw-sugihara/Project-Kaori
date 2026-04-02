@@ -45,6 +45,14 @@
   function formatDate(value) { return value || ""; }
   function formatTime(value) { return value ? String(value).slice(0, 5) : ""; }
   function formatYen(value) { var num = Number(value || 0); return num.toLocaleString("ja-JP") + "円"; }
+  function formatStatus(status) {
+    switch (status) {
+      case "pending": return "受付中";
+      case "confirmed": return "確定";
+      case "cancelled": return "キャンセル";
+      default: return status || "";
+    }
+  }
 
   function escapeHtml(value) {
     return String(value == null ? "" : value)
@@ -122,6 +130,8 @@
 
   var reservationListEl = qs(".js-reservation-list");
   var reservationDetailEl = qs(".js-reservation-detail");
+  var isEditMode = false;
+  var currentReservation = null;
   function setReservationDetailState(state) {
     if (!reservationDetailEl) return;
     reservationDetailEl.setAttribute("data-state", state);
@@ -141,7 +151,7 @@
         + '<td>' + formatTime(item.startTime) + '</td>'
         + '<td>' + (item.planName || "") + '</td>'
         + '<td>' + (item.customerName || "") + '</td>'
-        + '<td>' + (item.status || "") + '</td>'
+        + '<td>' + formatStatus(item.status) + '</td>'
         + '<td><button class="admin-btn admin-btn--ghost js-reservation-detail-btn" type="button" data-id="' + item.id + '">詳細</button></td>'
         + '</tr>';
     }).join("");
@@ -149,6 +159,11 @@
 
   function renderReservationDetail(item) {
     if (!reservationDetailEl) return;
+    currentReservation = item || null;
+    if (isEditMode && item) {
+      renderReservationEdit(item);
+      return;
+    }
     if (!item) {
       reservationDetailEl.textContent = "予約を選択してください。";
       reservationDetailEl.classList.add("admin-muted");
@@ -168,12 +183,41 @@
       + '<p><strong>連絡先</strong> ' + (item.customerEmail || "") + ' / ' + (item.customerPhone || "") + '</p>'
       + '<p><strong>人数:</strong> ' + (item.participantCount || 0) + '</p>'
       + '<p><strong>金額</strong> ' + formatYen(item.totalPrice) + '</p>'
-      + '<p><strong>状況</strong> ' + (item.status || "") + '</p>'
+      + '<p><strong>状況</strong> ' + formatStatus(item.status) + '</p>'
       + '<p><strong>参加者</strong></p>'
       + '<ul>' + (participants || '<li>参加者なし</li>') + '</ul>'
       + '<div class="admin-form-actions">'
-      + '<button class="admin-btn admin-btn--ghost js-reservation-status" type="button" data-id="' + item.id + '" data-status="CONFIRMED"' + (item.status === "CONFIRMED" || item.status === "CANCELLED" ? " disabled" : "") + '>Confirm</button>'
-      + '<button class="admin-btn admin-btn--ghost js-reservation-status" type="button" data-id="' + item.id + '" data-status="CANCELLED"' + (item.status === "CANCELLED" ? " disabled" : "") + '>Cancel</button>'
+      + '<button class="admin-btn admin-btn--ghost js-reservation-edit" type="button" data-id="' + item.id + '">Edit</button>'
+      + '<button class="admin-btn admin-btn--ghost js-reservation-status" type="button" data-id="' + item.id + '" data-status="confirmed"' + (item.status === "confirmed" || item.status === "cancelled" ? " disabled" : "") + '>Confirm</button>'
+      + '<button class="admin-btn admin-btn--ghost js-reservation-status" type="button" data-id="' + item.id + '" data-status="cancelled"' + (item.status === "cancelled" ? " disabled" : "") + '>Cancel</button>'
+      + '</div>';
+  }
+
+  function renderReservationEdit(item) {
+    if (!reservationDetailEl) return;
+    reservationDetailEl.classList.remove("admin-muted");
+    setReservationDetailState("loaded");
+    var participants = (item.participants || []).map(function (p) {
+      return '<li>' + (p.participantName || "") + ' / ' + (p.participantNameKana || "") + '</li>';
+    }).join("");
+    reservationDetailEl.innerHTML = ''
+      + '<p><strong>ID:</strong> ' + item.id + '</p>'
+      + '<p><strong>予約日:</strong> ' + formatDate(item.reservationDate) + ' ' + formatTime(item.startTime) + '</p>'
+      + '<p><strong>プラン:</strong> ' + (item.planName || "") + '</p>'
+      + '<p><strong>氏名:</strong> <input class="admin-input" type="text" name="editCustomerName" value="' + escapeHtml(item.customerName || "") + '" /></p>'
+      + '<p><strong>連絡先</strong> '
+      + '<input class="admin-input" type="email" name="editCustomerEmail" value="' + escapeHtml(item.customerEmail || "") + '" />'
+      + ' / '
+      + '<input class="admin-input" type="text" name="editCustomerPhone" value="' + escapeHtml(item.customerPhone || "") + '" />'
+      + '</p>'
+      + '<p><strong>人数:</strong> <input class="admin-input" type="number" min="1" name="editParticipantCount" value="' + (item.participantCount || 0) + '" /></p>'
+      + '<p><strong>金額</strong> ' + formatYen(item.totalPrice) + '</p>'
+      + '<p><strong>状況</strong> ' + formatStatus(item.status) + '</p>'
+      + '<p><strong>参加者</strong></p>'
+      + '<ul>' + (participants || '<li>参加者なし</li>') + '</ul>'
+      + '<div class="admin-form-actions">'
+      + '<button class="admin-btn admin-btn--primary js-reservation-edit-save" type="button" data-id="' + item.id + '">Save</button>'
+      + '<button class="admin-btn admin-btn--ghost js-reservation-edit-cancel" type="button" data-id="' + item.id + '">Cancel</button>'
       + '</div>';
   }
 
@@ -187,8 +231,9 @@
   if (reservationFilter) {
     reservationFilter.addEventListener("submit", function (e) {
       e.preventDefault();
+      var statusValue = qs('[name="status"]', reservationFilter).value;
       var params = {
-        status: qs('[name="status"]', reservationFilter).value,
+        status: statusValue ? statusValue.toLowerCase() : "",
         reservationDate: qs('[name="reservationDate"]', reservationFilter).value,
         customerName: qs('[name="customerName"]', reservationFilter).value,
         page: 0,
@@ -217,6 +262,77 @@
 
   if (reservationDetailEl) {
     reservationDetailEl.addEventListener("click", function (e) {
+      var editBtn = e.target.closest(".js-reservation-edit");
+      if (editBtn) {
+        if (!currentReservation) return;
+        isEditMode = true;
+        renderReservationEdit(currentReservation);
+        return;
+      }
+      var cancelBtn = e.target.closest(".js-reservation-edit-cancel");
+      if (cancelBtn) {
+        isEditMode = false;
+        renderReservationDetail(currentReservation);
+        return;
+      }
+      var saveBtn = e.target.closest(".js-reservation-edit-save");
+      if (saveBtn) {
+        if (!currentReservation) return;
+        var nameInput = qs('[name="editCustomerName"]', reservationDetailEl);
+        var emailInput = qs('[name="editCustomerEmail"]', reservationDetailEl);
+        var phoneInput = qs('[name="editCustomerPhone"]', reservationDetailEl);
+        var countInput = qs('[name="editParticipantCount"]', reservationDetailEl);
+        var participantCount = Number(countInput ? countInput.value : 0) || 0;
+        if (participantCount < 1) {
+          alert("参加人数は1以上で入力してください。");
+          return;
+        }
+        var nextName = nameInput ? nameInput.value.trim() : "";
+        var nextEmail = emailInput ? emailInput.value.trim() : "";
+        var nextPhone = phoneInput ? phoneInput.value.trim() : "";
+        if (!nextName || !nextEmail || !nextPhone) {
+          alert("必須項目を入力してください");
+          return;
+        }
+        var data = {
+          planId: currentReservation.planId,
+          planTimeSlotId: currentReservation.planTimeSlotId,
+          participantCount: participantCount,
+          participants: [],
+          customerName: nextName,
+          customerEmail: nextEmail,
+          customerPhone: nextPhone
+        };
+        var normalizedParticipants = normalizeParticipants(data);
+        if (normalizedParticipants.length !== participantCount) {
+          participantCount = normalizedParticipants.length;
+        }
+        var payload = {
+          planId: data.planId,
+          planTimeSlotId: data.planTimeSlotId,
+          participantCount: participantCount,
+          participants: normalizedParticipants.map(function (participant) {
+            return {
+              participantName: participant.participantName,
+              participantNameKana: participant.participantNameKana,
+              ageGroup: participant.ageGroup || null,
+              allergyNote: participant.allergyNote || null
+            };
+          }),
+          customerName: data.customerName,
+          email: data.customerEmail,
+          phone: data.customerPhone
+        };
+        withCsrf({ method: "PUT", body: JSON.stringify(payload) })
+          .then(function (opt) { return fetchJson("/api/admin/reservations/" + currentReservation.id, opt); })
+          .then(function (item) {
+            isEditMode = false;
+            renderReservationDetail(item);
+            fetchReservations({ page: 0, size: 50 });
+          })
+          .catch(function () { alert("更新に失敗しました。"); });
+        return;
+      }
       var btn = e.target.closest(".js-reservation-status");
       if (!btn) return;
       var id = btn.getAttribute("data-id");
@@ -805,7 +921,7 @@
     setCreatePreviewConfirmed(false);
     resetCreateSlotOptions(keepPlan
       ? "予約内容を変更したため、空き枠を再取得してください"
-      : "先に空き枠を取得してください");
+      : "空き枠を取得してください");
     if (createSlotHelpEl) createSlotHelpEl.textContent = keepPlan
       ? "予約内容を変更したため、枠を再取得してください。"
       : "プランと日付を選択すると枠を取得できます。";
@@ -822,7 +938,7 @@
   if (createReservationForm) {
     renderParticipantFields(getParticipantCountValue());
     renderReservationPreview(null);
-    resetCreateSlotOptions("先に空き枠を取得してください");
+    resetCreateSlotOptions("空き枠を取得してください");
     setCreateReservationEnabled(false);
     updateCreateSubmitState();
 

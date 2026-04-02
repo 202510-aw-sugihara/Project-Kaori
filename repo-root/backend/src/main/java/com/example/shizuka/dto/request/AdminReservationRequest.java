@@ -2,6 +2,7 @@ package com.example.shizuka.dto.request;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
@@ -13,9 +14,11 @@ public class AdminReservationRequest {
     @Size(max = 100)
     private String customerName;
 
+    @NotBlank
     @Size(max = 255)
     private String email;
 
+    @NotBlank
     @Size(max = 20)
     private String phone;
 

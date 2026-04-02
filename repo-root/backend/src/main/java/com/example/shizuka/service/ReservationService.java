@@ -65,6 +65,9 @@ public class ReservationService {
 
     public List<ReservationResponse> searchReservations(String status, java.time.LocalDate reservationDate,
             String customerName, Integer limit, Integer offset) {
+        if (status != null) {
+            status = status.toLowerCase();
+        }
         String normalizedStatus = normalizeQueryParam(status);
         String normalizedCustomerName = normalizeQueryParam(customerName);
         List<Reservation> reservations = reservationMapper.search(
