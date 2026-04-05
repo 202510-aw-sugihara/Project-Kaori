@@ -90,6 +90,12 @@ body.admin {
   background: #fff;
 }
 
+select:disabled {
+  background: #f3f3f3;
+  color: #999;
+  cursor: not-allowed;
+}
+
 .admin-btn {
   border: none;
   border-radius: 999px;
