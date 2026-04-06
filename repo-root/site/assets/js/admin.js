@@ -141,7 +141,7 @@
   function renderReservationList(list) {
     if (!reservationListEl) return;
     if (!Array.isArray(list) || !list.length) {
-      reservationListEl.innerHTML = '<tr><td colspan="7" class="admin-muted">データがありません</td></tr>';
+      reservationListEl.innerHTML = '<tr><td colspan="7" class="admin-muted">該当する予約はありません</td></tr>';
       return;
     }
     reservationListEl.innerHTML = list.map(function (item) {
