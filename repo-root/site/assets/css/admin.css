@@ -148,6 +148,16 @@ select:disabled {
   color: #8b7a6e;
 }
 
+/* 修正済み（スペース復元のみ） */
+.js-reservation-list td>span,
+.js-reservation-detail p>span {
+  display: inline-block;
+  border-radius: 999px;
+  padding: 2px 8px;
+  background: #f3f3f3;
+  color: #333;
+}
+
 .sr-only {
   position: absolute;
   width: 1px;
@@ -217,7 +227,7 @@ select:disabled {
   margin: 0;
 }
 
-.admin-alert p + p {
+.admin-alert p+p {
   margin-top: 6px;
 }
 
