@@ -90,6 +90,10 @@ body.admin {
   background: #fff;
 }
 
+.admin-form select {
+  width: 100%;
+}
+
 select:disabled {
   background: #f3f3f3;
   color: #999;
