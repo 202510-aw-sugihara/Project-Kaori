@@ -151,7 +151,7 @@
         + '<td>' + formatTime(item.startTime) + '</td>'
         + '<td>' + (item.planName || "") + '</td>'
         + '<td>' + (item.customerName || "") + '</td>'
-        + '<td><span>' + formatStatus(item.status) + '</span></td>'
+        + '<td><span class="status-' + item.status + '">' + formatStatus(item.status) + '</span></td>'
 
         + '<td><button class="admin-btn admin-btn--ghost js-reservation-detail-btn" type="button" data-id="' + item.id + '">詳細</button></td>'
         + '</tr>';
@@ -184,7 +184,7 @@
       + '<p><strong>連絡先</strong> ' + (item.customerEmail || "") + ' / ' + (item.customerPhone || "") + '</p>'
       + '<p><strong>人数:</strong> ' + (item.participantCount || 0) + '</p>'
       + '<p><strong>金額</strong> ' + formatYen(item.totalPrice) + '</p>'
-      + '<p><strong>状況</strong> <span>' + formatStatus(item.status) + '</span></p>'
+      + '<p><strong>状況:</strong> <span class="status-' + item.status + '">' + formatStatus(item.status) + '</span></p>'
       + '<p><strong>参加者</strong></p>'
       + '<ul>' + (participants || '<li>参加者なし</li>') + '</ul>'
       + '<div class="admin-form-actions">'
@@ -213,7 +213,7 @@
       + '</p>'
       + '<p><strong>人数:</strong> <input class="admin-input" type="number" min="1" name="editParticipantCount" value="' + (item.participantCount || 0) + '" /></p>'
       + '<p><strong>金額</strong> ' + formatYen(item.totalPrice) + '</p>'
-      + '<p><strong>状況</strong> <span>' + formatStatus(item.status) + '</span></p>'
+      + '<p><strong>状況:</strong> <span class="status-' + item.status + '">' + formatStatus(item.status) + '</span></p>'
       + '<p><strong>参加者</strong></p>'
       + '<ul>' + (participants || '<li>参加者なし</li>') + '</ul>'
       + '<div class="admin-form-actions">'
@@ -1023,7 +1023,7 @@
           loadAvailableSlots();
           renderCreatedReservationSummary(reservation, data);
           setCreateAlert(createSuccessEl, summary + ".");
-          updateCreateSubmitState();
+          createSubmitBtn.disabled = false;
         })
         .catch(function (err) {
           applyServerValidation(err);
