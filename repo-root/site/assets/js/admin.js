@@ -152,6 +152,7 @@
         + '<td>' + (item.planName || "") + '</td>'
         + '<td>' + (item.customerName || "") + '</td>'
         + '<td><span>' + formatStatus(item.status) + '</span></td>'
+
         + '<td><button class="admin-btn admin-btn--ghost js-reservation-detail-btn" type="button" data-id="' + item.id + '">詳細</button></td>'
         + '</tr>';
     }).join("");
@@ -503,7 +504,7 @@
   var createSlotSelect = createReservationForm ? qs('[name="planTimeSlotId"]', createReservationForm) : null;
   var createParticipantCountInput = createReservationForm ? qs('[name="participantCount"]', createReservationForm) : null;
   var createCustomerKanaInput = createReservationForm ? qs('[name="customerNameKana"]', createReservationForm) : null;
-  var createNoteInput = qs('[name="note"]', createReservationForm) : null;
+  var createNoteInput = createReservationForm ? qs('[name="note"]', createReservationForm) : null;
   var createSlotCache = {};
   var createPreviewConfirmed = false;
   var createReservationEnabled = false;
