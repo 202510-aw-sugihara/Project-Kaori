@@ -307,7 +307,7 @@ public class ReservationService {
         if (STATUS_CANCELLED.equals(normalized)) {
             return cancelReservation(id);
         }
-        if (!STATUS_CONFIRMED.equals(normalized) && !STATUS_PENDING.equals(normalized)) {
+        if (!STATUS_CONFIRMED.equalsIgnoreCase(normalized) && !STATUS_PENDING.equalsIgnoreCase(normalized)) {
             throw new BusinessRuleViolationException("Invalid status");
         }
 
