@@ -311,6 +311,9 @@ public class ReservationService {
 
         Reservation reservation = reservationMapper.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Reservation not found"));
+        if (STATUS_CONFIRMED.equals(normalized) && STATUS_CANCELLED.equalsIgnoreCase(reservation.getStatus())) {
+            planTimeSlotMapper.incrementReservedCount(reservation.getPlanTimeSlotId(), reservation.getParticipantCount());
+        }
         reservation.setStatus(normalized);
         reservationMapper.update(reservation);
 
