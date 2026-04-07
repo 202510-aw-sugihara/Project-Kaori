@@ -282,7 +282,7 @@ public class ReservationService {
                 .orElseThrow(() -> new ResourceNotFoundException("Reservation not found"));
 
         if (STATUS_CANCELLED.equalsIgnoreCase(reservation.getStatus())) {
-            throw new BusinessRuleViolationException("Reservation is already cancelled");
+            return mapToResponse(reservation, userMapper.findById(reservation.getUserId()).orElse(null), planMapper.findById(reservation.getPlanId()).orElse(null), participantMapper.findByReservationId(reservation.getId()));
         }
 
         reservation.setStatus(STATUS_CANCELLED);
