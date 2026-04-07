@@ -1043,3 +1043,4 @@
       applyReservationStopNotice();
       loadMe().then(function (user) { if (user) refreshAll(); });
     })();
+  }
