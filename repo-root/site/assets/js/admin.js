@@ -344,7 +344,7 @@
         if (!confirm("本当にキャンセルしますか？この操作は取り消せます。")) {
           return;
         }
-        + }
+      }
       var id = btn.getAttribute("data-id");
       if (!id) return;
       var status = btn.getAttribute("data-status");
