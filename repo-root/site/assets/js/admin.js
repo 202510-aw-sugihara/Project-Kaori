@@ -353,6 +353,7 @@
         .then(function (item) {
           renderReservationDetail(item);
           fetchReservations({ page: 0, size: 50 });
+          loadPlanTimeSlots();
         })
         .catch(function () { alert("ステータス更新に失敗しました。"); });
     });
