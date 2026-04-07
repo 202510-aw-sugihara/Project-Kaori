@@ -1011,6 +1011,7 @@
       }
 
       if (createSubmitBtn) createSubmitBtn.disabled = true;
+
       submitAdminReservation(data)
         .then(function (reservation) {
           var summary = "予約を登録しました";
@@ -1019,25 +1020,26 @@
           }
           fetchReservations({ page: 0, size: 50 });
           resetReservationForm({ keepPlanDate: true });
+          loadAvailableSlots();
           renderCreatedReservationSummary(reservation, data);
           setCreateAlert(createSuccessEl, summary + ".");
+          updateCreateSubmitState();
         })
         .catch(function (err) {
           applyServerValidation(err);
           setCreateAlert(createErrorEl, escapeHtml(getSubmitErrorMessage(err)));
           setCreatePreviewConfirmed(false);
           updateCreateSubmitState();
+          if (createSubmitBtn) createSubmitBtn.disabled = false;
         });
-    });
-  }
 
-  function refreshAll() {
-    fetchReservations({ page: 0, size: 50 });
-    fetchSlots({ page: 0, size: 50 });
-    fetchPlans();
-  }
+      function refreshAll() {
+        fetchReservations({ page: 0, size: 50 });
+        fetchSlots({ page: 0, size: 50 });
+        fetchPlans();
+      }
 
-  function applyReservationStopNotice() { var config = window.__OPS__ || {}; var enabled = config.reservationStop === true; var message = config.reservationStopMessage; var lines = Array.isArray(message) ? message : (message ? [String(message)] : null); qsa(".js-reservation-stop").forEach(function (el) { el.hidden = !enabled; if (!enabled || !lines || !lines.length) return; while (el.firstChild) { el.removeChild(el.firstChild); } lines.forEach(function (line) { var p = document.createElement("p"); p.textContent = line; el.appendChild(p); }); }); }
-  applyReservationStopNotice();
-  loadMe().then(function (user) { if (user) refreshAll(); });
-})();
+      function applyReservationStopNotice() { var config = window.__OPS__ || {}; var enabled = config.reservationStop === true; var message = config.reservationStopMessage; var lines = Array.isArray(message) ? message : (message ? [String(message)] : null); qsa(".js-reservation-stop").forEach(function (el) { el.hidden = !enabled; if (!enabled || !lines || !lines.length) return; while (el.firstChild) { el.removeChild(el.firstChild); } lines.forEach(function (line) { var p = document.createElement("p"); p.textContent = line; el.appendChild(p); }); }); }
+      applyReservationStopNotice();
+      loadMe().then(function (user) { if (user) refreshAll(); });
+    })();
