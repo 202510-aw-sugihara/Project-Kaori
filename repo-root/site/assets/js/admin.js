@@ -1032,15 +1032,35 @@
           updateCreateSubmitState();
           if (createSubmitBtn) createSubmitBtn.disabled = false;
         });
+    });
+  } // ← if (createReservationForm) を閉じる（これが抜けてた）
 
-      function refreshAll() {
-        fetchReservations({ page: 0, size: 50 });
-        fetchSlots({ page: 0, size: 50 });
-        fetchPlans();
-      }
-
-      function applyReservationStopNotice() { var config = window.__OPS__ || {}; var enabled = config.reservationStop === true; var message = config.reservationStopMessage; var lines = Array.isArray(message) ? message : (message ? [String(message)] : null); qsa(".js-reservation-stop").forEach(function (el) { el.hidden = !enabled; if (!enabled || !lines || !lines.length) return; while (el.firstChild) { el.removeChild(el.firstChild); } lines.forEach(function (line) { var p = document.createElement("p"); p.textContent = line; el.appendChild(p); }); }); }
-      applyReservationStopNotice();
-      loadMe().then(function (user) { if (user) refreshAll(); });
-    })();
+  function refreshAll() {
+    fetchReservations({ page: 0, size: 50 });
+    fetchSlots({ page: 0, size: 50 });
+    fetchPlans();
   }
+
+  function applyReservationStopNotice() {
+    var config = window.__OPS__ || {};
+    var enabled = config.reservationStop === true;
+    var message = config.reservationStopMessage;
+    var lines = Array.isArray(message) ? message : (message ? [String(message)] : null);
+    qsa(".js-reservation-stop").forEach(function (el) {
+      el.hidden = !enabled;
+      if (!enabled || !lines || !lines.length) return;
+      while (el.firstChild) { el.removeChild(el.firstChild); }
+      lines.forEach(function (line) {
+        var p = document.createElement("p");
+        p.textContent = line;
+        el.appendChild(p);
+      });
+    });
+  }
+
+  applyReservationStopNotice();
+  loadMe().then(function (user) {
+    if (user) refreshAll();
+  });
+
+})();
