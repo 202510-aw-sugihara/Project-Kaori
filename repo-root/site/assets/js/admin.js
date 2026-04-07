@@ -341,7 +341,9 @@
       var btn = e.target.closest(".js-reservation-status");
       if (!btn) return;
       if (btn.getAttribute("data-status") === "cancelled") {
-        if (!confirm("本当にキャンセルしますか？")) return;
+        if (!confirm("本当にキャンセルしますか？この操作は取り消せます。")) {
+          return;
+        }
         + }
       var id = btn.getAttribute("data-id");
       if (!id) return;
