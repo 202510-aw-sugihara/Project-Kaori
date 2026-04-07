@@ -27,7 +27,7 @@
 
   function getCsrfToken() {
     var cached = sessionStorage.getItem(CSRF_KEY);
-    if (cached) { try { return Promise.resolve(JSON.parse(cached)); } catch (e) {} }
+    if (cached) { try { return Promise.resolve(JSON.parse(cached)); } catch (e) { } }
     return fetchJson("/api/csrf").then(function (data) {
       sessionStorage.setItem(CSRF_KEY, JSON.stringify(data));
       return data;
@@ -151,7 +151,7 @@
         + '<td>' + formatTime(item.startTime) + '</td>'
         + '<td>' + (item.planName || "") + '</td>'
         + '<td>' + (item.customerName || "") + '</td>'
-        + '<td>' + formatStatus(item.status) + '</td>'
+        + '<td><span>' + formatStatus(item.status) + '</span></td>'
         + '<td><button class="admin-btn admin-btn--ghost js-reservation-detail-btn" type="button" data-id="' + item.id + '">詳細</button></td>'
         + '</tr>';
     }).join("");
@@ -183,7 +183,7 @@
       + '<p><strong>連絡先</strong> ' + (item.customerEmail || "") + ' / ' + (item.customerPhone || "") + '</p>'
       + '<p><strong>人数:</strong> ' + (item.participantCount || 0) + '</p>'
       + '<p><strong>金額</strong> ' + formatYen(item.totalPrice) + '</p>'
-      + '<p><strong>状況</strong> ' + formatStatus(item.status) + '</p>'
+      + '<p><strong>状況</strong> <span>' + formatStatus(item.status) + '</span></p>'
       + '<p><strong>参加者</strong></p>'
       + '<ul>' + (participants || '<li>参加者なし</li>') + '</ul>'
       + '<div class="admin-form-actions">'
@@ -212,7 +212,7 @@
       + '</p>'
       + '<p><strong>人数:</strong> <input class="admin-input" type="number" min="1" name="editParticipantCount" value="' + (item.participantCount || 0) + '" /></p>'
       + '<p><strong>金額</strong> ' + formatYen(item.totalPrice) + '</p>'
-      + '<p><strong>状況</strong> ' + formatStatus(item.status) + '</p>'
+      + '<p><strong>状況</strong> <span>' + formatStatus(item.status) + '</span></p>'
       + '<p><strong>参加者</strong></p>'
       + '<ul>' + (participants || '<li>参加者なし</li>') + '</ul>'
       + '<div class="admin-form-actions">'
@@ -503,7 +503,7 @@
   var createSlotSelect = createReservationForm ? qs('[name="planTimeSlotId"]', createReservationForm) : null;
   var createParticipantCountInput = createReservationForm ? qs('[name="participantCount"]', createReservationForm) : null;
   var createCustomerKanaInput = createReservationForm ? qs('[name="customerNameKana"]', createReservationForm) : null;
-  var createNoteInput = createReservationForm ? qs('[name="note"]', createReservationForm) : null;
+  var createNoteInput = qs('[name="note"]', createReservationForm) : null;
   var createSlotCache = {};
   var createPreviewConfirmed = false;
   var createReservationEnabled = false;
@@ -710,21 +710,21 @@
       var current = existing[i] || {};
       cards.push(
         '<section class="admin-participant-card js-create-participant-card" data-index="' + i + '">'
-          + "<h4>参加者" + (i + 1) + "</h4>"
-          + '<div class="admin-participant-grid">'
-            + "<label><span>参加者名</span>"
-            + '<input type="text" name="participantName" maxlength="100" value="' + escapeHtml(current.participantName || "") + '" required />'
-            + '<span class="admin-field-error" data-error-for="participants.' + i + '.participantName"></span></label>'
-            + "<label><span>参加者名（カナ）</span>"
-            + '<input type="text" name="participantNameKana" maxlength="100" value="' + escapeHtml(current.participantNameKana || "") + '" required />'
-            + '<span class="admin-field-error" data-error-for="participants.' + i + '.participantNameKana"></span></label>'
-            + "<label><span>年代</span>"
-            + '<input type="text" name="ageGroup" maxlength="50" value="' + escapeHtml(current.ageGroup || "") + '" />'
-            + '<span class="admin-field-error" data-error-for="participants.' + i + '.ageGroup"></span></label>'
-            + "<label><span>アレルギー備考</span>"
-            + '<input type="text" name="allergyNote" maxlength="255" value="' + escapeHtml(current.allergyNote || "") + '" />'
-            + '<span class="admin-field-error" data-error-for="participants.' + i + '.allergyNote"></span></label>'
-          + "</div>"
+        + "<h4>参加者" + (i + 1) + "</h4>"
+        + '<div class="admin-participant-grid">'
+        + "<label><span>参加者名</span>"
+        + '<input type="text" name="participantName" maxlength="100" value="' + escapeHtml(current.participantName || "") + '" required />'
+        + '<span class="admin-field-error" data-error-for="participants.' + i + '.participantName"></span></label>'
+        + "<label><span>参加者名（カナ）</span>"
+        + '<input type="text" name="participantNameKana" maxlength="100" value="' + escapeHtml(current.participantNameKana || "") + '" required />'
+        + '<span class="admin-field-error" data-error-for="participants.' + i + '.participantNameKana"></span></label>'
+        + "<label><span>年代</span>"
+        + '<input type="text" name="ageGroup" maxlength="50" value="' + escapeHtml(current.ageGroup || "") + '" />'
+        + '<span class="admin-field-error" data-error-for="participants.' + i + '.ageGroup"></span></label>'
+        + "<label><span>アレルギー備考</span>"
+        + '<input type="text" name="allergyNote" maxlength="255" value="' + escapeHtml(current.allergyNote || "") + '" />'
+        + '<span class="admin-field-error" data-error-for="participants.' + i + '.allergyNote"></span></label>'
+        + "</div>"
         + "</section>"
       );
     }
@@ -1036,9 +1036,7 @@
     fetchPlans();
   }
 
-    function applyReservationStopNotice() { var config = window.__OPS__ || {}; var enabled = config.reservationStop === true; var message = config.reservationStopMessage; var lines = Array.isArray(message) ? message : (message ? [String(message)] : null); qsa(".js-reservation-stop").forEach(function (el) { el.hidden = !enabled; if (!enabled || !lines || !lines.length) return; while (el.firstChild) { el.removeChild(el.firstChild); } lines.forEach(function (line) { var p = document.createElement("p"); p.textContent = line; el.appendChild(p); }); }); }
+  function applyReservationStopNotice() { var config = window.__OPS__ || {}; var enabled = config.reservationStop === true; var message = config.reservationStopMessage; var lines = Array.isArray(message) ? message : (message ? [String(message)] : null); qsa(".js-reservation-stop").forEach(function (el) { el.hidden = !enabled; if (!enabled || !lines || !lines.length) return; while (el.firstChild) { el.removeChild(el.firstChild); } lines.forEach(function (line) { var p = document.createElement("p"); p.textContent = line; el.appendChild(p); }); }); }
   applyReservationStopNotice();
   loadMe().then(function (user) { if (user) refreshAll(); });
 })();
-
-
