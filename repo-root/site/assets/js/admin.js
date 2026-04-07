@@ -189,8 +189,12 @@
       + '<ul>' + (participants || '<li>参加者なし</li>') + '</ul>'
       + '<div class="admin-form-actions">'
       + '<button class="admin-btn admin-btn--ghost js-reservation-edit" type="button" data-id="' + item.id + '">編集</button>'
-      + '<button class="admin-btn admin-btn--ghost js-reservation-status" type="button" data-id="' + item.id + '" data-status="confirmed"' + (item.status === "confirmed" || item.status === "cancelled" ? " disabled" : "") + '>予約確定</button>'
-      + '<button class="admin-btn admin-btn--ghost js-reservation-status" type="button" data-id="' + item.id + '" data-status="cancelled"' + (item.status === "cancelled" ? " disabled" : "") + '>キャンセル</button>'
+      + (
+        item.status === "cancelled"
+          ? '<button class="admin-btn admin-btn--ghost js-reservation-status" type="button" data-id="' + item.id + '" data-status="pending">キャンセル解除</button>'
+          : '<button class="admin-btn admin-btn--ghost js-reservation-status" type="button" data-id="' + item.id + '" data-status="confirmed"' + (item.status === "confirmed" ? " disabled" : "") + '>予約確定</button>'
+          + '<button class="admin-btn admin-btn--ghost js-reservation-status" type="button" data-id="' + item.id + '" data-status="cancelled"' + (item.status === "cancelled" ? " disabled" : "") + '>キャンセル</button>'
+      )
       + '</div>';
   }
 
@@ -336,6 +340,9 @@
       }
       var btn = e.target.closest(".js-reservation-status");
       if (!btn) return;
+      if (btn.getAttribute("data-status") === "cancelled") {
+        if (!confirm("本当にキャンセルしますか？")) return;
+        + }
       var id = btn.getAttribute("data-id");
       if (!id) return;
       var status = btn.getAttribute("data-status");
