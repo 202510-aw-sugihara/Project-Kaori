@@ -282,7 +282,9 @@ public class ReservationService {
                 .orElseThrow(() -> new ResourceNotFoundException("Reservation not found"));
 
         if (STATUS_CANCELLED.equalsIgnoreCase(reservation.getStatus())) {
-            return mapToResponse(reservation, userMapper.findById(reservation.getUserId()).orElse(null), planMapper.findById(reservation.getPlanId()).orElse(null), participantMapper.findByReservationId(reservation.getId()));
+            return mapToResponse(reservation, userMapper.findById(reservation.getUserId()).orElse(null),
+                    planMapper.findById(reservation.getPlanId()).orElse(null),
+                    participantMapper.findByReservationId(reservation.getId()));
         }
 
         reservation.setStatus(STATUS_CANCELLED);
@@ -311,11 +313,18 @@ public class ReservationService {
 
         Reservation reservation = reservationMapper.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Reservation not found"));
-        if (STATUS_CONFIRMED.equals(normalized) && STATUS_CANCELLED.equalsIgnoreCase(reservation.getStatus())) {
-            planTimeSlotMapper.incrementReservedCount(reservation.getPlanTimeSlotId(), reservation.getParticipantCount());
-        }
+
+        String oldStatus = reservation.getStatus();
+
         reservation.setStatus(normalized);
         reservationMapper.update(reservation);
+
+        if (STATUS_CONFIRMED.equalsIgnoreCase(normalized)
+                && STATUS_CANCELLED.equalsIgnoreCase(oldStatus)) {
+            planTimeSlotMapper.incrementReservedCount(
+                    reservation.getPlanTimeSlotId(),
+                    reservation.getParticipantCount());
+        }
 
         User user = userMapper.findById(reservation.getUserId()).orElse(null);
         Plan plan = planMapper.findById(reservation.getPlanId()).orElse(null);
