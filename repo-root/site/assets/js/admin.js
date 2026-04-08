@@ -372,6 +372,9 @@
           alert("ステータス更新に失敗しました。");
         });
 
+      });
+    }
+
       var slotListEl = qs(".js-slot-list");
       var slotFilter = qs(".js-slot-filter");
       var slotCache = {};
@@ -1085,5 +1088,4 @@
     loadMe().then(function (user) {
       if (user) refreshAll();
     });
-
-  }) ();
+  })();
