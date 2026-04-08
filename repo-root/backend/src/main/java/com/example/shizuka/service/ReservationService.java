@@ -319,7 +319,7 @@ public class ReservationService {
         reservation.setStatus(normalized);
         reservationMapper.update(reservation);
 
-        // ★ここ（最終版）
+        // ★加算（最終版）
         if (oldStatus != null
                 && !normalized.equalsIgnoreCase(oldStatus)
                 && STATUS_CONFIRMED.equalsIgnoreCase(normalized)
@@ -330,13 +330,6 @@ public class ReservationService {
                     reservation.getPlanTimeSlotId(),
                     reservation.getParticipantCount());
         }
-
-        // ★修正：pending → confirmed は削除（ここが二重加算の原因だった）
-        // if (STATUS_PENDING.equalsIgnoreCase(oldStatus)) {
-        // planTimeSlotMapper.incrementReservedCount(
-        // reservation.getPlanTimeSlotId(),
-        // reservation.getParticipantCount());
-        // }
 
         User user = userMapper.findById(reservation.getUserId()).orElse(null);
         Plan plan = planMapper.findById(reservation.getPlanId()).orElse(null);
