@@ -319,19 +319,18 @@ public class ReservationService {
         reservation.setStatus(normalized);
         reservationMapper.update(reservation);
 
-        // ★追加：pending → confirmed
-        if (STATUS_PENDING.equalsIgnoreCase(oldStatus)) {
-            planTimeSlotMapper.incrementReservedCount(
-                    reservation.getPlanTimeSlotId(),
-                    reservation.getParticipantCount());
-        }
-    }
+        // ★修正：pending → confirmed は削除（ここが二重加算の原因だった）
+        // if (STATUS_PENDING.equalsIgnoreCase(oldStatus)) {
+        // planTimeSlotMapper.incrementReservedCount(
+        // reservation.getPlanTimeSlotId(),
+        // reservation.getParticipantCount());
+        // }
 
-    User user = userMapper.findById(reservation.getUserId()).orElse(null);
-    Plan plan = planMapper.findById(reservation.getPlanId()).orElse(null);
-    List<ReservationParticipant> participants = participantMapper.findByReservationId(reservation.getId());return
+        User user = userMapper.findById(reservation.getUserId()).orElse(null);
+        Plan plan = planMapper.findById(reservation.getPlanId()).orElse(null);
+        List<ReservationParticipant> participants = participantMapper.findByReservationId(reservation.getId());
 
-    mapToResponse(reservation, user, plan, participants);
+        return mapToResponse(reservation, user, plan, participants);
     }
 
     private void insertParticipants(Long reservationId,
