@@ -316,12 +316,20 @@ public class ReservationService {
 
         String oldStatus = normalizeStatus(reservation.getStatus());
 
-        // 👇ここに追加
-        System.out.println("oldStatus=" + oldStatus);
-        System.out.println("normalized=" + normalized);
-
         reservation.setStatus(normalized);
         reservationMapper.update(reservation);
+
+        // ★ここ（最終版）
+        if (oldStatus != null
+                && !normalized.equalsIgnoreCase(oldStatus)
+                && STATUS_CONFIRMED.equalsIgnoreCase(normalized)
+                && (STATUS_PENDING.equalsIgnoreCase(oldStatus)
+                        || STATUS_CANCELLED.equalsIgnoreCase(oldStatus))) {
+
+            planTimeSlotMapper.incrementReservedCount(
+                    reservation.getPlanTimeSlotId(),
+                    reservation.getParticipantCount());
+        }
 
         // ★修正：pending → confirmed は削除（ここが二重加算の原因だった）
         // if (STATUS_PENDING.equalsIgnoreCase(oldStatus)) {
