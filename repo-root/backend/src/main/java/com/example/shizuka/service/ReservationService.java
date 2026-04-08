@@ -314,7 +314,7 @@ public class ReservationService {
         Reservation reservation = reservationMapper.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Reservation not found"));
 
-        String oldStatus = reservation.getStatus();
+        String oldStatus = normalizeStatus(reservation.getStatus());
 
         reservation.setStatus(normalized);
         reservationMapper.update(reservation);
