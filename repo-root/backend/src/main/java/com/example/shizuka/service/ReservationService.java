@@ -316,6 +316,10 @@ public class ReservationService {
 
         String oldStatus = normalizeStatus(reservation.getStatus());
 
+        // 👇ここに追加
+        System.out.println("oldStatus=" + oldStatus);
+        System.out.println("normalized=" + normalized);
+
         reservation.setStatus(normalized);
         reservationMapper.update(reservation);
 
