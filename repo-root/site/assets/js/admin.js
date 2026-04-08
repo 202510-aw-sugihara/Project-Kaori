@@ -357,7 +357,7 @@
       })
         .then(function (opt) {
           opt.credentials = "include"; // ←これ追加
-          return fetch("/api/admin/reservations/" + id + "/status", opt);
+          return fetchJson("/api/admin/reservations/" + id + "/status", opt);
         })
         .then(function (res) {
           if (!res.ok) throw new Error("HTTP " + res.status);
