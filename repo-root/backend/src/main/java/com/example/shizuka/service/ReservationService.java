@@ -319,11 +319,22 @@ public class ReservationService {
         reservation.setStatus(normalized);
         reservationMapper.update(reservation);
 
-        if (STATUS_CONFIRMED.equalsIgnoreCase(normalized)
-                && STATUS_CANCELLED.equalsIgnoreCase(oldStatus)) {
-            planTimeSlotMapper.incrementReservedCount(
-                    reservation.getPlanTimeSlotId(),
-                    reservation.getParticipantCount());
+        // confirmed にする場合
+        if (STATUS_CONFIRMED.equalsIgnoreCase(normalized)) {
+
+            // cancelled → confirmed
+            if (STATUS_CANCELLED.equalsIgnoreCase(oldStatus)) {
+                planTimeSlotMapper.incrementReservedCount(
+                        reservation.getPlanTimeSlotId(),
+                        reservation.getParticipantCount());
+            }
+
+            // ★追加：pending → confirmed
+            if (STATUS_PENDING.equalsIgnoreCase(oldStatus)) {
+                planTimeSlotMapper.incrementReservedCount(
+                        reservation.getPlanTimeSlotId(),
+                        reservation.getParticipantCount());
+            }
         }
 
         User user = userMapper.findById(reservation.getUserId()).orElse(null);

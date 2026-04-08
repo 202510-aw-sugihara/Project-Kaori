@@ -331,11 +331,13 @@
         withCsrf({ method: "PUT", body: JSON.stringify(payload) })
           .then(function (opt) { return fetchJson("/api/admin/reservations/" + currentReservation.id, opt); })
           .then(function (item) {
-            isEditMode = false;
             renderReservationDetail(item);
             fetchReservations({ page: 0, size: 50 });
           })
-          .catch(function () { alert("更新に失敗しました。"); });
+          .catch(function (err) {
+            console.error(err);
+            alert("ステータス更新に失敗しました。");
+          });
         return;
       }
       var btn = e.target.closest(".js-reservation-status");
@@ -359,14 +361,11 @@
           opt.credentials = "include"; // ←これ追加
           return fetchJson("/api/admin/reservations/" + id + "/status", opt);
         })
-        .then(function (res) {
-          if (!res.ok) throw new Error("HTTP " + res.status);
-          return res.json();
-        })
+
         .then(function (item) {
           renderReservationDetail(item);
           fetchReservations({ page: 0, size: 50 });
-          loadPlanTimeSlots();
+          //loadPlanTimeSlots();
         })
         .catch(function () {
           alert("ステータス更新に失敗しました。");
