@@ -303,11 +303,19 @@
         }
         var existingParticipants = currentReservation.participants || [];
 
+        // ★人数増加対応（追加）
         if (participantCount > existingParticipants.length) {
-          alert("人数を増やす場合は、参加者情報を編集できる画面対応が必要です。現在は人数の減少のみ対応しています。");
-          return;
+          for (var i = existingParticipants.length; i < participantCount; i++) {
+            existingParticipants.push({
+              participantName: "",
+              participantNameKana: "",
+              ageGroup: null,
+              allergyNote: null
+            });
+          }
         }
 
+        // ★減少対応（既存ロジック）
         var normalizedParticipants = existingParticipants.slice(0, participantCount);
 
         var payload = {
