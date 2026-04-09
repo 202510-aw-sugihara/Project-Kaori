@@ -202,8 +202,13 @@
     if (!reservationDetailEl) return;
     reservationDetailEl.classList.remove("admin-muted");
     setReservationDetailState("loaded");
-    var participants = (item.participants || []).map(function (p) {
-      return '<li>' + (p.participantName || "") + ' / ' + (p.participantNameKana || "") + '</li>';
+    var participants = (item.participants || []).map(function (p, index) {
+      return ''
+        + '<li>'
+        + '<input class="admin-input" type="text" name="editParticipantName" data-index="' + index + '" value="' + escapeHtml(p.participantName || "") + '" />'
+        + ' / '
+        + '<input class="admin-input" type="text" name="editParticipantKana" data-index="' + index + '" value="' + escapeHtml(p.participantNameKana || "") + '" />'
+        + '</li>';
     }).join("");
     reservationDetailEl.innerHTML = ''
       + '<p><strong>ID:</strong> ' + item.id + '</p>'
@@ -313,10 +318,23 @@
               allergyNote: null
             });
           }
+
+          currentReservation.participants = existingParticipants;
+          // ←ここで止めない（return削除）
         }
 
         // ★減少対応（既存ロジック）
-        var normalizedParticipants = existingParticipants.slice(0, participantCount);
+        var participantInputs = qsa('[name="editParticipantName"]', reservationDetailEl);
+        var kanaInputs = qsa('[name="editParticipantKana"]', reservationDetailEl);
+
+        var normalizedParticipants = participantInputs.map(function (input, i) {
+          return {
+            participantName: input.value.trim(),
+            participantNameKana: kanaInputs[i].value.trim(),
+            ageGroup: null,
+            allergyNote: null
+          };
+        });
 
         var payload = {
           planId: currentReservation.planId,
