@@ -301,22 +301,18 @@
           alert("必須項目を入力してください");
           return;
         }
-        var data = {
+        var existingParticipants = currentReservation.participants || [];
+
+        if (participantCount > existingParticipants.length) {
+          alert("人数を増やす場合は、参加者情報を編集できる画面対応が必要です。現在は人数の減少のみ対応しています。");
+          return;
+        }
+
+        var normalizedParticipants = existingParticipants.slice(0, participantCount);
+
+        var payload = {
           planId: currentReservation.planId,
           planTimeSlotId: currentReservation.planTimeSlotId,
-          participantCount: participantCount,
-          participants: [],
-          customerName: nextName,
-          customerEmail: nextEmail,
-          customerPhone: nextPhone
-        };
-        var normalizedParticipants = normalizeParticipants(data);
-        if (normalizedParticipants.length !== participantCount) {
-          participantCount = normalizedParticipants.length;
-        }
-        var payload = {
-          planId: data.planId,
-          planTimeSlotId: data.planTimeSlotId,
           participantCount: participantCount,
           participants: normalizedParticipants.map(function (participant) {
             return {
@@ -326,10 +322,11 @@
               allergyNote: participant.allergyNote || null
             };
           }),
-          customerName: data.customerName,
-          email: data.customerEmail,
-          phone: data.customerPhone
+          customerName: nextName,
+          email: nextEmail,
+          phone: nextPhone
         };
+
         withCsrf({ method: "PUT", body: JSON.stringify(payload) })
           .then(function (opt) { return fetchJson("/api/admin/reservations/" + currentReservation.id, opt); })
           .then(function (item) {
@@ -338,8 +335,9 @@
           })
           .catch(function (err) {
             console.error(err);
-            alert("ステータス更新に失敗しました。");
+            alert("更新に失敗しました。");
           });
+
         return;
       }
       var btn = e.target.closest(".js-reservation-status");
