@@ -92,14 +92,14 @@
   </update>
 
 <update id="decrementReservedCount">
-  UPDATE plan_time_slots
-  SET reserved_count = CASE
-    WHEN reserved_count - #{delta} < 0 THEN 0
-    ELSE reserved_count - #{delta}
-  END,
-  updated_at = CURRENT_TIMESTAMP
-  WHERE id = #{id}
-    AND deleted_at IS NULL
+  <![CDATA[
+    UPDATE plan_time_slots
+    SET reserved_count = reserved_count - #{count},
+        updated_at = CURRENT_TIMESTAMP
+    WHERE id = #{id}
+      AND deleted_at IS NULL
+      AND reserved_count > 0
+  ]]>
 </update>
 
 </mapper>
