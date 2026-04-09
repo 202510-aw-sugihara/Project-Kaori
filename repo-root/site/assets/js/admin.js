@@ -404,7 +404,11 @@
           //loadPlanTimeSlots();
         })
         .catch(function () {
-          alert("ステータス更新に失敗しました。");
+          alert(
+            (error && error.message) ||
+            (error && error.response && error.response.message) ||
+            "ステータス更新に失敗しました"
+          );
         });
 
     });
