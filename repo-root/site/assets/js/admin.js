@@ -307,7 +307,7 @@
         if (participantCount > existingParticipants.length) {
           for (var i = existingParticipants.length; i < participantCount; i++) {
             existingParticipants.push({
-              participantName: "",
+              participantName: "Participant " + (i + 1),
               participantNameKana: "",
               ageGroup: null,
               allergyNote: null
