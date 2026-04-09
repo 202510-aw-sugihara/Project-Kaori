@@ -313,15 +313,29 @@ public class ReservationService {
             throw new BusinessRuleViolationException("Invalid status");
         }
 
+        // ★先に取得
         Reservation reservation = reservationMapper.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Reservation not found"));
 
         String oldStatus = normalizeStatus(reservation.getStatus());
 
+        // ★ここに入れる（正しい位置）
+        if (STATUS_CONFIRMED.equalsIgnoreCase(normalized)
+                && STATUS_PENDING.equalsIgnoreCase(oldStatus)) {
+
+            // ★加算前に再チェック
+            PlanTimeSlot latestSlot = planTimeSlotMapper.findById(reservation.getPlanTimeSlotId())
+                    .orElseThrow(() -> new ResourceNotFoundException("Slot not found"));
+
+            if (latestSlot.getReservedCount() + reservation.getParticipantCount() > latestSlot.getCapacity()) {
+                throw new BusinessRuleViolationException("満席のため確定できません");
+            }
+        }
+
         reservation.setStatus(normalized);
         reservationMapper.update(reservation);
 
-        // ★加算（最終版）
+        // ★加算（既存そのまま）
         if (oldStatus != null
                 && !normalized.equalsIgnoreCase(oldStatus)
                 && STATUS_CONFIRMED.equalsIgnoreCase(normalized)
