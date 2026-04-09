@@ -326,8 +326,7 @@ public class ReservationService {
         if (oldStatus != null
                 && !normalized.equalsIgnoreCase(oldStatus)
                 && STATUS_CONFIRMED.equalsIgnoreCase(normalized)
-                && (STATUS_PENDING.equalsIgnoreCase(oldStatus)
-                        || STATUS_CANCELLED.equalsIgnoreCase(oldStatus))) {
+                && STATUS_PENDING.equalsIgnoreCase(oldStatus)) {
 
             planTimeSlotMapper.incrementReservedCount(
                     reservation.getPlanTimeSlotId(),
