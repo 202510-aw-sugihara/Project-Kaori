@@ -250,10 +250,12 @@
 
   if (reservationListEl) {
     reservationListEl.addEventListener("click", function (e) {
-      var row = e.target.closest(".js-reservation-row");
-      if (!row) return;
-      var id = row.getAttribute("data-id");
+      var btn = e.target.closest(".js-reservation-detail-btn");
+      if (!btn) return;
+
+      var id = btn.getAttribute("data-id");
       setReservationDetailState("loading");
+
       fetchJson("/api/admin/reservations/" + id)
         .then(renderReservationDetail)
         .catch(function () {
