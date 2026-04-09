@@ -188,7 +188,6 @@ public class ReservationService {
         reservationMapper.insert(reservation);
 
         insertParticipants(reservation.getId(), participants);
-        planTimeSlotMapper.incrementReservedCount(slot.getId(), participantCount);
 
         List<ReservationParticipant> savedParticipants = participantMapper.findByReservationId(reservation.getId());
         return mapToResponse(reservation, user, plan, savedParticipants);
