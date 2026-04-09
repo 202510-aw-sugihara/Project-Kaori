@@ -336,6 +336,16 @@
           };
         });
 
+        // ★ここ追加（不足分補完）
+        while (normalizedParticipants.length < participantCount) {
+          normalizedParticipants.push({
+            participantName: "Participant " + (normalizedParticipants.length + 1),
+            participantNameKana: "",
+            ageGroup: null,
+            allergyNote: null
+          });
+        }
+
         var payload = {
           planId: currentReservation.planId,
           planTimeSlotId: currentReservation.planTimeSlotId,
